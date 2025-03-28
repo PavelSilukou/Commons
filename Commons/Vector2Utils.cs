@@ -32,6 +32,19 @@ namespace Commons
 			var radians = MathFUtils.Deg2Rad(degrees);
 			return RotateRad(vector, radians);
 		}
+		
+		public static float AngleRad(Vector2 vector1, Vector2 vector2)
+		{
+			var y = vector1.Y * vector2.X - vector1.X * vector2.Y;
+			var x = vector1.X * vector2.X + vector1.Y * vector2.Y;
+			return MathF.Atan2(y, x);
+		}
+
+		public static float AngleDeg(Vector2 vector1, Vector2 vector2)
+		{
+			var radians = AngleRad(vector1, vector2);
+			return MathFUtils.Rad2Deg(radians);
+		}
 
 		public static float AngleRad360(Vector2 vector1, Vector2 vector2, int direction)
 		{
@@ -74,6 +87,33 @@ namespace Commons
 
 			projection = isProject ? projectionOnLine : null;
 			return isProject;
+		}
+		
+		public static Vector2 Perpendicular(Vector2 vector, int direction)
+		{
+			return new Vector2(-1 * direction * vector.Y, direction * vector.X);
+		}
+		
+		public static Vector2 ExtendTo(Vector2 vector1, Vector2 vector2, float value)
+		{
+			var tempVector = vector2 - vector1;
+			var newVector = ExtendTo(tempVector, value);
+			return newVector + vector1;
+		}
+
+		public static Vector2 ExtendTo(Vector2 vector, float value)
+		{
+			return Vector2.Normalize(vector) * value;
+		}
+
+		public static Vector2 ExtendBy(Vector2 vector, float value)
+		{
+			return ExtendTo(vector, vector.Length() + value);
+		}
+		
+		public static Vector2 ExtendBy(Vector2 vector1, Vector2 vector2, float value)
+		{
+			return ExtendTo(vector1, vector2, Vector2.Distance(vector1, vector2) + value);
 		}
 	}
 }

@@ -155,6 +155,20 @@ namespace Commons
             var index = 0;
             foreach (var item in source) action(item, index++);
         }
+        
+        public static int IndexOf<T>(this IEnumerable<T> source, Func<T, bool> predicate)
+        {
+            return source.Select((item, index) => new { Item = item, Index = index })
+                .First(el => predicate(el.Item))
+                .Index;
+        }
+        
+        public static IEnumerable<int> IndicesOf<T>(this IEnumerable<T> source, Func<T, bool> predicate)
+        {
+            return source.Select((item, index) => new { Item = item, Index = index })
+                .Where(el => predicate(el.Item))
+                .Select(el => el.Index);
+        }
 
         public static IEnumerable<int> IndicesOf<T>(this IEnumerable<T> source, T value)
         {
