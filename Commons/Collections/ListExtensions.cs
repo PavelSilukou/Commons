@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
 
-namespace Commons
+namespace Commons.Collections
 {
     [PublicAPI]
     public static class ListExtensions

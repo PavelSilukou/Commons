@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using JetBrains.Annotations;
 
 namespace Commons
@@ -56,6 +57,46 @@ namespace Commons
 		public static int Clamp(int value, int minValue, int maxValue)
 		{
 			return Math.Max(minValue, Math.Min(value, maxValue));
+		}
+		
+		public static IEnumerable<int> Split(int value, int splitValue)
+		{
+			var groupsCount = value / splitValue;
+			if (groupsCount * splitValue < value)
+			{
+				groupsCount++;
+			}
+
+			for (var i = 0; i < groupsCount; i++)
+			{
+				var resultValue = Math.Min(splitValue, value);
+				yield return resultValue;
+				value -= resultValue;
+			}
+		}
+
+		public static IEnumerable<int> SplitClosest(int value, int splitValue)
+		{
+			var groupsCount = value / splitValue;
+			if (groupsCount * splitValue < value)
+			{
+				groupsCount++;
+			}
+
+			var groupsLeft = groupsCount;
+			while (value > 0)
+			{
+				var nextGroupValue = value / groupsLeft;
+				if (nextGroupValue * groupsLeft < value)
+				{
+					nextGroupValue++;
+				}
+
+				yield return nextGroupValue;
+				
+				groupsLeft--;
+				value -= nextGroupValue;
+			}
 		}
 	}
 }

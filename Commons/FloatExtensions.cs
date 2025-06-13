@@ -1,16 +1,25 @@
 using System;
-using JetBrains.Annotations;
 
 namespace Commons
 {
-	[PublicAPI]
 	public static class FloatExtensions
 	{
-		public static float Round(this float value, int digits)
+		public static bool EqualTo(this float a, float b)
 		{
-			var rank = Math.Pow(10.0, digits);
-			var result = Math.Truncate(rank * value) / rank;
-			return (float)result;
+			return EqualToInternal(a, b);
+		}
+		
+		public static bool EqualTo(this float a, float b, float tolerance)
+		{
+			InternalCheckUtils.IsFiniteValue(tolerance, nameof(tolerance));
+			InternalCheckUtils.IsPositiveValue(tolerance, nameof(tolerance));
+			
+			return EqualToInternal(a, b, tolerance);
+		}
+
+		internal static bool EqualToInternal(float a, float b, float tolerance = 0.000001f)
+		{
+			return Math.Abs(a - b) <= tolerance;
 		}
 	}
 }

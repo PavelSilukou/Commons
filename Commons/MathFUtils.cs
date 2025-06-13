@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using JetBrains.Annotations;
 
 namespace Commons
@@ -14,6 +15,11 @@ namespace Commons
 		public static float Clamp01(float value)
 		{
 			return Clamp(value, 0.0f, 1.0f);
+		}
+
+		public static float ClampAngleDeg(float angle)
+		{
+			return angle % 360.0f;
 		}
 
 		public static float Lerp(float a, float b, float t)
@@ -81,6 +87,105 @@ namespace Commons
 		public static float Rad2Deg(float radians)
 		{
 			return radians * (180 / MathF.PI);
+		}
+
+		public static IEnumerable<float> Split(float value, float splitValue)
+		{
+			var groupsCount = (int)(value / splitValue);
+			if (groupsCount * splitValue < value)
+			{
+				groupsCount++;
+			}
+
+			for (var i = 0; i < groupsCount; i++)
+			{
+				var resultValue = Math.Min(splitValue, value);
+				yield return resultValue;
+				value -= resultValue;
+			}
+		}
+		
+		public static IEnumerable<float> SplitClosestMin(float value, float splitValue)
+		{
+			var groupsCount = (int)(value / splitValue);
+			if (groupsCount * splitValue < value)
+			{
+				groupsCount++;
+			}
+
+			var resultValue = value / groupsCount;
+			for (var i = 0; i < groupsCount; i++)
+			{
+				yield return resultValue;
+			}
+		}
+		
+		public static IEnumerable<float> SplitClosestMin(float value, float splitValue, float tolerance)
+		{
+			var minValue = splitValue - tolerance;
+			var groupsCount = (int)(value / minValue);
+			if (groupsCount * (tolerance * 2) > value % minValue)
+			{
+				var resultValue = value / groupsCount;
+				for (var i = 0; i < groupsCount; i++)
+				{
+					yield return resultValue;
+				}
+			}
+			else
+			{
+				for (var i = 0; i < groupsCount; i++)
+				{
+					yield return minValue;
+				}
+
+				yield return value - minValue * groupsCount;
+			}
+		}
+		
+		public static IEnumerable<float> SplitClosestMax(float value, float splitValue)
+		{
+			var groupsCount = (int)(value / splitValue);
+
+			var resultValue = value / groupsCount;
+			for (var i = 0; i < groupsCount; i++)
+			{
+				yield return resultValue;
+			}
+		}
+		
+		public static IEnumerable<float> SplitClosestMax(float value, float splitValue, float tolerance)
+		{
+			var maxValue = splitValue + tolerance;
+			var groupsCount = (int)(value / maxValue);
+			if (value / (groupsCount + 1) > splitValue - tolerance)
+			{
+				groupsCount++;
+				var resultValue = value / groupsCount;
+				for (var i = 0; i < groupsCount; i++)
+				{
+					yield return resultValue;
+				}
+			}
+			else
+			{
+				for (var i = 0; i < groupsCount; i++)
+				{
+					yield return maxValue;
+				}
+
+				yield return value - maxValue * groupsCount;
+			}
+		}
+
+		public static int Sign(float x)
+		{
+			return MathF.Sign(x) == -1 ? -1 : 1;
+		}
+		
+		internal static Direction SignDirection(float x)
+		{
+			return MathF.Sign(x) == 1 ? Direction.Counterclockwise : Direction.Clockwise;
 		}
 	}
 }

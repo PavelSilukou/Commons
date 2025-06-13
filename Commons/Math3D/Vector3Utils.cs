@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
 using JetBrains.Annotations;
 
-namespace Commons
+namespace Commons.Math3D
 {
 	[PublicAPI]
 	public static class Vector3Utils
@@ -23,11 +23,11 @@ namespace Commons
 			Vector3 vector1,
 			Vector3 vector2,
 			float distance,
-			float threshold
+			float tolerance
 		)
 		{
 			var actualDistance = Vector3.Distance(vector1, vector2);
-			return actualDistance >= distance - threshold && actualDistance <= distance + threshold;
+			return actualDistance >= distance - tolerance && actualDistance <= distance + tolerance;
 		}
 
 		public static bool ClosestPointsOnTwoLines(
@@ -51,7 +51,7 @@ namespace Commons
 
 			var d = a * e - b * b;
 
-			if (FloatUtils.EqualsApproximately(d, 0.0f)) return false;
+			if (d.EqualTo(0.0f)) return false;
 
 			var r = point1 - point3;
 			var c = Vector3.Dot(vector1, r);

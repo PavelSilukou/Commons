@@ -1,23 +1,26 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 
-namespace Commons
+namespace Commons.Collections
 {
-    [PublicAPI]
     public static class EnumerableExtensions
     {
-        private static string _minMaxExceptionMessage = "Sequence contains no elements";
-        
+        private const string MinMaxExceptionMessage = "Sequence contains no elements";
+
         public static bool IsEmpty<T>(this IEnumerable<T> source)
         {
+            InternalCheckUtils.IsNotNull(source, nameof(source));
+            
             return !source.Any();
         }
         
         // ReSharper disable PossibleMultipleEnumeration
         public static T Random<T>(this IEnumerable<T> source, Random random)
         {
+            InternalCheckUtils.IsNotNull(source, nameof(source));
+            InternalCheckUtils.IsNotNull(random, nameof(random));
+
             var index = random.Next(source.Count());
             return source.ElementAt(index);
         }
@@ -26,22 +29,39 @@ namespace Commons
         // ReSharper disable PossibleMultipleEnumeration
         public static IEnumerable<(T Element1, T Element2)> GetAllPairs<T>(this IEnumerable<T> source)
         {
+            InternalCheckUtils.IsNotNull(source, nameof(source));
+            
             return source.SelectMany((_, i) => source.Where((_, j) => i < j), (x, y) => (x, y));
         }
         // ReSharper restore PossibleMultipleEnumeration
         
-        public static IEnumerable<(TOne Element1, TTwo Element2)> GetAllPairs<TOne, TTwo>(this IEnumerable<TOne> source, IList<TTwo> target)
+        public static IEnumerable<(TOne Element1, TTwo Element2)> GetAllPairs<TOne, TTwo>(this IEnumerable<TOne> source, IEnumerable<TTwo> target)
         {
+            InternalCheckUtils.IsNotNull(source, nameof(source));
+            InternalCheckUtils.IsNotNull(target, nameof(target));
+            
             return source.SelectMany(s => target.Select(t => (s, t)));
         }
-
-        public static TSource MinBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector)
+        
+        // ReSharper disable PossibleMultipleEnumeration
+        public static IEnumerable<(T Element1, T Element2)> GetPairs<T>(this IEnumerable<T> source)
         {
+            InternalCheckUtils.IsNotNull(source, nameof(source));
+            
+            return source.Skip(1).Zip(source, (second, first) => (first, second));
+        }
+        // ReSharper restore PossibleMultipleEnumeration
+
+        public static TSource MinObjectBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector)
+        {
+            InternalCheckUtils.IsNotNull(source, nameof(source));
+            InternalCheckUtils.IsNotNull(selector, nameof(selector));
+            
             var comparer = Comparer<TKey>.Default;
             using var sourceIterator = source.GetEnumerator();
             if (!sourceIterator.MoveNext())
             {
-                throw new InvalidOperationException(_minMaxExceptionMessage);
+                throw new InvalidOperationException(MinMaxExceptionMessage);
             }
             var min = sourceIterator.Current;
             var minKey = selector(min);
@@ -56,13 +76,16 @@ namespace Commons
             return min;
         }
 
-        public static IEnumerable<TSource> MinsBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector)
+        public static IEnumerable<TSource> MinObjectsBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector)
         {
+            InternalCheckUtils.IsNotNull(source, nameof(source));
+            InternalCheckUtils.IsNotNull(selector, nameof(selector));
+            
             var comparer = Comparer<TKey>.Default;
             using var sourceIterator = source.GetEnumerator();
             if (!sourceIterator.MoveNext())
             {
-                throw new InvalidOperationException(_minMaxExceptionMessage);
+                throw new InvalidOperationException(MinMaxExceptionMessage);
             }
             var min = new List<TSource> { sourceIterator.Current };
             var minKey = selector(min[0]);
@@ -85,13 +108,16 @@ namespace Commons
             return min;
         }
 
-        public static TSource MaxBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector)
+        public static TSource MaxObjectBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector)
         {
+            InternalCheckUtils.IsNotNull(source, nameof(source));
+            InternalCheckUtils.IsNotNull(selector, nameof(selector));
+            
             var comparer = Comparer<TKey>.Default;
             using var sourceIterator = source.GetEnumerator();
             if (!sourceIterator.MoveNext())
             {
-                throw new InvalidOperationException(_minMaxExceptionMessage);
+                throw new InvalidOperationException(MinMaxExceptionMessage);
             }
             var max = sourceIterator.Current;
             var maxKey = selector(max);
@@ -106,13 +132,16 @@ namespace Commons
             return max;
         }
 
-        public static IEnumerable<TSource> MaxsBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector)
+        public static IEnumerable<TSource> MaxObjectsBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector)
         {
+            InternalCheckUtils.IsNotNull(source, nameof(source));
+            InternalCheckUtils.IsNotNull(selector, nameof(selector));
+            
             var comparer = Comparer<TKey>.Default;
             using var sourceIterator = source.GetEnumerator();
             if (!sourceIterator.MoveNext())
             {
-                throw new InvalidOperationException(_minMaxExceptionMessage);
+                throw new InvalidOperationException(MinMaxExceptionMessage);
             }
             var max = new List<TSource> { sourceIterator.Current };
             var maxKey = selector(max[0]);
@@ -137,27 +166,41 @@ namespace Commons
         
         public static IEnumerable<T> ClearNull<T>(this IEnumerable<T> source)
         {
+            InternalCheckUtils.IsNotNull(source, nameof(source));
+            
             return source.Where(elem => !Equals(elem, default(T)));
         }
         
         public static IEnumerable<T> OfTypeName<T>(this IEnumerable<T> source, string typeName)
         {
-            return source.Where(elem => elem!.GetType().Name.Equals(typeName));
+            InternalCheckUtils.IsNotNull(source, nameof(source));
+            InternalCheckUtils.IsNotNull(typeName, nameof(typeName));
+            
+            return source.Where(elem => elem is not null && elem.GetType().Name.Equals(typeName));
         }
 
         public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
         {
+            InternalCheckUtils.IsNotNull(source, nameof(source));
+            InternalCheckUtils.IsNotNull(action, nameof(action));
+            
             foreach (var item in source) action(item);
         }
         
         public static void ForEachIndex<T>(this IEnumerable<T> source, Action<T, int> action)
         {
+            InternalCheckUtils.IsNotNull(source, nameof(source));
+            InternalCheckUtils.IsNotNull(action, nameof(action));
+            
             var index = 0;
             foreach (var item in source) action(item, index++);
         }
         
         public static int IndexOf<T>(this IEnumerable<T> source, Func<T, bool> predicate)
         {
+            InternalCheckUtils.IsNotNull(source, nameof(source));
+            InternalCheckUtils.IsNotNull(predicate, nameof(predicate));
+            
             return source.Select((item, index) => new { Item = item, Index = index })
                 .First(el => predicate(el.Item))
                 .Index;
@@ -165,6 +208,9 @@ namespace Commons
         
         public static IEnumerable<int> IndicesOf<T>(this IEnumerable<T> source, Func<T, bool> predicate)
         {
+            InternalCheckUtils.IsNotNull(source, nameof(source));
+            InternalCheckUtils.IsNotNull(predicate, nameof(predicate));
+            
             return source.Select((item, index) => new { Item = item, Index = index })
                 .Where(el => predicate(el.Item))
                 .Select(el => el.Index);
@@ -172,27 +218,49 @@ namespace Commons
 
         public static IEnumerable<int> IndicesOf<T>(this IEnumerable<T> source, T value)
         {
-            var index = 0;
-            foreach (var item in source)
-            {
-                if (item!.Equals(value)) yield return index;
-                index++;
-            }
+            InternalCheckUtils.IsNotNull(source, nameof(source));
+
+            return IndicesOfInternal(source, value);
         }
         
         public static IEnumerable<int> IndicesOf<T>(this IEnumerable<T> source, List<T> values)
         {
+            InternalCheckUtils.IsNotNull(source, nameof(source));
+            InternalCheckUtils.IsNotNull(values, nameof(values));
+
+            return IndicesOfInternal(source, values);
+        }
+        
+        private static IEnumerable<int> IndicesOfInternal<T>(this IEnumerable<T> source, T value)
+        {
+            InternalCheckUtils.IsNotNull(source, nameof(source));
+            
             var index = 0;
             foreach (var item in source)
             {
-                if (values.Contains(item!)) yield return index;
+                if (Equals(item, value)) yield return index;
+                index++;
+            }
+        }
+        
+        private static IEnumerable<int> IndicesOfInternal<T>(this IEnumerable<T> source, List<T> values)
+        {
+            InternalCheckUtils.IsNotNull(source, nameof(source));
+            
+            var index = 0;
+            foreach (var item in source)
+            {
+                if (values.Contains(item)) yield return index;
                 index++;
             }
         }
         
         // ReSharper disable PossibleMultipleEnumeration
-        public static bool Equals<T>(this IEnumerable<T> source1, IEnumerable<T> source2)
+        public static bool EqualsTo<T>(this IEnumerable<T> source1, IEnumerable<T> source2)
         {
+            InternalCheckUtils.IsNotNull(source1, nameof(source1));
+            InternalCheckUtils.IsNotNull(source2, nameof(source2));
+            
             var firstNotSecond = source1.Except(source2);
             var secondNotFirst = source2.Except(source1);
             return source1.Count() == source2.Count() && !firstNotSecond.Any() && !secondNotFirst.Any();
@@ -200,14 +268,19 @@ namespace Commons
         // ReSharper restore PossibleMultipleEnumeration
 
         // ReSharper disable PossibleMultipleEnumeration
-        public static bool EqualsWithOrder<T>(this IEnumerable<T> source1, IEnumerable<T> source2)
+        public static bool EqualsToOrdered<T>(this IEnumerable<T> source1, IEnumerable<T> source2)
         {
+            InternalCheckUtils.IsNotNull(source1, nameof(source1));
+            InternalCheckUtils.IsNotNull(source2, nameof(source2));
+            
             return source1.Count() == source2.Count() && source1.Intersect(source2).SequenceEqual(source2);
         }
         // ReSharper restore PossibleMultipleEnumeration
         
         public static IEnumerable<T> GetRange<T>(this IEnumerable<T> source, int index, int count)
         {
+            InternalCheckUtils.IsNotNull(source, nameof(source));
+            
             return source.Skip(index).Take(count);
         }
     }
