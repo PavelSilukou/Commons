@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
 using JetBrains.Annotations;
 
-namespace Commons.Math3D
+namespace Commons
 {
 	[PublicAPI]
 	public static class Vector3Utils

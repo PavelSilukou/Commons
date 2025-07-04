@@ -1,5 +1,7 @@
 /Commons/obj/
 /Commons/bin/
+/Commons.Intersection2D/obj/
+/Commons.Intersection2D/bin/
 /Commons.Tests/obj/
 /Commons.Tests/bin/
 /packages/

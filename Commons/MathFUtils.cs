@@ -81,12 +81,12 @@ namespace Commons
 
 		public static float Deg2Rad(float degrees)
 		{
-			return degrees * (MathF.PI / 180);
+			return degrees * (MathF.PI / 180.0f);
 		}
 
 		public static float Rad2Deg(float radians)
 		{
-			return radians * (180 / MathF.PI);
+			return radians * (180.0f / MathF.PI);
 		}
 
 		public static IEnumerable<float> Split(float value, float splitValue)
@@ -180,12 +180,8 @@ namespace Commons
 
 		public static int Sign(float x)
 		{
+			if (!float.IsFinite(x)) throw new ArithmeticException("Value is not finite.");
 			return MathF.Sign(x) == -1 ? -1 : 1;
-		}
-		
-		internal static Direction SignDirection(float x)
-		{
-			return MathF.Sign(x) == 1 ? Direction.Counterclockwise : Direction.Clockwise;
 		}
 	}
 }

@@ -1,7 +1,8 @@
 using System;
 using System.Numerics;
+using JetBrains.Annotations;
 
-namespace Commons.Math2D
+namespace Commons
 {
 	public static class Vector2Utils
 	{
@@ -60,28 +61,24 @@ namespace Commons.Math2D
 			return MathF.Abs(SignedAngleDeg(vector1, vector2));
 		}
 		
-		public static float SignedAngleRad360(Vector2 vector1, Vector2 vector2, Direction direction)
+		public static float SignedAngleRad360(Vector2 vector1, Vector2 vector2, int direction)
 		{
-			var y = vector1.Y * vector2.X - vector1.X * vector2.Y;
-			var x = vector1.X * vector2.X + vector1.Y * vector2.Y;
-			var angle = MathF.Atan2(-y, -x) + (int)direction * MathF.PI;
-			return MathF.Abs(angle).EqualTo(2 * MathF.PI) ? 0.0f : angle;
+			return SignedAngleRad360Internal(vector1, vector2, direction);
 		}
 
-		public static float SignedAngleDeg360(Vector2 vector1, Vector2 vector2, Direction direction)
+		public static float SignedAngleDeg360(Vector2 vector1, Vector2 vector2, int direction)
 		{
-			var radians = SignedAngleRad360(vector1, vector2, direction);
-			return MathFUtils.Rad2Deg(radians);
+			return SignedAngleDeg360Internal(vector1, vector2, direction);
 		}
 		
-		public static float AngleRad360(Vector2 vector1, Vector2 vector2, Direction direction)
+		public static float AngleRad360(Vector2 vector1, Vector2 vector2, int direction)
 		{
-			return MathF.Abs(SignedAngleRad360(vector1, vector2, direction));
+			return MathF.Abs(SignedAngleRad360Internal(vector1, vector2, direction));
 		}
 
-		public static float AngleDeg360(Vector2 vector1, Vector2 vector2, Direction direction)
+		public static float AngleDeg360(Vector2 vector1, Vector2 vector2, int direction)
 		{
-			return MathF.Abs(SignedAngleDeg360(vector1, vector2, direction));
+			return MathF.Abs(SignedAngleDeg360Internal(vector1, vector2, direction));
 		}
 		
 		public static bool IsParallel(Vector2 vector1, Vector2 vector2)
@@ -92,8 +89,8 @@ namespace Commons.Math2D
 		
 		public static bool IsParallel(Vector2 vector1, Vector2 vector2, float tolerance)
 		{
-			InternalCheckUtils.IsFiniteValue(tolerance, nameof(tolerance));
-			InternalCheckUtils.IsPositiveValue(tolerance, nameof(tolerance));
+			if (!float.IsFinite(tolerance)) throw new ArithmeticException($"'{nameof(tolerance)}' parameter must be finite");
+			if (float.IsNegative(tolerance)) throw new ArithmeticException($"'{nameof(tolerance)}' parameter must be positive");
 
 			var angle = SignedAngleDeg(vector1, vector2);
 			return FloatExtensions.EqualToInternal(angle, 0.0f, tolerance) 
@@ -130,7 +127,8 @@ namespace Commons.Math2D
 			var dy = lineSegmentPoint2.Y - lineSegmentPoint1.Y;
 			var innerProduct = (projectionOnLine.X - lineSegmentPoint1.X) * dx 
 			                   + (projectionOnLine.Y - lineSegmentPoint1.Y) * dy;
-			var isProject = 0 <= innerProduct && innerProduct <= dx * dx + dy * dy;
+			
+			var isProject = innerProduct.MoreOrEqualTo(0.0f) && innerProduct.LessOrEqualTo(dx * dx + dy * dy);
 
 			projection = isProject ? projectionOnLine : null;
 			return isProject;
@@ -141,10 +139,10 @@ namespace Commons.Math2D
 			return IsFinite(vector) ? new Vector2(vector.Y, -1 * vector.X) : NaN();
 		}
 		
-		public static Vector2 Perpendicular(Vector2 vector, Direction direction)
+		public static Vector2 Perpendicular(Vector2 vector, int direction)
 		{
-			var directionSign = (int)direction;
-			return IsFinite(vector) ? new Vector2(directionSign * vector.Y, -1 * directionSign * vector.X): NaN();
+			var directionSign = MathFUtils.Sign(direction);
+			return IsFinite(vector) ? new Vector2(-directionSign * vector.Y, directionSign * vector.X): NaN();
 		}
 
 		public static Vector2 ExtendTo(Vector2 vector, float value)
@@ -184,9 +182,25 @@ namespace Commons.Math2D
 			return float.IsNaN(vector.X) && float.IsNaN(vector.Y);
 		}
 		
+		[PublicAPI]
 		public static bool IsFinite(Vector2 vector)
 		{
 			return float.IsFinite(vector.X) && float.IsFinite(vector.Y);
+		}
+		
+		private static float SignedAngleRad360Internal(Vector2 vector1, Vector2 vector2, int direction)
+		{
+			var directionSign = MathFUtils.Sign(direction);
+			var y = vector1.Y * vector2.X - vector1.X * vector2.Y;
+			var x = vector1.X * vector2.X + vector1.Y * vector2.Y;
+			var angle = MathF.Atan2(-y, -x) + -directionSign * MathF.PI;
+			return MathF.Abs(angle).EqualTo(2 * MathF.PI) ? 0.0f : angle;
+		}
+		
+		private static float SignedAngleDeg360Internal(Vector2 vector1, Vector2 vector2, int direction)
+		{
+			var radians = SignedAngleRad360Internal(vector1, vector2, direction);
+			return MathFUtils.Rad2Deg(radians);
 		}
 		
 		private static bool PointProjectionOnLineInternal(

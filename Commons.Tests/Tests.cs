@@ -7,7 +7,6 @@ public class Tests
 	[Test]
 	public void Test()
 	{
-		
 	}
 	
 	[Test]

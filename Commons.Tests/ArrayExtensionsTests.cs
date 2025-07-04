@@ -1,6 +1,4 @@
-﻿using Commons.Collections;
-
-namespace Commons.Tests;
+﻿namespace Commons.Tests;
 
 #pragma warning disable CA1806 // Do not ignore method results
 public class ArrayExtensionsTests

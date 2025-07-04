@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
 
-namespace Commons.Collections
+namespace Commons
 {
     [PublicAPI]
     public static class ListExtensions
@@ -23,7 +23,6 @@ namespace Commons.Collections
         {
             list.RemoveAt(list.Count - 1);
         }
-        
         
         public static void Move<T>(this List<T> list, int oldIndex, int newIndex)
         {

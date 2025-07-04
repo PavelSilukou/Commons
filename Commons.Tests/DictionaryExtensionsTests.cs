@@ -1,6 +1,4 @@
-﻿using Commons.Collections;
-
-namespace Commons.Tests;
+﻿namespace Commons.Tests;
 
 public class DictionaryExtensionsTests
 {

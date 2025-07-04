@@ -1,6 +1,4 @@
-﻿using Commons.Collections;
-
-namespace Commons.Tests;
+﻿namespace Commons.Tests;
 
 #pragma warning disable CA1861 // Avoid constant arrays as arguments
 // ReSharper disable PossibleMultipleEnumeration
@@ -148,9 +146,10 @@ public class EnumerableExtensionsTests
 	{
 		var enumerable = Array.Empty<SimpleObject>().AsEnumerable();
 		
-		Assert.Throws<InvalidOperationException>(
+		var exception = Assert.Throws<InvalidOperationException>(
 			() => enumerable.MinObjectBy(obj => obj.Id)
 		);
+		Assert.That(exception.Source, Is.EqualTo("Commons"));
 	}
 	
 	[Test]
@@ -170,9 +169,10 @@ public class EnumerableExtensionsTests
 	{
 		var enumerable = Array.Empty<SimpleObject>().AsEnumerable();
 		
-		Assert.Throws<InvalidOperationException>(
+		var exception = Assert.Throws<InvalidOperationException>(
 			() => enumerable.MinObjectsBy(obj => obj.Id)
 		);
+		Assert.That(exception.Source, Is.EqualTo("Commons"));
 	}
 	
 	[Test]
@@ -191,9 +191,10 @@ public class EnumerableExtensionsTests
 	{
 		var enumerable = Array.Empty<SimpleObject>().AsEnumerable();
 		
-		Assert.Throws<InvalidOperationException>(
+		var exception = Assert.Throws<InvalidOperationException>(
 			() => enumerable.MaxObjectBy(obj => obj.Id)
 		);
+		Assert.That(exception.Source, Is.EqualTo("Commons"));
 	}
 	
 	[Test]
@@ -213,9 +214,10 @@ public class EnumerableExtensionsTests
 	{
 		var enumerable = Array.Empty<SimpleObject>().AsEnumerable();
 		
-		Assert.Throws<InvalidOperationException>(
+		var exception = Assert.Throws<InvalidOperationException>(
 			() => enumerable.MaxObjectsBy(obj => obj.Id)
 		);
+		Assert.That(exception.Source, Is.EqualTo("Commons"));
 	}
 	
 	[Test]

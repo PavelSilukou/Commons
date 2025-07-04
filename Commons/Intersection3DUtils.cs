@@ -1,7 +1,7 @@
 using System;
 using System.Numerics;
 
-namespace Commons.Math3D
+namespace Commons
 {
 	public static class Intersection3DUtils
 	{

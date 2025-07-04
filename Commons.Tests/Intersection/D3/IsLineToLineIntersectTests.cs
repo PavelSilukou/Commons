@@ -1,9 +1,9 @@
 ﻿using System.Numerics;
-using Commons.Math3D;
 
 namespace Commons.Tests.Intersection.D3;
 
-public partial class Intersection3DUtilsTests
+// TODO
+public partial class IntersectionUtilsTests
 {
 	private static IEnumerable<TestCaseData> IsLineToLineIntersectTestsParameters()
 	{

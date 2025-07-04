@@ -1,5 +1,4 @@
 ﻿using System.Numerics;
-using Commons.Math2D;
 
 namespace Commons.Tests;
 
@@ -416,37 +415,37 @@ public class Vector2UtilsTests
 	
 private static IEnumerable<TestCaseData> SignedAngleRad360TestsParameters()
 	{
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0f), Direction.Clockwise, 0.0f);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, 1.0f), Direction.Clockwise, MathF.PI * 3.0f / 2.0f);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(-1.0f, 0.0f), Direction.Clockwise, MathF.PI);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, -1.0f), Direction.Clockwise, MathF.PI / 2.0f);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, 0.70710677f), Direction.Clockwise, MathF.PI * 3.5f / 2.0f);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, -0.70710677f), Direction.Clockwise, MathF.PI / 4.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0f), -1, 0.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, 1.0f), -1, MathF.PI * 3.0f / 2.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(-1.0f, 0.0f), -1, MathF.PI);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, -1.0f), -1, MathF.PI / 2.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, 0.70710677f), -1, MathF.PI * 3.5f / 2.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, -0.70710677f), -1, MathF.PI / 4.0f);
 		
-		yield return new TestCaseData(new Vector2(0.0f, 1.0f), new Vector2(1.0f, 0.0f), Direction.Clockwise, MathF.PI / 2.0f);
-		yield return new TestCaseData(new Vector2(-1.0f, 0.0f), new Vector2(1.0f, 0.0f), Direction.Clockwise, MathF.PI);
-		yield return new TestCaseData(new Vector2(0.0f, -1.0f), new Vector2(1.0f, 0.0f), Direction.Clockwise, MathF.PI * 3.0f / 2.0f);
-		yield return new TestCaseData(new Vector2(2.0f, 0.0f), new Vector2(0.0f, 2.0f), Direction.Clockwise, MathF.PI * 3.0f / 2.0f);
-		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), new Vector2(1.0f, 0.0f), Direction.Clockwise, MathF.PI / 4.0f);
-		yield return new TestCaseData(new Vector2(0.70710677f, -0.70710677f), new Vector2(1.0f, 0.0f), Direction.Clockwise, MathF.PI * 3.5f / 2.0f);
+		yield return new TestCaseData(new Vector2(0.0f, 1.0f), new Vector2(1.0f, 0.0f), -1, MathF.PI / 2.0f);
+		yield return new TestCaseData(new Vector2(-1.0f, 0.0f), new Vector2(1.0f, 0.0f), -1, MathF.PI);
+		yield return new TestCaseData(new Vector2(0.0f, -1.0f), new Vector2(1.0f, 0.0f), -1, MathF.PI * 3.0f / 2.0f);
+		yield return new TestCaseData(new Vector2(2.0f, 0.0f), new Vector2(0.0f, 2.0f), -1, MathF.PI * 3.0f / 2.0f);
+		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), new Vector2(1.0f, 0.0f), -1, MathF.PI / 4.0f);
+		yield return new TestCaseData(new Vector2(0.70710677f, -0.70710677f), new Vector2(1.0f, 0.0f), -1, MathF.PI * 3.5f / 2.0f);
 		
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0f), Direction.Counterclockwise, 0.0f);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, 1.0f), Direction.Counterclockwise, -MathF.PI / 2.0f);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(-1.0f, 0.0f), Direction.Counterclockwise, -MathF.PI);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, -1.0f), Direction.Counterclockwise, -MathF.PI * 3.0f / 2.0f);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, 0.70710677f), Direction.Counterclockwise, -MathF.PI / 4.0f);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, -0.70710677f), Direction.Counterclockwise, -MathF.PI * 3.5f / 2.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0f), 1, 0.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, 1.0f), 1, -MathF.PI / 2.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(-1.0f, 0.0f), 1, -MathF.PI);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, -1.0f), 1, -MathF.PI * 3.0f / 2.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, 0.70710677f), 1, -MathF.PI / 4.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, -0.70710677f), 1, -MathF.PI * 3.5f / 2.0f);
 		
-		yield return new TestCaseData(new Vector2(0.0f, 1.0f), new Vector2(1.0f, 0.0f), Direction.Counterclockwise, -MathF.PI * 3.0f / 2.0f);
-		yield return new TestCaseData(new Vector2(-1.0f, 0.0f), new Vector2(1.0f, 0.0f), Direction.Counterclockwise, -MathF.PI);
-		yield return new TestCaseData(new Vector2(0.0f, -1.0f), new Vector2(1.0f, 0.0f), Direction.Counterclockwise, -MathF.PI / 2.0f);
-		yield return new TestCaseData(new Vector2(2.0f, 0.0f), new Vector2(0.0f, 2.0f), Direction.Counterclockwise, -MathF.PI / 2.0f);
-		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), new Vector2(1.0f, 0.0f), Direction.Counterclockwise, -MathF.PI * 3.5f / 2.0f);
-		yield return new TestCaseData(new Vector2(0.70710677f, -0.70710677f), new Vector2(1.0f, 0.0f), Direction.Counterclockwise, -MathF.PI / 4.0f);
+		yield return new TestCaseData(new Vector2(0.0f, 1.0f), new Vector2(1.0f, 0.0f), 1, -MathF.PI * 3.0f / 2.0f);
+		yield return new TestCaseData(new Vector2(-1.0f, 0.0f), new Vector2(1.0f, 0.0f), 1, -MathF.PI);
+		yield return new TestCaseData(new Vector2(0.0f, -1.0f), new Vector2(1.0f, 0.0f), 1, -MathF.PI / 2.0f);
+		yield return new TestCaseData(new Vector2(2.0f, 0.0f), new Vector2(0.0f, 2.0f), 1, -MathF.PI / 2.0f);
+		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), new Vector2(1.0f, 0.0f), 1, -MathF.PI * 3.5f / 2.0f);
+		yield return new TestCaseData(new Vector2(0.70710677f, -0.70710677f), new Vector2(1.0f, 0.0f), 1, -MathF.PI / 4.0f);
 	}
 	
 	[Test, TestCaseSource(nameof(SignedAngleRad360TestsParameters))]
-	public void SignedAngleRad360Tests(Vector2 vector1, Vector2 vector2, Direction direction, float expectedAngle)
+	public void SignedAngleRad360Tests(Vector2 vector1, Vector2 vector2, int direction, float expectedAngle)
 	{
 		var actualAngle = Vector2Utils.SignedAngleRad360(vector1, vector2, direction);
 		var actual = actualAngle.EqualTo(expectedAngle, EqualityPrecision);
@@ -476,44 +475,44 @@ private static IEnumerable<TestCaseData> SignedAngleRad360TestsParameters()
 	[Test, TestCaseSource(nameof(SignedAngleRad360SpecialCasesTestsParameters))]
 	public void SignedAngleRad360SpecialCasesTests(Vector2 vector1, Vector2 vector2)
 	{
-		var actualAngle = Vector2Utils.SignedAngleRad360(vector1, vector2, Direction.Clockwise);
+		var actualAngle = Vector2Utils.SignedAngleRad360(vector1, vector2, -1);
 		var actual = float.IsNaN(actualAngle);
 		Assert.That(actual, Is.True);
 	}
 	
 	private static IEnumerable<TestCaseData> SignedAngleDeg360TestsParameters()
 	{
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0f), Direction.Clockwise, 0.0f);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, 1.0f), Direction.Clockwise, 270.0f);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(-1.0f, 0.0f), Direction.Clockwise, 180.0f);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, -1.0f), Direction.Clockwise, 90.0f);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, 0.70710677f), Direction.Clockwise, 315.0f);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, -0.70710677f), Direction.Clockwise, 45.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0f), -1, 0.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, 1.0f), -1, 270.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(-1.0f, 0.0f), -1, 180.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, -1.0f), -1, 90.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, 0.70710677f), -1, 315.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, -0.70710677f), -1, 45.0f);
 		
-		yield return new TestCaseData(new Vector2(0.0f, 1.0f), new Vector2(1.0f, 0.0f), Direction.Clockwise, 90.0f);
-		yield return new TestCaseData(new Vector2(-1.0f, 0.0f), new Vector2(1.0f, 0.0f), Direction.Clockwise, 180.0f);
-		yield return new TestCaseData(new Vector2(0.0f, -1.0f), new Vector2(1.0f, 0.0f), Direction.Clockwise, 270.0f);
-		yield return new TestCaseData(new Vector2(2.0f, 0.0f), new Vector2(0.0f, 2.0f), Direction.Clockwise, 270.0f);
-		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), new Vector2(1.0f, 0.0f), Direction.Clockwise, 45.0f);
-		yield return new TestCaseData(new Vector2(0.70710677f, -0.70710677f), new Vector2(1.0f, 0.0f), Direction.Clockwise, 315.0f);
+		yield return new TestCaseData(new Vector2(0.0f, 1.0f), new Vector2(1.0f, 0.0f), -1, 90.0f);
+		yield return new TestCaseData(new Vector2(-1.0f, 0.0f), new Vector2(1.0f, 0.0f), -1, 180.0f);
+		yield return new TestCaseData(new Vector2(0.0f, -1.0f), new Vector2(1.0f, 0.0f), -1, 270.0f);
+		yield return new TestCaseData(new Vector2(2.0f, 0.0f), new Vector2(0.0f, 2.0f), -1, 270.0f);
+		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), new Vector2(1.0f, 0.0f), -1, 45.0f);
+		yield return new TestCaseData(new Vector2(0.70710677f, -0.70710677f), new Vector2(1.0f, 0.0f), -1, 315.0f);
 		
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0f), Direction.Counterclockwise, 0.0f);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, 1.0f), Direction.Counterclockwise, -90.0f);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(-1.0f, 0.0f), Direction.Counterclockwise, -180.0f);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, -1.0f), Direction.Counterclockwise, -270.0f);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, 0.70710677f), Direction.Counterclockwise, -45.0f);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, -0.70710677f), Direction.Counterclockwise, -315.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0f), 1, 0.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, 1.0f), 1, -90.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(-1.0f, 0.0f), 1, -180.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, -1.0f), 1, -270.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, 0.70710677f), 1, -45.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, -0.70710677f), 1, -315.0f);
 		
-		yield return new TestCaseData(new Vector2(0.0f, 1.0f), new Vector2(1.0f, 0.0f), Direction.Counterclockwise, -270.0f);
-		yield return new TestCaseData(new Vector2(-1.0f, 0.0f), new Vector2(1.0f, 0.0f), Direction.Counterclockwise, -180.0f);
-		yield return new TestCaseData(new Vector2(0.0f, -1.0f), new Vector2(1.0f, 0.0f), Direction.Counterclockwise, -90.0f);
-		yield return new TestCaseData(new Vector2(2.0f, 0.0f), new Vector2(0.0f, 2.0f), Direction.Counterclockwise, -90.0f);
-		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), new Vector2(1.0f, 0.0f), Direction.Counterclockwise, -315.0f);
-		yield return new TestCaseData(new Vector2(0.70710677f, -0.70710677f), new Vector2(1.0f, 0.0f), Direction.Counterclockwise, -45.0f);
+		yield return new TestCaseData(new Vector2(0.0f, 1.0f), new Vector2(1.0f, 0.0f), 1, -270.0f);
+		yield return new TestCaseData(new Vector2(-1.0f, 0.0f), new Vector2(1.0f, 0.0f), 1, -180.0f);
+		yield return new TestCaseData(new Vector2(0.0f, -1.0f), new Vector2(1.0f, 0.0f), 1, -90.0f);
+		yield return new TestCaseData(new Vector2(2.0f, 0.0f), new Vector2(0.0f, 2.0f), 1, -90.0f);
+		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), new Vector2(1.0f, 0.0f), 1, -315.0f);
+		yield return new TestCaseData(new Vector2(0.70710677f, -0.70710677f), new Vector2(1.0f, 0.0f), 1, -45.0f);
 	}
 	
 	[Test, TestCaseSource(nameof(SignedAngleDeg360TestsParameters))]
-	public void SignedAngleDeg360Tests(Vector2 vector1, Vector2 vector2, Direction direction, float expectedAngle)
+	public void SignedAngleDeg360Tests(Vector2 vector1, Vector2 vector2, int direction, float expectedAngle)
 	{
 		var actualAngle = Vector2Utils.SignedAngleDeg360(vector1, vector2, direction);
 		var actual = actualAngle.EqualTo(expectedAngle, EqualityPrecision);
@@ -543,44 +542,44 @@ private static IEnumerable<TestCaseData> SignedAngleRad360TestsParameters()
 	[Test, TestCaseSource(nameof(SignedAngleDeg360SpecialCasesTestsParameters))]
 	public void SignedAngleDeg360SpecialCasesTests(Vector2 vector1, Vector2 vector2)
 	{
-		var actualAngle = Vector2Utils.SignedAngleDeg360(vector1, vector2, Direction.Clockwise);
+		var actualAngle = Vector2Utils.SignedAngleDeg360(vector1, vector2, -1);
 		var actual = float.IsNaN(actualAngle);
 		Assert.That(actual, Is.True);
 	}
 	
 	private static IEnumerable<TestCaseData> AngleRad360TestsParameters()
 	{
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0f), Direction.Clockwise, 0.0f);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, 1.0f), Direction.Clockwise, MathF.PI * 3.0f / 2.0f);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(-1.0f, 0.0f), Direction.Clockwise, MathF.PI);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, -1.0f), Direction.Clockwise, MathF.PI / 2.0f);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, 0.70710677f), Direction.Clockwise, MathF.PI * 3.5f / 2.0f);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, -0.70710677f), Direction.Clockwise, MathF.PI / 4.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0f), -1, 0.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, 1.0f), -1, MathF.PI * 3.0f / 2.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(-1.0f, 0.0f), -1, MathF.PI);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, -1.0f), -1, MathF.PI / 2.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, 0.70710677f), -1, MathF.PI * 3.5f / 2.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, -0.70710677f), -1, MathF.PI / 4.0f);
 		
-		yield return new TestCaseData(new Vector2(0.0f, 1.0f), new Vector2(1.0f, 0.0f), Direction.Clockwise, MathF.PI / 2.0f);
-		yield return new TestCaseData(new Vector2(-1.0f, 0.0f), new Vector2(1.0f, 0.0f), Direction.Clockwise, MathF.PI);
-		yield return new TestCaseData(new Vector2(0.0f, -1.0f), new Vector2(1.0f, 0.0f), Direction.Clockwise, MathF.PI * 3.0f / 2.0f);
-		yield return new TestCaseData(new Vector2(2.0f, 0.0f), new Vector2(0.0f, 2.0f), Direction.Clockwise, MathF.PI * 3.0f / 2.0f);
-		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), new Vector2(1.0f, 0.0f), Direction.Clockwise, MathF.PI / 4.0f);
-		yield return new TestCaseData(new Vector2(0.70710677f, -0.70710677f), new Vector2(1.0f, 0.0f), Direction.Clockwise, MathF.PI * 3.5f / 2.0f);
+		yield return new TestCaseData(new Vector2(0.0f, 1.0f), new Vector2(1.0f, 0.0f), -1, MathF.PI / 2.0f);
+		yield return new TestCaseData(new Vector2(-1.0f, 0.0f), new Vector2(1.0f, 0.0f), -1, MathF.PI);
+		yield return new TestCaseData(new Vector2(0.0f, -1.0f), new Vector2(1.0f, 0.0f), -1, MathF.PI * 3.0f / 2.0f);
+		yield return new TestCaseData(new Vector2(2.0f, 0.0f), new Vector2(0.0f, 2.0f), -1, MathF.PI * 3.0f / 2.0f);
+		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), new Vector2(1.0f, 0.0f), -1, MathF.PI / 4.0f);
+		yield return new TestCaseData(new Vector2(0.70710677f, -0.70710677f), new Vector2(1.0f, 0.0f), -1, MathF.PI * 3.5f / 2.0f);
 		
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0f), Direction.Counterclockwise, 0.0f);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, 1.0f), Direction.Counterclockwise, MathF.PI / 2.0f);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(-1.0f, 0.0f), Direction.Counterclockwise, MathF.PI);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, -1.0f), Direction.Counterclockwise, MathF.PI * 3.0f / 2.0f);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, 0.70710677f), Direction.Counterclockwise, MathF.PI / 4.0f);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, -0.70710677f), Direction.Counterclockwise, MathF.PI * 3.5f / 2.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0f), 1, 0.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, 1.0f), 1, MathF.PI / 2.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(-1.0f, 0.0f), 1, MathF.PI);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, -1.0f), 1, MathF.PI * 3.0f / 2.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, 0.70710677f), 1, MathF.PI / 4.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, -0.70710677f), 1, MathF.PI * 3.5f / 2.0f);
 		
-		yield return new TestCaseData(new Vector2(0.0f, 1.0f), new Vector2(1.0f, 0.0f), Direction.Counterclockwise, MathF.PI * 3.0f / 2.0f);
-		yield return new TestCaseData(new Vector2(-1.0f, 0.0f), new Vector2(1.0f, 0.0f), Direction.Counterclockwise, MathF.PI);
-		yield return new TestCaseData(new Vector2(0.0f, -1.0f), new Vector2(1.0f, 0.0f), Direction.Counterclockwise, MathF.PI / 2.0f);
-		yield return new TestCaseData(new Vector2(2.0f, 0.0f), new Vector2(0.0f, 2.0f), Direction.Counterclockwise, MathF.PI / 2.0f);
-		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), new Vector2(1.0f, 0.0f), Direction.Counterclockwise, MathF.PI * 3.5f / 2.0f);
-		yield return new TestCaseData(new Vector2(0.70710677f, -0.70710677f), new Vector2(1.0f, 0.0f), Direction.Counterclockwise, MathF.PI / 4.0f);
+		yield return new TestCaseData(new Vector2(0.0f, 1.0f), new Vector2(1.0f, 0.0f), 1, MathF.PI * 3.0f / 2.0f);
+		yield return new TestCaseData(new Vector2(-1.0f, 0.0f), new Vector2(1.0f, 0.0f), 1, MathF.PI);
+		yield return new TestCaseData(new Vector2(0.0f, -1.0f), new Vector2(1.0f, 0.0f), 1, MathF.PI / 2.0f);
+		yield return new TestCaseData(new Vector2(2.0f, 0.0f), new Vector2(0.0f, 2.0f), 1, MathF.PI / 2.0f);
+		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), new Vector2(1.0f, 0.0f), 1, MathF.PI * 3.5f / 2.0f);
+		yield return new TestCaseData(new Vector2(0.70710677f, -0.70710677f), new Vector2(1.0f, 0.0f), 1, MathF.PI / 4.0f);
 	}
 	
 	[Test, TestCaseSource(nameof(AngleRad360TestsParameters))]
-	public void AngleRad360Tests(Vector2 vector1, Vector2 vector2, Direction direction, float expectedAngle)
+	public void AngleRad360Tests(Vector2 vector1, Vector2 vector2, int direction, float expectedAngle)
 	{
 		var actualAngle = Vector2Utils.AngleRad360(vector1, vector2, direction);
 		var actual = actualAngle.EqualTo(expectedAngle, EqualityPrecision);
@@ -610,44 +609,44 @@ private static IEnumerable<TestCaseData> SignedAngleRad360TestsParameters()
 	[Test, TestCaseSource(nameof(AngleRad360SpecialCasesTestsParameters))]
 	public void AngleRad360SpecialCasesTests(Vector2 vector1, Vector2 vector2)
 	{
-		var actualAngle = Vector2Utils.AngleRad360(vector1, vector2, Direction.Clockwise);
+		var actualAngle = Vector2Utils.AngleRad360(vector1, vector2, -1);
 		var actual = float.IsNaN(actualAngle);
 		Assert.That(actual, Is.True);
 	}
 	
 	private static IEnumerable<TestCaseData> AngleDeg360TestsParameters()
 	{
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0f), Direction.Clockwise, 0.0f);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, 1.0f), Direction.Clockwise, 270.0f);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(-1.0f, 0.0f), Direction.Clockwise, 180.0f);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, -1.0f), Direction.Clockwise, 90.0f);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, 0.70710677f), Direction.Clockwise, 315.0f);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, -0.70710677f), Direction.Clockwise, 45.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0f), -1, 0.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, 1.0f), -1, 270.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(-1.0f, 0.0f), -1, 180.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, -1.0f), -1, 90.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, 0.70710677f), -1, 315.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, -0.70710677f), -1, 45.0f);
 		
-		yield return new TestCaseData(new Vector2(0.0f, 1.0f), new Vector2(1.0f, 0.0f), Direction.Clockwise, 90.0f);
-		yield return new TestCaseData(new Vector2(-1.0f, 0.0f), new Vector2(1.0f, 0.0f), Direction.Clockwise, 180.0f);
-		yield return new TestCaseData(new Vector2(0.0f, -1.0f), new Vector2(1.0f, 0.0f), Direction.Clockwise, 270.0f);
-		yield return new TestCaseData(new Vector2(2.0f, 0.0f), new Vector2(0.0f, 2.0f), Direction.Clockwise, 270.0f);
-		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), new Vector2(1.0f, 0.0f), Direction.Clockwise, 45.0f);
-		yield return new TestCaseData(new Vector2(0.70710677f, -0.70710677f), new Vector2(1.0f, 0.0f), Direction.Clockwise, 315.0f);
+		yield return new TestCaseData(new Vector2(0.0f, 1.0f), new Vector2(1.0f, 0.0f), -1, 90.0f);
+		yield return new TestCaseData(new Vector2(-1.0f, 0.0f), new Vector2(1.0f, 0.0f), -1, 180.0f);
+		yield return new TestCaseData(new Vector2(0.0f, -1.0f), new Vector2(1.0f, 0.0f), -1, 270.0f);
+		yield return new TestCaseData(new Vector2(2.0f, 0.0f), new Vector2(0.0f, 2.0f), -1, 270.0f);
+		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), new Vector2(1.0f, 0.0f), -1, 45.0f);
+		yield return new TestCaseData(new Vector2(0.70710677f, -0.70710677f), new Vector2(1.0f, 0.0f), -1, 315.0f);
 		
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0f), Direction.Counterclockwise, 0.0f);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, 1.0f), Direction.Counterclockwise, 90.0f);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(-1.0f, 0.0f), Direction.Counterclockwise, 180.0f);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, -1.0f), Direction.Counterclockwise, 270.0f);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, 0.70710677f), Direction.Counterclockwise, 45.0f);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, -0.70710677f), Direction.Counterclockwise, 315.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0f), 1, 0.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, 1.0f), 1, 90.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(-1.0f, 0.0f), 1, 180.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, -1.0f), 1, 270.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, 0.70710677f), 1, 45.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, -0.70710677f), 1, 315.0f);
 		
-		yield return new TestCaseData(new Vector2(0.0f, 1.0f), new Vector2(1.0f, 0.0f), Direction.Counterclockwise, 270.0f);
-		yield return new TestCaseData(new Vector2(-1.0f, 0.0f), new Vector2(1.0f, 0.0f), Direction.Counterclockwise, 180.0f);
-		yield return new TestCaseData(new Vector2(0.0f, -1.0f), new Vector2(1.0f, 0.0f), Direction.Counterclockwise, 90.0f);
-		yield return new TestCaseData(new Vector2(2.0f, 0.0f), new Vector2(0.0f, 2.0f), Direction.Counterclockwise, 90.0f);
-		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), new Vector2(1.0f, 0.0f), Direction.Counterclockwise, 315.0f);
-		yield return new TestCaseData(new Vector2(0.70710677f, -0.70710677f), new Vector2(1.0f, 0.0f), Direction.Counterclockwise, 45.0f);
+		yield return new TestCaseData(new Vector2(0.0f, 1.0f), new Vector2(1.0f, 0.0f), 1, 270.0f);
+		yield return new TestCaseData(new Vector2(-1.0f, 0.0f), new Vector2(1.0f, 0.0f), 1, 180.0f);
+		yield return new TestCaseData(new Vector2(0.0f, -1.0f), new Vector2(1.0f, 0.0f), 1, 90.0f);
+		yield return new TestCaseData(new Vector2(2.0f, 0.0f), new Vector2(0.0f, 2.0f), 1, 90.0f);
+		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), new Vector2(1.0f, 0.0f), 1, 315.0f);
+		yield return new TestCaseData(new Vector2(0.70710677f, -0.70710677f), new Vector2(1.0f, 0.0f), 1, 45.0f);
 	}
 	
 	[Test, TestCaseSource(nameof(AngleDeg360TestsParameters))]
-	public void AngleDeg360Tests(Vector2 vector1, Vector2 vector2, Direction direction, float expectedAngle)
+	public void AngleDeg360Tests(Vector2 vector1, Vector2 vector2, int direction, float expectedAngle)
 	{
 		var actualAngle = Vector2Utils.AngleDeg360(vector1, vector2, direction);
 		var actual = actualAngle.EqualTo(expectedAngle, EqualityPrecision);
@@ -677,7 +676,7 @@ private static IEnumerable<TestCaseData> SignedAngleRad360TestsParameters()
 	[Test, TestCaseSource(nameof(AngleDeg360SpecialCasesTestsParameters))]
 	public void AngleDeg360SpecialCasesTests(Vector2 vector1, Vector2 vector2)
 	{
-		var actualAngle = Vector2Utils.AngleDeg360(vector1, vector2, Direction.Clockwise);
+		var actualAngle = Vector2Utils.AngleDeg360(vector1, vector2, -1);
 		var actual = float.IsNaN(actualAngle);
 		Assert.That(actual, Is.True);
 	}
@@ -689,8 +688,8 @@ private static IEnumerable<TestCaseData> SignedAngleRad360TestsParameters()
 		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(2.0f, 0.0f)).Returns(true);
 		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), new Vector2(0.70710677f * 2.0f, 0.70710677f * 2.0f)).Returns(true);
 		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), new Vector2(0.70710677f, 0.70710677f)).Returns(true);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.001f)).Returns(true);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.002f)).Returns(false);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.03f)).Returns(true);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.05f)).Returns(false);
 	}
 	
 	[Test, TestCaseSource(nameof(IsParallelTestsParameters))]
@@ -980,17 +979,17 @@ private static IEnumerable<TestCaseData> SignedAngleRad360TestsParameters()
 	
 	private static IEnumerable<TestCaseData> PerpendicularDirectionTestsParameters()
 	{
-		yield return new TestCaseData(new Vector2(0.0f, 1.0f), Direction.Clockwise, new Vector2(1.0f, 0.0f));
-		yield return new TestCaseData(new Vector2(0.0f, 0.0f), Direction.Clockwise, new Vector2(0.0f, 0.0f));
-		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), Direction.Clockwise, new Vector2(0.70710677f, -0.70710677f));
+		yield return new TestCaseData(new Vector2(0.0f, 1.0f), -1, new Vector2(1.0f, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, 0.0f), -1, new Vector2(0.0f, 0.0f));
+		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), -1, new Vector2(0.70710677f, -0.70710677f));
 		
-		yield return new TestCaseData(new Vector2(0.0f, 1.0f), Direction.Counterclockwise, new Vector2(-1.0f, 0.0f));
-		yield return new TestCaseData(new Vector2(0.0f, 0.0f), Direction.Counterclockwise, new Vector2(0.0f, 0.0f));
-		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), Direction.Counterclockwise, new Vector2(-0.70710677f, 0.70710677f));
+		yield return new TestCaseData(new Vector2(0.0f, 1.0f), 1, new Vector2(-1.0f, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, 0.0f), 1, new Vector2(0.0f, 0.0f));
+		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), 1, new Vector2(-0.70710677f, 0.70710677f));
 	}
 	
 	[Test, TestCaseSource(nameof(PerpendicularDirectionTestsParameters))]
-	public void PerpendicularDirectionTests(Vector2 vector, Direction direction, Vector2 expectedVector)
+	public void PerpendicularDirectionTests(Vector2 vector, int direction, Vector2 expectedVector)
 	{
 		var actualVector = Vector2Utils.Perpendicular(vector, direction);
 		var actual = actualVector.EqualTo(expectedVector);
@@ -1012,7 +1011,7 @@ private static IEnumerable<TestCaseData> SignedAngleRad360TestsParameters()
 	[Test, TestCaseSource(nameof(PerpendicularDirectionSpecialTestsParameters))]
 	public void PerpendicularDirectionSpecialTests(Vector2 vector)
 	{
-		var actualVector = Vector2Utils.Perpendicular(vector, Direction.Clockwise);
+		var actualVector = Vector2Utils.Perpendicular(vector, 1);
 		var actual = Vector2Utils.IsNaN(actualVector);
 		Assert.That(actual, Is.True, $"{"Expected:",9} {new Vector2(float.NaN, float.NaN):F6}\n{"Actual:",9} {actualVector:F6}");
 	}

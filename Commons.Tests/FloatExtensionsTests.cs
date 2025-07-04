@@ -4,8 +4,8 @@ public class FloatExtensionsTests
 {
 	private static IEnumerable<TestCaseData> EqualToTestsParameters()
 	{
-		yield return new TestCaseData(10.001f, 10.001f).Returns(true);
-		yield return new TestCaseData(10.001f, 10.002f).Returns(false);
+		yield return new TestCaseData(10.01f, 10.01f).Returns(true);
+		yield return new TestCaseData(10.01f, 10.02f).Returns(false);
 		
 		yield return new TestCaseData(float.NaN, float.NaN).Returns(false);
 		yield return new TestCaseData(float.NegativeInfinity, float.NegativeInfinity).Returns(false);
@@ -47,8 +47,9 @@ public class FloatExtensionsTests
 	[Test, TestCaseSource(nameof(EqualToTolerance_ExceptionsParameters))]
 	public void EqualToTolerance_Exceptions_ReturnException(float tolerance)
 	{
-		Assert.Throws<ArithmeticException>(
+		var exception = Assert.Throws<ArithmeticException>(
 			() => 1.0f.EqualTo(1.0f, tolerance)
 		);
+		Assert.That(exception.Source, Is.EqualTo("Commons"));
 	}
 }

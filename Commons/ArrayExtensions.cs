@@ -1,12 +1,13 @@
+using System;
 using System.Collections.Generic;
 
-namespace Commons.Collections
+namespace Commons
 {
 	public static class ArrayExtensions
 	{
 		public static IEnumerable<T> GetRow<T>(this T[,] array, int rowIndex)
 		{
-			InternalCheckUtils.IsNotNull(array, nameof(array));
+			if (array == null) throw new ArgumentNullException(nameof(array));
 
 			return GetRowInternal(array, rowIndex);
 		}
@@ -22,14 +23,14 @@ namespace Commons.Collections
 		
 		public static IEnumerable<T> GetColumn<T>(this T[,] array, int columnIndex)
 		{
-			InternalCheckUtils.IsNotNull(array, nameof(array));
+			if (array == null) throw new ArgumentNullException(nameof(array));
 
 			return GetColumnInternal(array, columnIndex);
 		}
 		
 		public static IEnumerable<T> GetColumn<T>(this T[][] array, int columnIndex)
 		{
-			InternalCheckUtils.IsNotNull(array, nameof(array));
+			if (array == null) throw new ArgumentNullException(nameof(array));
 
 			return GetColumnInternal(array, columnIndex);
 		}
