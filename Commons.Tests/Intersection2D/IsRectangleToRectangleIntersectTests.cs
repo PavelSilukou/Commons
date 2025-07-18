@@ -1,6 +1,6 @@
 ﻿using Commons.Intersection2D;
 
-namespace Commons.Tests.Intersection.D2;
+namespace Commons.Tests.Intersection2D;
 
 // ReSharper disable PossibleMultipleEnumeration
 public partial class IntersectionUtilsTests
@@ -150,7 +150,7 @@ public partial class IntersectionUtilsTests
 	}
 	
 	[Test, TestCaseSource(nameof(IsRectangleToRectangleIntersectTestsParameters))]
-	public bool IsRectangleToRectangleIntersectDontValidateTests(float[] rects)
+	public bool IsRectangleToRectangleIntersectDoesNotValidateTests(float[] rects)
 	{
 		return IntersectionUtils.IsRectangleToRectangleIntersect(
 			rects[0], rects[1], rects[2], rects[3],
@@ -342,7 +342,7 @@ public partial class IntersectionUtilsTests
 	}
 	
 	[Test, TestCaseSource(nameof(IsRectangleToRectangleIntersect3TestsParameters))]
-	public bool IsRectangleToRectangleIntersectDontValidate2Tests(float[] rects)
+	public bool IsRectangleToRectangleIntersectDoesNotValidate2Tests(float[] rects)
 	{
 		var isIntersect = false;
 		Assert.DoesNotThrow(
@@ -497,7 +497,7 @@ public partial class IntersectionUtilsTests
 	}
 	
 	[Test, TestCaseSource(nameof(IsRectangleToRectangleIntersectSpecialTestsParameters))]
-	public void IsRectangleToRectangleIntersectDontValidateSpecialTests(float[] rects)
+	public void IsRectangleToRectangleIntersectDoesNotValidateSpecialTests(float[] rects)
 	{
 		Assert.DoesNotThrow(
 			() => IntersectionUtils.IsRectangleToRectangleIntersect(

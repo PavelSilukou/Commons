@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
 using Commons.Intersection2D;
 
-namespace Commons.Tests.Intersection.D2;
+namespace Commons.Tests.Intersection2D;
 
 #pragma warning disable S107 // Methods should not have too many parameters
 public partial class IntersectionUtilsTests
@@ -76,7 +76,7 @@ public partial class IntersectionUtilsTests
 	}
 	
 	[Test, TestCaseSource(nameof(IsArcToArcIntersectTestsParameters))]
-	public bool IsArcToArcIntersectDontValidateTests(
+	public bool IsArcToArcIntersectDoesNotValidateTests(
 		Vector2 arc1Center,
 		Vector2 arc1Point, 
 		float arc1AngleDeg,
@@ -189,7 +189,7 @@ public partial class IntersectionUtilsTests
 	}
 	
 	[Test, TestCaseSource(nameof(IsArcToArcIntersect2TestsParameters))]
-	public (bool, Vector2[]) IsArcToArcIntersectDontValidate2Tests(
+	public (bool, Vector2[]) IsArcToArcIntersectDoesNotValidate2Tests(
 		Vector2 arc1Center,
 		Vector2 arc1Point, 
 		float arc1AngleDeg,
@@ -266,7 +266,7 @@ public partial class IntersectionUtilsTests
 	}
 	
 	[Test, TestCaseSource(nameof(IsArcToArcIntersect5TestsParameters))]
-	public bool IsArcToArcIntersectDontValidate3Tests(
+	public bool IsArcToArcIntersectDoesNotValidate3Tests(
 		Vector2 arc1Center,
 		Vector2 arc1Point, 
 		float arc1AngleDeg,
@@ -348,7 +348,7 @@ public partial class IntersectionUtilsTests
 	}
 	
 	[Test, TestCaseSource(nameof(IsArcToArcIntersect6TestsParameters))]
-	public (bool, Vector2[]) IsArcToArcIntersectDontValidate4Tests(
+	public (bool, Vector2[]) IsArcToArcIntersectDoesNotValidate4Tests(
 		Vector2 arc1Center,
 		Vector2 arc1Point, 
 		float arc1AngleDeg,
@@ -456,7 +456,7 @@ public partial class IntersectionUtilsTests
 	}
 	
 	[Test, TestCaseSource(nameof(IsArcToArcIntersectSpecialTestsParameters))]
-	public void IsArcToArcIntersectDontValidateSpecialTests(
+	public void IsArcToArcIntersectDoesNotValidateSpecialTests(
 		Vector2 arc1Center,
 		Vector2 arc1Point, 
 		float arc1AngleDeg,
@@ -503,7 +503,7 @@ public partial class IntersectionUtilsTests
 	}
 	
 	[Test, TestCaseSource(nameof(IsArcToArcIntersectSpecialTestsParameters))]
-	public void IsArcToArcIntersectDontValidateSpecial2Tests(
+	public void IsArcToArcIntersectDoesNotValidateSpecial2Tests(
 		Vector2 arc1Center,
 		Vector2 arc1Point, 
 		float arc1AngleDeg,
@@ -567,7 +567,7 @@ public partial class IntersectionUtilsTests
 	}
 	
 	[Test, TestCaseSource(nameof(IsArcToArcIntersectSpecialTests2Parameters))]
-	public void IsArcToArcIntersectDontValidateSpecialTests2(
+	public void IsArcToArcIntersectDoesNotValidateSpecialTests2(
 		Vector2 arc1Center,
 		Vector2 arc1Point, 
 		float arc1AngleDeg,
@@ -615,7 +615,7 @@ public partial class IntersectionUtilsTests
 	}
 	
 	[Test, TestCaseSource(nameof(IsArcToArcIntersectSpecialTests2Parameters))]
-	public void IsArcToArcIntersectDontValidateSpecial2Tests2(
+	public void IsArcToArcIntersectDoesNotValidateSpecial2Tests2(
 		Vector2 arc1Center,
 		Vector2 arc1Point, 
 		float arc1AngleDeg,

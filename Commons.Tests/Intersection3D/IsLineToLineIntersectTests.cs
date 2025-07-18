@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace Commons.Tests.Intersection.D3;
+namespace Commons.Tests.Intersection3D;
 
 // TODO
 public partial class IntersectionUtilsTests

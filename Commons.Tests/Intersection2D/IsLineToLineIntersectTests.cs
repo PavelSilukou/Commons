@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
 using Commons.Intersection2D;
 
-namespace Commons.Tests.Intersection.D2;
+namespace Commons.Tests.Intersection2D;
 
 public partial class IntersectionUtilsTests
 {
@@ -63,7 +63,7 @@ public partial class IntersectionUtilsTests
 	}
 	
 	[Test, TestCaseSource(nameof(IsLineToLineIntersectTestsParameters))]
-	public bool IsLineToLineIntersectDontValidateTests(
+	public bool IsLineToLineIntersectDoesNotValidateTests(
 		Vector2 point1,
 		Vector2 point2,
 		Vector2 point3,
@@ -147,7 +147,7 @@ public partial class IntersectionUtilsTests
 	}
 	
 	[Test, TestCaseSource(nameof(IsLineToLineIntersect2TestsParameters))]
-	public (bool, Vector2[]) IsLineToLineIntersectDontValidate2Tests(
+	public (bool, Vector2[]) IsLineToLineIntersectDoesNotValidate2Tests(
 		Vector2 point1,
 		Vector2 point2,
 		Vector2 point3,
@@ -205,7 +205,7 @@ public partial class IntersectionUtilsTests
 	}
 	
 	[Test, TestCaseSource(nameof(IsLineToLineIntersect3TestsParameters))]
-	public bool IsLineToLineIntersectDontValidate3Tests(
+	public bool IsLineToLineIntersectDoesNotValidate3Tests(
 		Vector2 point1,
 		Vector2 point2,
 		Vector2 point3,
@@ -268,7 +268,7 @@ public partial class IntersectionUtilsTests
 	}
 	
 	[Test, TestCaseSource(nameof(IsLineToLineIntersect4TestsParameters))]
-	public (bool, Vector2[]) IsLineToLineIntersectDontValidate4Tests(
+	public (bool, Vector2[]) IsLineToLineIntersectDoesNotValidate4Tests(
 		Vector2 point1,
 		Vector2 point2,
 		Vector2 point3,
@@ -367,7 +367,7 @@ public partial class IntersectionUtilsTests
 	}
 	
 	[Test, TestCaseSource(nameof(IsLineToLineIntersectSpecialTestsParameters))]
-	public void IsLineToLineIntersectDontValidateSpecialTests(
+	public void IsLineToLineIntersectDoesNotValidateSpecialTests(
 		Vector2 point1,
 		Vector2 point2,
 		Vector2 point3,
@@ -406,7 +406,7 @@ public partial class IntersectionUtilsTests
 	}
 	
 	[Test, TestCaseSource(nameof(IsLineToLineIntersectSpecialTestsParameters))]
-	public void IsLineToLineIntersectDontValidateSpecial2Tests(
+	public void IsLineToLineIntersectDoesNotValidateSpecial2Tests(
 		Vector2 point1,
 		Vector2 point2,
 		Vector2 point3,

@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
 using Commons.Intersection2D;
 
-namespace Commons.Tests.Intersection.D2;
+namespace Commons.Tests.Intersection2D;
 
 // ReSharper disable PossibleMultipleEnumeration
 public partial class IntersectionUtilsTests
@@ -151,7 +151,7 @@ public partial class IntersectionUtilsTests
 	}
 	
 	[Test, TestCaseSource(nameof(IsRotatedRectangleToRotatedRectangleIntersectTestsParameters))]
-	public bool IsRotatedRectangleToRotatedRectangleIntersectDontValidateTests(Vector2[] rects)
+	public bool IsRotatedRectangleToRotatedRectangleIntersectDoesNotValidateTests(Vector2[] rects)
 	{
 		return IntersectionUtils.IsRotatedRectangleToRotatedRectangleIntersect(
 			rects[0], rects[1], rects[2], rects[3],
@@ -171,7 +171,7 @@ public partial class IntersectionUtilsTests
 	}
 	
 	[Test, TestCaseSource(nameof(IsRotatedRectangleToRotatedRectangleIntersectTestsParameters))]
-	public bool IsRotatedRectangleToRotatedRectangleIntersectDontValidate2Tests(Vector2[] rects)
+	public bool IsRotatedRectangleToRotatedRectangleIntersectDoesNotValidate2Tests(Vector2[] rects)
 	{
 		var newRects = rects.Select(rect => Vector2Utils.RotateDeg(rect, 42.5f)).ToArray();
 		return IntersectionUtils.IsRotatedRectangleToRotatedRectangleIntersect(
@@ -519,7 +519,7 @@ public partial class IntersectionUtilsTests
 	}
 	
 	[Test, TestCaseSource(nameof(IsRotatedRectangleToRotatedRectangleIntersect3TestsParameters))]
-	public bool IsRotatedRectangleToRotatedRectangleIntersectDontValidate3Tests(Vector2[] rects)
+	public bool IsRotatedRectangleToRotatedRectangleIntersectDoesNotValidate3Tests(Vector2[] rects)
 	{
 		var newRects = rects.Select(rect => Vector2Utils.RotateDeg(rect, 42.5f)).ToArray();
 		var isIntersect = false;
@@ -797,7 +797,7 @@ public partial class IntersectionUtilsTests
 	}
 	
 	[Test, TestCaseSource(nameof(IsRotatedRectangleToRotatedRectangleIntersectSpecialTestsParameters))]
-	public void IsRotatedRectangleToRotatedRectangleIntersectDontValidateSpecialTests(Vector2[] rects)
+	public void IsRotatedRectangleToRotatedRectangleIntersectDoesNotValidateSpecialTests(Vector2[] rects)
 	{
 		var newRects = rects.Select(rect => Vector2Utils.RotateDeg(rect, 42.5f)).ToArray();
 		Assert.DoesNotThrow(

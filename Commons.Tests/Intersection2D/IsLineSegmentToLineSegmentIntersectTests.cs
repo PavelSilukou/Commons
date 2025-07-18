@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
 using Commons.Intersection2D;
 
-namespace Commons.Tests.Intersection.D2;
+namespace Commons.Tests.Intersection2D;
 
 public partial class IntersectionUtilsTests
 {
@@ -63,7 +63,7 @@ public partial class IntersectionUtilsTests
 	}
 	
 	[Test, TestCaseSource(nameof(IsLineSegmentToLineSegmentIntersectTestsParameters))]
-	public bool IsLineSegmentToLineSegmentIntersectDontValidateTests(
+	public bool IsLineSegmentToLineSegmentIntersectDoesNotValidateTests(
 		Vector2 point1,
 		Vector2 point2,
 		Vector2 point3,
@@ -147,7 +147,7 @@ public partial class IntersectionUtilsTests
 	}
 	
 	[Test, TestCaseSource(nameof(IsLineSegmentToLineSegmentIntersect2TestsParameters))]
-	public (bool, Vector2[]) IsLineSegmentToLineSegmentIntersectDontValidate2Tests(
+	public (bool, Vector2[]) IsLineSegmentToLineSegmentIntersectDoesNotValidate2Tests(
 		Vector2 point1,
 		Vector2 point2,
 		Vector2 point3,
@@ -205,7 +205,7 @@ public partial class IntersectionUtilsTests
 	}
 	
 	[Test, TestCaseSource(nameof(IsLineSegmentToLineSegmentIntersect3TestsParameters))]
-	public bool IsLineSegmentToLineSegmentIntersectDontValidate3Tests(
+	public bool IsLineSegmentToLineSegmentIntersectDoesNotValidate3Tests(
 		Vector2 point1,
 		Vector2 point2,
 		Vector2 point3,
@@ -268,7 +268,7 @@ public partial class IntersectionUtilsTests
 	}
 	
 	[Test, TestCaseSource(nameof(IsLineSegmentToLineSegmentIntersect4TestsParameters))]
-	public (bool, Vector2[]) IsLineSegmentToLineSegmentIntersectDontValidate4Tests(
+	public (bool, Vector2[]) IsLineSegmentToLineSegmentIntersectDoesNotValidate4Tests(
 		Vector2 point1,
 		Vector2 point2,
 		Vector2 point3,
@@ -367,7 +367,7 @@ public partial class IntersectionUtilsTests
 	}
 	
 	[Test, TestCaseSource(nameof(IsLineSegmentToLineSegmentIntersectSpecialTestsParameters))]
-	public void IsLineSegmentToLineSegmentIntersectDontValidateSpecialTests(
+	public void IsLineSegmentToLineSegmentIntersectDoesNotValidateSpecialTests(
 		Vector2 point1,
 		Vector2 point2,
 		Vector2 point3,
@@ -406,7 +406,7 @@ public partial class IntersectionUtilsTests
 	}
 	
 	[Test, TestCaseSource(nameof(IsLineSegmentToLineSegmentIntersectSpecialTestsParameters))]
-	public void IsLineSegmentToLineSegmentIntersectDontValidateSpecial2Tests(
+	public void IsLineSegmentToLineSegmentIntersectDoesNotValidateSpecial2Tests(
 		Vector2 point1,
 		Vector2 point2,
 		Vector2 point3,

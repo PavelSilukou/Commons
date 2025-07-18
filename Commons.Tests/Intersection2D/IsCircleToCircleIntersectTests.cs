@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
 using Commons.Intersection2D;
 
-namespace Commons.Tests.Intersection.D2;
+namespace Commons.Tests.Intersection2D;
 
 public partial class IntersectionUtilsTests
 {
@@ -41,7 +41,7 @@ public partial class IntersectionUtilsTests
 	}
 	
 	[Test, TestCaseSource(nameof(IsCircleToCircleIntersectTestsParameters))]
-	public bool IsCircleToCircleIntersectDontValidateTests(
+	public bool IsCircleToCircleIntersectDoesNotValidateTests(
 		Vector2 center1,
 		float radius1,
 		Vector2 center2,
@@ -102,7 +102,7 @@ public partial class IntersectionUtilsTests
 	}
 	
 	[Test, TestCaseSource(nameof(IsCircleToCircleIntersect2TestsParameters))]
-	public (bool, Vector2[]) IsCircleToCircleIntersectDontValidate2Tests(
+	public (bool, Vector2[]) IsCircleToCircleIntersectDoesNotValidate2Tests(
 		Vector2 center1,
 		float radius1,
 		Vector2 center2,
@@ -160,7 +160,7 @@ public partial class IntersectionUtilsTests
 	}
 	
 	[Test, TestCaseSource(nameof(IsCircleToCircleIntersect3TestsParameters))]
-	public bool IsCircleToCircleIntersectDontValidate3Tests(
+	public bool IsCircleToCircleIntersectDoesNotValidate3Tests(
 		Vector2 center1,
 		float radius1,
 		Vector2 center2,
@@ -223,7 +223,7 @@ public partial class IntersectionUtilsTests
 	}
 	
 	[Test, TestCaseSource(nameof(IsCircleToCircleIntersect4TestsParameters))]
-	public (bool, Vector2[]) IsCircleToCircleIntersectDontValidate4Tests(
+	public (bool, Vector2[]) IsCircleToCircleIntersectDoesNotValidate4Tests(
 		Vector2 center1,
 		float radius1,
 		Vector2 center2,
@@ -308,7 +308,7 @@ public partial class IntersectionUtilsTests
 	}
 	
 	[Test, TestCaseSource(nameof(IsCircleToCircleIntersectSpecialTestsParameters))]
-	public void IsCircleToCircleIntersectDontValidateSpecialTests(
+	public void IsCircleToCircleIntersectDoesNotValidateSpecialTests(
 		Vector2 center1,
 		float radius1,
 		Vector2 center2,
@@ -347,7 +347,7 @@ public partial class IntersectionUtilsTests
 	}
 	
 	[Test, TestCaseSource(nameof(IsCircleToCircleIntersectSpecialTestsParameters))]
-	public void IsCircleToCircleIntersectDontValidateSpecial2Tests(
+	public void IsCircleToCircleIntersectDoesNotValidateSpecial2Tests(
 		Vector2 center1,
 		float radius1,
 		Vector2 center2,

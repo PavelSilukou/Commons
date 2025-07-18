@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
 using Commons.Intersection2D;
 
-namespace Commons.Tests.Intersection.D2;
+namespace Commons.Tests.Intersection2D;
 
 public partial class IntersectionUtilsTests
 {
@@ -61,7 +61,7 @@ public partial class IntersectionUtilsTests
 	}
 	
 	[Test, TestCaseSource(nameof(IsArcToCircleIntersectTestsParameters))]
-	public bool IsArcToCircleIntersectDontValidateTests(
+	public bool IsArcToCircleIntersectDoesNotValidateTests(
 		Vector2 arcCenter,
 		Vector2 arcPoint, 
 		float arcAngleDeg,
@@ -146,7 +146,7 @@ public partial class IntersectionUtilsTests
 	}
 	
 	[Test, TestCaseSource(nameof(IsArcToCircleIntersect2TestsParameters))]
-	public (bool, Vector2[]) IsArcToCircleIntersectDontValidate2Tests(
+	public (bool, Vector2[]) IsArcToCircleIntersectDoesNotValidate2Tests(
 		Vector2 arcCenter,
 		Vector2 arcPoint, 
 		float arcAngleDeg,
@@ -235,7 +235,7 @@ public partial class IntersectionUtilsTests
 	}
 	
 	[Test, TestCaseSource(nameof(IsArcToCircleIntersect5TestsParameters))]
-	public bool IsArcToCircleIntersectDontValidate3Tests(
+	public bool IsArcToCircleIntersectDoesNotValidate3Tests(
 		Vector2 arcCenter,
 		Vector2 arcPoint, 
 		float arcAngleDeg,
@@ -329,7 +329,7 @@ public partial class IntersectionUtilsTests
 	}
 	
 	[Test, TestCaseSource(nameof(IsArcToCircleIntersect6TestsParameters))]
-	public (bool, Vector2[]) IsArcToCircleIntersectDontValidate4Tests(
+	public (bool, Vector2[]) IsArcToCircleIntersectDoesNotValidate4Tests(
 		Vector2 arcCenter,
 		Vector2 arcPoint, 
 		float arcAngleDeg,
@@ -424,7 +424,7 @@ public partial class IntersectionUtilsTests
 	}
 	
 	[Test, TestCaseSource(nameof(IsArcToCircleIntersectSpecialTestsParameters))]
-	public void IsArcToCircleIntersectDontValidateSpecialTests(
+	public void IsArcToCircleIntersectDoesNotValidateSpecialTests(
 		Vector2 arcCenter,
 		Vector2 arcPoint, 
 		float arcAngleDeg,
@@ -467,7 +467,7 @@ public partial class IntersectionUtilsTests
 	}
 	
 	[Test, TestCaseSource(nameof(IsArcToCircleIntersectSpecialTestsParameters))]
-	public void IsArcToCircleIntersectDontValidateSpecial2Tests(
+	public void IsArcToCircleIntersectDoesNotValidateSpecial2Tests(
 		Vector2 arcCenter,
 		Vector2 arcPoint, 
 		float arcAngleDeg,
@@ -521,7 +521,7 @@ public partial class IntersectionUtilsTests
 	}
 	
 	[Test, TestCaseSource(nameof(IsArcToCircleIntersectSpecialTests2Parameters))]
-	public void IsArcToCircleIntersectDontValidateSpecialTests2(
+	public void IsArcToCircleIntersectDoesNotValidateSpecialTests2(
 		Vector2 arcCenter,
 		Vector2 arcPoint, 
 		float arcAngleDeg,
@@ -565,7 +565,7 @@ public partial class IntersectionUtilsTests
 	}
 	
 	[Test, TestCaseSource(nameof(IsArcToCircleIntersectSpecialTests2Parameters))]
-	public void IsArcToCircleIntersectDontValidateSpecial2Tests2(
+	public void IsArcToCircleIntersectDoesNotValidateSpecial2Tests2(
 		Vector2 arcCenter,
 		Vector2 arcPoint, 
 		float arcAngleDeg,
