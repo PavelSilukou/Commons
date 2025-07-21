@@ -18,7 +18,12 @@ namespace Commons.Intersection2D
 			var arc = new Arc(arcCenter, arcPoint, arcAngleDeg);
 			var circle = new Circle(circleCenter, circleRadius);
 			
-			return Intersector.IsIntersect(arc, circle, validate);
+			if (validate && !Validator.IsValid(arc, circle))
+			{
+				return false;
+			}
+			
+			return Intersector.IsIntersect(arc, circle);
 		}
 		
 		public static bool IsArcToCircleIntersect(
@@ -34,7 +39,12 @@ namespace Commons.Intersection2D
 			var arc = new Arc(arcCenter, arcPoint, arcAngleDeg);
 			var circle = new Circle(circleCenter, circleRadius);
 			
-			return Intersector.IsIntersect(out intersectionPoints, arc, circle, validate);
+			if (validate && !Validator.IsValid(out intersectionPoints, arc, circle))
+			{
+				return false;
+			}
+			
+			return Intersector.IsIntersect(out intersectionPoints, arc, circle);
 		}
 	}
 }

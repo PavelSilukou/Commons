@@ -23,14 +23,8 @@ namespace Commons.Intersection2D.Internal
 		};
 		private static readonly Dictionary<FormTypesPair, StrategyOrder> StrategiesDict = InitStrategiesDict();
 		
-		public static bool IsIntersect(Form form1, Form form2, bool validate = true)
+		public static bool IsIntersect(Form form1, Form form2)
 		{
-			if (validate)
-			{
-				form1.IsValid();
-				form2.IsValid();
-			}
-			
 			var trueForm1 = form1.GetTrueForm();
 			var trueForm2 = form2.GetTrueForm();
 			
@@ -42,14 +36,8 @@ namespace Commons.Intersection2D.Internal
 			return strategyOrder.Strategy.IsIntersect(trueForm1, trueForm2);
 		}
 		
-		public static bool IsIntersect(out Vector2[] intersectionPoints, Form form1, Form form2, bool validate = true)
+		public static bool IsIntersect(out Vector2[] intersectionPoints, Form form1, Form form2)
 		{
-			if (validate)
-			{
-				form1.IsValid();
-				form2.IsValid();
-			}
-			
 			var trueForm1 = form1.GetTrueForm();
 			var trueForm2 = form2.GetTrueForm();
 			

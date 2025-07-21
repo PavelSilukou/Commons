@@ -19,7 +19,12 @@ namespace Commons.Intersection2D
 			var arc1 = new Arc(arc1Center, arc1Point, arc1AngleDeg);
 			var arc2 = new Arc(arc2Center, arc2Point, arc2AngleDeg);
 			
-			return Intersector.IsIntersect(arc1, arc2, validate);
+			if (validate && !Validator.IsValid(arc1, arc2))
+			{
+				return false;
+			}
+			
+			return Intersector.IsIntersect(arc1, arc2);
 		}
 		
 #pragma warning disable S107 // Methods should not have too many parameters
@@ -36,8 +41,13 @@ namespace Commons.Intersection2D
 		{
 			var arc1 = new Arc(arc1Center, arc1Point, arc1AngleDeg);
 			var arc2 = new Arc(arc2Center, arc2Point, arc2AngleDeg);
+
+			if (validate && !Validator.IsValid(out intersectionPoints, arc1, arc2))
+			{
+				return false;
+			}
 			
-			return Intersector.IsIntersect(out intersectionPoints, arc1, arc2, validate);
+			return Intersector.IsIntersect(out intersectionPoints, arc1, arc2);
 		}
 #pragma warning restore S107 // Methods should not have too many parameters
 	}

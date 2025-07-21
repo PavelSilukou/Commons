@@ -17,7 +17,12 @@ namespace Commons.Intersection2D
 			var line1 = new Line(line1Point1, line1Point2);
 			var line2 = new Line(line2Point1, line2Point2);
 			
-			return Intersector.IsIntersect(line1, line2, validate);
+			if (validate && !Validator.IsValid(line1, line2))
+			{
+				return false;
+			}
+			
+			return Intersector.IsIntersect(line1, line2);
 		}
 		
 		public static bool IsLineToLineIntersect(
@@ -32,7 +37,12 @@ namespace Commons.Intersection2D
 			var line1 = new Line(line1Point1, line1Point2);
 			var line2 = new Line(line2Point1, line2Point2);
 			
-			return Intersector.IsIntersect(out intersectionPoints, line1, line2, validate);
+			if (validate && !Validator.IsValid(out intersectionPoints, line1, line2))
+			{
+				return false;
+			}
+			
+			return Intersector.IsIntersect(out intersectionPoints, line1, line2);
 		}
 	}
 }

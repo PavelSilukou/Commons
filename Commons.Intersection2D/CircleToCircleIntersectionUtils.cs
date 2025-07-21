@@ -17,7 +17,12 @@ namespace Commons.Intersection2D
 			var circle1 = new Circle(circle1Center, circle1Radius);
 			var circle2 = new Circle(circle2Center, circle2Radius);
 			
-			return Intersector.IsIntersect(circle1, circle2, validate);
+			if (validate && !Validator.IsValid(circle1, circle2))
+			{
+				return false;
+			}
+			
+			return Intersector.IsIntersect(circle1, circle2);
 		}
 		
 		public static bool IsCircleToCircleIntersect(
@@ -32,7 +37,12 @@ namespace Commons.Intersection2D
 			var circle1 = new Circle(circle1Center, circle1Radius);
 			var circle2 = new Circle(circle2Center, circle2Radius);
 			
-			return Intersector.IsIntersect(out intersectionPoints, circle1, circle2, validate);
+			if (validate && !Validator.IsValid(out intersectionPoints, circle1, circle2))
+			{
+				return false;
+			}
+			
+			return Intersector.IsIntersect(out intersectionPoints, circle1, circle2);
 		}
 	}
 }

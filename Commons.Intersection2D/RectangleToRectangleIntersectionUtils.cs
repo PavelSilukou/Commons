@@ -15,7 +15,12 @@ namespace Commons.Intersection2D
 			var rect1 = new Rectangle(rect1Left, rect1Top, rect1Right, rect1Bottom);
 			var rect2 = new Rectangle(rect2Left, rect2Top, rect2Right, rect2Bottom);
 			
-			return Intersector.IsIntersect(rect1, rect2, validate);
+			if (validate && !Validator.IsValid(rect1, rect2))
+			{
+				return false;
+			}
+			
+			return Intersector.IsIntersect(rect1, rect2);
 		}
 #pragma warning restore S107 // Methods should not have too many parameters
 	}
