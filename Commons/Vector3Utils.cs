@@ -23,7 +23,7 @@ namespace Commons
 			Vector3 vector1,
 			Vector3 vector2,
 			float distance,
-			float tolerance
+			float tolerance = 0.001f
 		)
 		{
 			var actualDistance = Vector3.Distance(vector1, vector2);

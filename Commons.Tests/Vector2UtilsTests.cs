@@ -5,8 +5,6 @@ namespace Commons.Tests;
 // TODO: rework to TestCaseData.Returns
 public class Vector2UtilsTests
 {
-	private const float EqualityPrecision = 0.00001f;
-	
 	private static IEnumerable<TestCaseData> RotateRadTestsParameters()
 	{
 		yield return new TestCaseData(0.0f, new Vector2(1.0f, 0.0f));
@@ -23,7 +21,7 @@ public class Vector2UtilsTests
 	public void RotateRadTests(float radians, Vector2 expectedVector)
 	{
 		var actualVector = Vector2Utils.RotateRad(radians);
-		var actual = actualVector.EqualTo(expectedVector, EqualityPrecision);
+		var actual = actualVector.EqualTo(expectedVector);
 		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedVector}\n{"Actual:", 9} {actualVector}");
 	}
 	
@@ -77,7 +75,7 @@ public class Vector2UtilsTests
 	public void RotateVectorRadTests(Vector2 initialVector, float radians, Vector2 expectedVector)
 	{
 		var actualVector = Vector2Utils.RotateRad(initialVector, radians);
-		var actual = actualVector.EqualTo(expectedVector, EqualityPrecision);
+		var actual = actualVector.EqualTo(expectedVector);
 		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedVector}\n{"Actual:", 9} {actualVector}");
 	}
 	
@@ -118,7 +116,7 @@ public class Vector2UtilsTests
 	public void RotateDegTests(float degrees, Vector2 expectedVector)
 	{
 		var actualVector = Vector2Utils.RotateDeg(degrees);
-		var actual = actualVector.EqualTo(expectedVector, EqualityPrecision);
+		var actual = actualVector.EqualTo(expectedVector);
 		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedVector}\n{"Actual:", 9} {actualVector}");
 	}
 	
@@ -174,7 +172,7 @@ public class Vector2UtilsTests
 	public void RotateVectorDegTests(Vector2 initialVector, float degrees, Vector2 expectedVector)
 	{
 		var actualVector = Vector2Utils.RotateDeg(initialVector, degrees);
-		var actual = actualVector.EqualTo(expectedVector, EqualityPrecision);
+		var actual = actualVector.EqualTo(expectedVector);
 		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedVector}\n{"Actual:", 9} {actualVector}");
 	}
 	
@@ -211,7 +209,7 @@ public class Vector2UtilsTests
 		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(-0.70710677f, 0.70710677f), MathF.PI * 3.0f / 4.0f);
 		
 		yield return new TestCaseData(new Vector2(0.0f, 1.0f), new Vector2(1.0f, 0.0f), -MathF.PI / 2.0f);
-		yield return new TestCaseData(new Vector2(-1.0f, 0.0f), new Vector2(1.0f, 0.0f), MathF.PI);
+		yield return new TestCaseData(new Vector2(-1.0f, 0.0f), new Vector2(1.0f, 0.0f), -MathF.PI);
 		yield return new TestCaseData(new Vector2(0.0f, -1.0f), new Vector2(1.0f, 0.0f), MathF.PI / 2.0f);
 		yield return new TestCaseData(new Vector2(2.0f, 0.0f), new Vector2(0.0f, 2.0f), MathF.PI / 2.0f);
 		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), new Vector2(1.0f, 0.0f), -MathF.PI / 4.0f);
@@ -264,7 +262,7 @@ public class Vector2UtilsTests
 		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(-0.70710677f, 0.70710677f), 135.0f);
 		
 		yield return new TestCaseData(new Vector2(0.0f, 1.0f), new Vector2(1.0f, 0.0f), -90.0f);
-		yield return new TestCaseData(new Vector2(-1.0f, 0.0f), new Vector2(1.0f, 0.0f), 180.0f);
+		yield return new TestCaseData(new Vector2(-1.0f, 0.0f), new Vector2(1.0f, 0.0f), -180.0f);
 		yield return new TestCaseData(new Vector2(0.0f, -1.0f), new Vector2(1.0f, 0.0f), 90.0f);
 		yield return new TestCaseData(new Vector2(2.0f, 0.0f), new Vector2(0.0f, 2.0f), 90.0f);
 		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), new Vector2(1.0f, 0.0f), -45.0f);
@@ -303,6 +301,148 @@ public class Vector2UtilsTests
 	public void SignedAngleDegSpecialCasesTests(Vector2 vector1, Vector2 vector2)
 	{
 		var actualAngle = Vector2Utils.SignedAngleDeg(vector1, vector2);
+		var actual = float.IsNaN(actualAngle);
+		Assert.That(actual, Is.True);
+	}
+	
+	private static IEnumerable<TestCaseData> SignedAngleRadClampTestsParameters()
+	{
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0f), 0.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, 1.0f), MathF.PI / 2.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(-1.0f, 0.0f), MathF.PI);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, -1.0f), -MathF.PI / 2.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, 0.70710677f), MathF.PI / 4.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(-0.70710677f, 0.70710677f), MathF.PI * 3.0f / 4.0f);
+		
+		yield return new TestCaseData(new Vector2(0.0f, 1.0f), new Vector2(1.0f, 0.0f), -MathF.PI / 2.0f);
+		yield return new TestCaseData(new Vector2(-1.0f, 0.0f), new Vector2(1.0f, 0.0f), MathF.PI);
+		yield return new TestCaseData(new Vector2(0.0f, -1.0f), new Vector2(1.0f, 0.0f), MathF.PI / 2.0f);
+		yield return new TestCaseData(new Vector2(2.0f, 0.0f), new Vector2(0.0f, 2.0f), MathF.PI / 2.0f);
+		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), new Vector2(1.0f, 0.0f), -MathF.PI / 4.0f);
+		yield return new TestCaseData(new Vector2(-0.70710677f, 0.70710677f), new Vector2(1.0f, 0.0f), -MathF.PI * 3.0f / 4.0f);
+	}
+	
+	[Test, TestCaseSource(nameof(SignedAngleRadClampTestsParameters))]
+	public void SignedAngleRadClampTests(Vector2 vector1, Vector2 vector2, float expectedAngle)
+	{
+		var actualAngle = Vector2Utils.SignedAngleRadClamp(vector1, vector2);
+		var actual = actualAngle.EqualTo(expectedAngle);
+		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedAngle:F2}\n{"Actual:", 9} {actualAngle:F2}");
+	}
+	
+	private static IEnumerable<TestCaseData> SignedAngleRadClampToleranceTestsParameters()
+	{
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(-1.0f, -0.0000017453292f), MathF.PI, 0.0001f);
+		yield return new TestCaseData(new Vector2(-1.0f, 0.0f), new Vector2(1.0f, 0.0000017453292f), MathF.PI, 0.0001f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(-1.0f, -0.0000017453292f), -MathF.PI, 0.000001f);
+		yield return new TestCaseData(new Vector2(-1.0f, 0.0f), new Vector2(1.0f, 0.0000017453292f), -MathF.PI, 0.000001f);
+	}
+	
+	[Test, TestCaseSource(nameof(SignedAngleRadClampToleranceTestsParameters))]
+	public void SignedAngleRadClampToleranceTests(Vector2 vector1, Vector2 vector2, float expectedAngle, float tolerance)
+	{
+		Settings.SetEqualsTolerance(tolerance);
+		var actualAngle = Vector2Utils.SignedAngleRadClamp(vector1, vector2);
+		Settings.SetEqualsTolerance(0.001f);
+		var actual = actualAngle.EqualTo(expectedAngle);
+		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedAngle:F2}\n{"Actual:", 9} {actualAngle:F2}");
+	}
+	
+#pragma warning disable S4144 // Methods should not have identical implementations
+	private static IEnumerable<TestCaseData> SignedAngleRadClampSpecialCasesTestsParameters()
+	{
+		yield return new TestCaseData(new Vector2(float.NaN, 0.0f), new Vector2(0.0f, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, float.NaN), new Vector2(0.0f, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(float.NaN, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(0.0f, float.NaN));
+		
+		yield return new TestCaseData(new Vector2(float.PositiveInfinity, 0.0f), new Vector2(0.0f, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, float.PositiveInfinity), new Vector2(0.0f, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(float.PositiveInfinity, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(0.0f, float.PositiveInfinity));
+		
+		yield return new TestCaseData(new Vector2(float.NegativeInfinity, 0.0f), new Vector2(0.0f, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, float.NegativeInfinity), new Vector2(0.0f, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(float.NegativeInfinity, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(0.0f, float.NegativeInfinity));
+	}
+#pragma warning restore S4144 // Methods should not have identical implementations
+	
+	[Test, TestCaseSource(nameof(SignedAngleRadClampSpecialCasesTestsParameters))]
+	public void SignedAngleRadClampSpecialCasesTests(Vector2 vector1, Vector2 vector2)
+	{
+		var actualAngle = Vector2Utils.SignedAngleRadClamp(vector1, vector2);
+		var actual = float.IsNaN(actualAngle);
+		Assert.That(actual, Is.True);
+	}
+	
+	private static IEnumerable<TestCaseData> SignedAngleDegClampTestsParameters()
+	{
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0f), 0.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, 1.0f), 90.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(-1.0f, 0.0f), 180.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, -1.0f), -90.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, 0.70710677f), 45.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(-0.70710677f, 0.70710677f), 135.0f);
+		
+		yield return new TestCaseData(new Vector2(0.0f, 1.0f), new Vector2(1.0f, 0.0f), -90.0f);
+		yield return new TestCaseData(new Vector2(-1.0f, 0.0f), new Vector2(1.0f, 0.0f), 180.0f);
+		yield return new TestCaseData(new Vector2(0.0f, -1.0f), new Vector2(1.0f, 0.0f), 90.0f);
+		yield return new TestCaseData(new Vector2(2.0f, 0.0f), new Vector2(0.0f, 2.0f), 90.0f);
+		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), new Vector2(1.0f, 0.0f), -45.0f);
+		yield return new TestCaseData(new Vector2(-0.70710677f, 0.70710677f), new Vector2(1.0f, 0.0f), -135.0f);
+	}
+	
+	[Test, TestCaseSource(nameof(SignedAngleDegClampTestsParameters))]
+	public void SignedAngleDegClampTests(Vector2 vector1, Vector2 vector2, float expectedAngle)
+	{
+		var actualAngle = Vector2Utils.SignedAngleDegClamp(vector1, vector2);
+		var actual = actualAngle.EqualTo(expectedAngle);
+		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedAngle:F2}\n{"Actual:", 9} {actualAngle:F2}");
+	}
+	
+	private static IEnumerable<TestCaseData> SignedAngleDegClampToleranceTestsParameters()
+	{
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(-1.0f, -0.0000017453292f), 180.0f, 0.0001f);
+		yield return new TestCaseData(new Vector2(-1.0f, 0.0f), new Vector2(1.0f, 0.0000017453292f), 180.0f, 0.0001f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(-1.0f, -0.0000017453292f), -180.0f, 0.000001f);
+		yield return new TestCaseData(new Vector2(-1.0f, 0.0f), new Vector2(1.0f, 0.0000017453292f), -180.0f, 0.000001f);
+	}
+	
+	[Test, TestCaseSource(nameof(SignedAngleDegClampToleranceTestsParameters))]
+	public void SignedAngleDegClampToleranceTests(Vector2 vector1, Vector2 vector2, float expectedAngle, float tolerance)
+	{
+		Settings.SetEqualsTolerance(tolerance);
+		var actualAngle = Vector2Utils.SignedAngleDegClamp(vector1, vector2);
+		Settings.SetEqualsTolerance(0.001f);
+		var actual = actualAngle.EqualTo(expectedAngle);
+		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedAngle:F2}\n{"Actual:", 9} {actualAngle:F2}");
+	}
+	
+#pragma warning disable S4144 // Methods should not have identical implementations
+	private static IEnumerable<TestCaseData> SignedAngleDegClampSpecialCasesTestsParameters()
+	{
+		yield return new TestCaseData(new Vector2(float.NaN, 0.0f), new Vector2(0.0f, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, float.NaN), new Vector2(0.0f, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(float.NaN, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(0.0f, float.NaN));
+		
+		yield return new TestCaseData(new Vector2(float.PositiveInfinity, 0.0f), new Vector2(0.0f, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, float.PositiveInfinity), new Vector2(0.0f, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(float.PositiveInfinity, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(0.0f, float.PositiveInfinity));
+		
+		yield return new TestCaseData(new Vector2(float.NegativeInfinity, 0.0f), new Vector2(0.0f, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, float.NegativeInfinity), new Vector2(0.0f, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(float.NegativeInfinity, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(0.0f, float.NegativeInfinity));
+	}
+#pragma warning restore S4144 // Methods should not have identical implementations
+	
+	[Test, TestCaseSource(nameof(SignedAngleDegClampSpecialCasesTestsParameters))]
+	public void SignedAngleDegClampSpecialCasesTests(Vector2 vector1, Vector2 vector2)
+	{
+		var actualAngle = Vector2Utils.SignedAngleDegClamp(vector1, vector2);
 		var actual = float.IsNaN(actualAngle);
 		Assert.That(actual, Is.True);
 	}
@@ -413,7 +553,7 @@ public class Vector2UtilsTests
 		Assert.That(actual, Is.True);
 	}
 	
-private static IEnumerable<TestCaseData> SignedAngleRad360TestsParameters()
+	private static IEnumerable<TestCaseData> SignedAngleRad360TestsParameters()
 	{
 		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0f), -1, 0.0f);
 		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, 1.0f), -1, MathF.PI * 3.0f / 2.0f);
@@ -429,7 +569,7 @@ private static IEnumerable<TestCaseData> SignedAngleRad360TestsParameters()
 		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), new Vector2(1.0f, 0.0f), -1, MathF.PI / 4.0f);
 		yield return new TestCaseData(new Vector2(0.70710677f, -0.70710677f), new Vector2(1.0f, 0.0f), -1, MathF.PI * 3.5f / 2.0f);
 		
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0f), 1, 0.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0f), 1, -2.0f * MathF.PI);
 		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, 1.0f), 1, -MathF.PI / 2.0f);
 		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(-1.0f, 0.0f), 1, -MathF.PI);
 		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, -1.0f), 1, -MathF.PI * 3.0f / 2.0f);
@@ -448,7 +588,7 @@ private static IEnumerable<TestCaseData> SignedAngleRad360TestsParameters()
 	public void SignedAngleRad360Tests(Vector2 vector1, Vector2 vector2, int direction, float expectedAngle)
 	{
 		var actualAngle = Vector2Utils.SignedAngleRad360(vector1, vector2, direction);
-		var actual = actualAngle.EqualTo(expectedAngle, EqualityPrecision);
+		var actual = actualAngle.EqualTo(expectedAngle);
 		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedAngle:F2}\n{"Actual:", 9} {actualAngle:F2}");
 	}
 	
@@ -496,7 +636,7 @@ private static IEnumerable<TestCaseData> SignedAngleRad360TestsParameters()
 		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), new Vector2(1.0f, 0.0f), -1, 45.0f);
 		yield return new TestCaseData(new Vector2(0.70710677f, -0.70710677f), new Vector2(1.0f, 0.0f), -1, 315.0f);
 		
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0f), 1, 0.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0f), 1, -360.0f);
 		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, 1.0f), 1, -90.0f);
 		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(-1.0f, 0.0f), 1, -180.0f);
 		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, -1.0f), 1, -270.0f);
@@ -515,7 +655,7 @@ private static IEnumerable<TestCaseData> SignedAngleRad360TestsParameters()
 	public void SignedAngleDeg360Tests(Vector2 vector1, Vector2 vector2, int direction, float expectedAngle)
 	{
 		var actualAngle = Vector2Utils.SignedAngleDeg360(vector1, vector2, direction);
-		var actual = actualAngle.EqualTo(expectedAngle, EqualityPrecision);
+		var actual = actualAngle.EqualTo(expectedAngle);
 		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedAngle:F2}\n{"Actual:", 9} {actualAngle:F2}");
 	}
 	
@@ -563,7 +703,7 @@ private static IEnumerable<TestCaseData> SignedAngleRad360TestsParameters()
 		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), new Vector2(1.0f, 0.0f), -1, MathF.PI / 4.0f);
 		yield return new TestCaseData(new Vector2(0.70710677f, -0.70710677f), new Vector2(1.0f, 0.0f), -1, MathF.PI * 3.5f / 2.0f);
 		
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0f), 1, 0.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0f), 1, 2.0f * MathF.PI);
 		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, 1.0f), 1, MathF.PI / 2.0f);
 		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(-1.0f, 0.0f), 1, MathF.PI);
 		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, -1.0f), 1, MathF.PI * 3.0f / 2.0f);
@@ -582,7 +722,7 @@ private static IEnumerable<TestCaseData> SignedAngleRad360TestsParameters()
 	public void AngleRad360Tests(Vector2 vector1, Vector2 vector2, int direction, float expectedAngle)
 	{
 		var actualAngle = Vector2Utils.AngleRad360(vector1, vector2, direction);
-		var actual = actualAngle.EqualTo(expectedAngle, EqualityPrecision);
+		var actual = actualAngle.EqualTo(expectedAngle);
 		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedAngle:F2}\n{"Actual:", 9} {actualAngle:F2}");
 	}
 	
@@ -630,7 +770,7 @@ private static IEnumerable<TestCaseData> SignedAngleRad360TestsParameters()
 		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), new Vector2(1.0f, 0.0f), -1, 45.0f);
 		yield return new TestCaseData(new Vector2(0.70710677f, -0.70710677f), new Vector2(1.0f, 0.0f), -1, 315.0f);
 		
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0f), 1, 0.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0f), 1, 360.0f);
 		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, 1.0f), 1, 90.0f);
 		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(-1.0f, 0.0f), 1, 180.0f);
 		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, -1.0f), 1, 270.0f);
@@ -649,7 +789,7 @@ private static IEnumerable<TestCaseData> SignedAngleRad360TestsParameters()
 	public void AngleDeg360Tests(Vector2 vector1, Vector2 vector2, int direction, float expectedAngle)
 	{
 		var actualAngle = Vector2Utils.AngleDeg360(vector1, vector2, direction);
-		var actual = actualAngle.EqualTo(expectedAngle, EqualityPrecision);
+		var actual = actualAngle.EqualTo(expectedAngle);
 		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedAngle:F2}\n{"Actual:", 9} {actualAngle:F2}");
 	}
 	
@@ -681,6 +821,346 @@ private static IEnumerable<TestCaseData> SignedAngleRad360TestsParameters()
 		Assert.That(actual, Is.True);
 	}
 	
+	private static IEnumerable<TestCaseData> SignedAngleRad360ClampTestsParameters()
+	{
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0f), -1, 0.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, 1.0f), -1, MathF.PI * 3.0f / 2.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(-1.0f, 0.0f), -1, MathF.PI);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, -1.0f), -1, MathF.PI / 2.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, 0.70710677f), -1, MathF.PI * 3.5f / 2.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, -0.70710677f), -1, MathF.PI / 4.0f);
+		
+		yield return new TestCaseData(new Vector2(0.0f, 1.0f), new Vector2(1.0f, 0.0f), -1, MathF.PI / 2.0f);
+		yield return new TestCaseData(new Vector2(-1.0f, 0.0f), new Vector2(1.0f, 0.0f), -1, MathF.PI);
+		yield return new TestCaseData(new Vector2(0.0f, -1.0f), new Vector2(1.0f, 0.0f), -1, MathF.PI * 3.0f / 2.0f);
+		yield return new TestCaseData(new Vector2(2.0f, 0.0f), new Vector2(0.0f, 2.0f), -1, MathF.PI * 3.0f / 2.0f);
+		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), new Vector2(1.0f, 0.0f), -1, MathF.PI / 4.0f);
+		yield return new TestCaseData(new Vector2(0.70710677f, -0.70710677f), new Vector2(1.0f, 0.0f), -1, MathF.PI * 3.5f / 2.0f);
+		
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0f), 1, 0.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, 1.0f), 1, -MathF.PI / 2.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(-1.0f, 0.0f), 1, -MathF.PI);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, -1.0f), 1, -MathF.PI * 3.0f / 2.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, 0.70710677f), 1, -MathF.PI / 4.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, -0.70710677f), 1, -MathF.PI * 3.5f / 2.0f);
+		
+		yield return new TestCaseData(new Vector2(0.0f, 1.0f), new Vector2(1.0f, 0.0f), 1, -MathF.PI * 3.0f / 2.0f);
+		yield return new TestCaseData(new Vector2(-1.0f, 0.0f), new Vector2(1.0f, 0.0f), 1, -MathF.PI);
+		yield return new TestCaseData(new Vector2(0.0f, -1.0f), new Vector2(1.0f, 0.0f), 1, -MathF.PI / 2.0f);
+		yield return new TestCaseData(new Vector2(2.0f, 0.0f), new Vector2(0.0f, 2.0f), 1, -MathF.PI / 2.0f);
+		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), new Vector2(1.0f, 0.0f), 1, -MathF.PI * 3.5f / 2.0f);
+		yield return new TestCaseData(new Vector2(0.70710677f, -0.70710677f), new Vector2(1.0f, 0.0f), 1, -MathF.PI / 4.0f);
+	}
+	
+	[Test, TestCaseSource(nameof(SignedAngleRad360ClampTestsParameters))]
+	public void SignedAngleRad360ClampTests(Vector2 vector1, Vector2 vector2, int direction, float expectedAngle)
+	{
+		var actualAngle = Vector2Utils.SignedAngleRad360Clamp(vector1, vector2, direction);
+		var actual = actualAngle.EqualTo(expectedAngle);
+		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedAngle:F2}\n{"Actual:", 9} {actualAngle:F2}");
+	}
+	
+	private static IEnumerable<TestCaseData> SignedAngleRad360ClampToleranceTestsParameters()
+	{
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0000017453292f), -1, 0.0f, 0.0001f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0000017453292f), -1, 2.0f * MathF.PI, 0.000001f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, -0.0000017453292f), 1, 0.0f, 0.0001f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, -0.0000017453292f), 1, -2.0f * MathF.PI, 0.000001f);
+	}
+	
+	[Test, TestCaseSource(nameof(SignedAngleRad360ClampToleranceTestsParameters))]
+	public void SignedAngleRad360ClampToleranceTests(Vector2 vector1, Vector2 vector2, int direction, float expectedAngle, float tolerance)
+	{
+		Settings.SetEqualsTolerance(tolerance);
+		var actualAngle = Vector2Utils.SignedAngleRad360Clamp(vector1, vector2, direction);
+		Settings.SetEqualsTolerance(0.001f);
+		var actual = actualAngle.EqualTo(expectedAngle);
+		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedAngle:F2}\n{"Actual:", 9} {actualAngle:F2}");
+	}
+	
+#pragma warning disable S4144 // Methods should not have identical implementations
+	private static IEnumerable<TestCaseData> SignedAngleRad360ClampSpecialCasesTestsParameters()
+	{
+		yield return new TestCaseData(new Vector2(float.NaN, 0.0f), new Vector2(0.0f, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, float.NaN), new Vector2(0.0f, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(float.NaN, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(0.0f, float.NaN));
+		
+		yield return new TestCaseData(new Vector2(float.PositiveInfinity, 0.0f), new Vector2(0.0f, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, float.PositiveInfinity), new Vector2(0.0f, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(float.PositiveInfinity, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(0.0f, float.PositiveInfinity));
+		
+		yield return new TestCaseData(new Vector2(float.NegativeInfinity, 0.0f), new Vector2(0.0f, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, float.NegativeInfinity), new Vector2(0.0f, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(float.NegativeInfinity, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(0.0f, float.NegativeInfinity));
+	}
+#pragma warning restore S4144 // Methods should not have identical implementations
+	
+	[Test, TestCaseSource(nameof(SignedAngleRad360ClampSpecialCasesTestsParameters))]
+	public void SignedAngleRad360ClampSpecialCasesTests(Vector2 vector1, Vector2 vector2)
+	{
+		var actualAngle = Vector2Utils.SignedAngleRad360Clamp(vector1, vector2, -1);
+		var actual = float.IsNaN(actualAngle);
+		Assert.That(actual, Is.True);
+	}
+	
+	private static IEnumerable<TestCaseData> SignedAngleDeg360ClampTestsParameters()
+	{
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0f), -1, 0.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, 1.0f), -1, 270.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(-1.0f, 0.0f), -1, 180.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, -1.0f), -1, 90.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, 0.70710677f), -1, 315.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, -0.70710677f), -1, 45.0f);
+		
+		yield return new TestCaseData(new Vector2(0.0f, 1.0f), new Vector2(1.0f, 0.0f), -1, 90.0f);
+		yield return new TestCaseData(new Vector2(-1.0f, 0.0f), new Vector2(1.0f, 0.0f), -1, 180.0f);
+		yield return new TestCaseData(new Vector2(0.0f, -1.0f), new Vector2(1.0f, 0.0f), -1, 270.0f);
+		yield return new TestCaseData(new Vector2(2.0f, 0.0f), new Vector2(0.0f, 2.0f), -1, 270.0f);
+		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), new Vector2(1.0f, 0.0f), -1, 45.0f);
+		yield return new TestCaseData(new Vector2(0.70710677f, -0.70710677f), new Vector2(1.0f, 0.0f), -1, 315.0f);
+		
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0f), 1, 0.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, 1.0f), 1, -90.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(-1.0f, 0.0f), 1, -180.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, -1.0f), 1, -270.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, 0.70710677f), 1, -45.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, -0.70710677f), 1, -315.0f);
+		
+		yield return new TestCaseData(new Vector2(0.0f, 1.0f), new Vector2(1.0f, 0.0f), 1, -270.0f);
+		yield return new TestCaseData(new Vector2(-1.0f, 0.0f), new Vector2(1.0f, 0.0f), 1, -180.0f);
+		yield return new TestCaseData(new Vector2(0.0f, -1.0f), new Vector2(1.0f, 0.0f), 1, -90.0f);
+		yield return new TestCaseData(new Vector2(2.0f, 0.0f), new Vector2(0.0f, 2.0f), 1, -90.0f);
+		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), new Vector2(1.0f, 0.0f), 1, -315.0f);
+		yield return new TestCaseData(new Vector2(0.70710677f, -0.70710677f), new Vector2(1.0f, 0.0f), 1, -45.0f);
+	}
+	
+	[Test, TestCaseSource(nameof(SignedAngleDeg360ClampTestsParameters))]
+	public void SignedAngleDeg360ClampTests(Vector2 vector1, Vector2 vector2, int direction, float expectedAngle)
+	{
+		var actualAngle = Vector2Utils.SignedAngleDeg360Clamp(vector1, vector2, direction);
+		var actual = actualAngle.EqualTo(expectedAngle);
+		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedAngle:F2}\n{"Actual:", 9} {actualAngle:F2}");
+	}
+	
+	private static IEnumerable<TestCaseData> SignedAngleDeg360ClampToleranceTestsParameters()
+	{
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0000017453292f), -1, 0.0f, 0.0001f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0000017453292f), -1, 360.0f, 0.000001f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, -0.0000017453292f), 1, 0.0f, 0.0001f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, -0.0000017453292f), 1, -360.0f, 0.000001f);
+	}
+	
+	[Test, TestCaseSource(nameof(SignedAngleDeg360ClampToleranceTestsParameters))]
+	public void SignedAngleDeg360ClampToleranceTests(Vector2 vector1, Vector2 vector2, int direction, float expectedAngle, float tolerance)
+	{
+		Settings.SetEqualsTolerance(tolerance);
+		var actualAngle = Vector2Utils.SignedAngleDeg360Clamp(vector1, vector2, direction);
+		Settings.SetEqualsTolerance(0.001f);
+		var actual = actualAngle.EqualTo(expectedAngle);
+		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedAngle:F2}\n{"Actual:", 9} {actualAngle:F2}");
+	}
+	
+#pragma warning disable S4144 // Methods should not have identical implementations
+	private static IEnumerable<TestCaseData> SignedAngleDeg360ClampSpecialCasesTestsParameters()
+	{
+		yield return new TestCaseData(new Vector2(float.NaN, 0.0f), new Vector2(0.0f, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, float.NaN), new Vector2(0.0f, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(float.NaN, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(0.0f, float.NaN));
+		
+		yield return new TestCaseData(new Vector2(float.PositiveInfinity, 0.0f), new Vector2(0.0f, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, float.PositiveInfinity), new Vector2(0.0f, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(float.PositiveInfinity, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(0.0f, float.PositiveInfinity));
+		
+		yield return new TestCaseData(new Vector2(float.NegativeInfinity, 0.0f), new Vector2(0.0f, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, float.NegativeInfinity), new Vector2(0.0f, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(float.NegativeInfinity, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(0.0f, float.NegativeInfinity));
+	}
+#pragma warning restore S4144 // Methods should not have identical implementations
+	
+	[Test, TestCaseSource(nameof(SignedAngleDeg360ClampSpecialCasesTestsParameters))]
+	public void SignedAngleDeg360ClampSpecialCasesTests(Vector2 vector1, Vector2 vector2)
+	{
+		var actualAngle = Vector2Utils.SignedAngleDeg360Clamp(vector1, vector2, -1);
+		var actual = float.IsNaN(actualAngle);
+		Assert.That(actual, Is.True);
+	}
+	
+	private static IEnumerable<TestCaseData> AngleRad360ClampTestsParameters()
+	{
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0f), -1, 0.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, 1.0f), -1, MathF.PI * 3.0f / 2.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(-1.0f, 0.0f), -1, MathF.PI);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, -1.0f), -1, MathF.PI / 2.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, 0.70710677f), -1, MathF.PI * 3.5f / 2.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, -0.70710677f), -1, MathF.PI / 4.0f);
+		
+		yield return new TestCaseData(new Vector2(0.0f, 1.0f), new Vector2(1.0f, 0.0f), -1, MathF.PI / 2.0f);
+		yield return new TestCaseData(new Vector2(-1.0f, 0.0f), new Vector2(1.0f, 0.0f), -1, MathF.PI);
+		yield return new TestCaseData(new Vector2(0.0f, -1.0f), new Vector2(1.0f, 0.0f), -1, MathF.PI * 3.0f / 2.0f);
+		yield return new TestCaseData(new Vector2(2.0f, 0.0f), new Vector2(0.0f, 2.0f), -1, MathF.PI * 3.0f / 2.0f);
+		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), new Vector2(1.0f, 0.0f), -1, MathF.PI / 4.0f);
+		yield return new TestCaseData(new Vector2(0.70710677f, -0.70710677f), new Vector2(1.0f, 0.0f), -1, MathF.PI * 3.5f / 2.0f);
+		
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0f), 1, 0.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, 1.0f), 1, MathF.PI / 2.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(-1.0f, 0.0f), 1, MathF.PI);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, -1.0f), 1, MathF.PI * 3.0f / 2.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, 0.70710677f), 1, MathF.PI / 4.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, -0.70710677f), 1, MathF.PI * 3.5f / 2.0f);
+		
+		yield return new TestCaseData(new Vector2(0.0f, 1.0f), new Vector2(1.0f, 0.0f), 1, MathF.PI * 3.0f / 2.0f);
+		yield return new TestCaseData(new Vector2(-1.0f, 0.0f), new Vector2(1.0f, 0.0f), 1, MathF.PI);
+		yield return new TestCaseData(new Vector2(0.0f, -1.0f), new Vector2(1.0f, 0.0f), 1, MathF.PI / 2.0f);
+		yield return new TestCaseData(new Vector2(2.0f, 0.0f), new Vector2(0.0f, 2.0f), 1, MathF.PI / 2.0f);
+		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), new Vector2(1.0f, 0.0f), 1, MathF.PI * 3.5f / 2.0f);
+		yield return new TestCaseData(new Vector2(0.70710677f, -0.70710677f), new Vector2(1.0f, 0.0f), 1, MathF.PI / 4.0f);
+	}
+	
+	[Test, TestCaseSource(nameof(AngleRad360ClampTestsParameters))]
+	public void AngleRad360ClampTests(Vector2 vector1, Vector2 vector2, int direction, float expectedAngle)
+	{
+		var actualAngle = Vector2Utils.AngleRad360Clamp(vector1, vector2, direction);
+		var actual = actualAngle.EqualTo(expectedAngle);
+		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedAngle:F2}\n{"Actual:", 9} {actualAngle:F2}");
+	}
+	
+	private static IEnumerable<TestCaseData> AngleRad360ClampToleranceTestsParameters()
+	{
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0000017453292f), -1, 0.0f, 0.0001f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0000017453292f), -1, 2.0f * MathF.PI, 0.000001f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, -0.0000017453292f), 1, 0.0f, 0.0001f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, -0.0000017453292f), 1, 2.0f * MathF.PI, 0.000001f);
+	}
+	
+	[Test, TestCaseSource(nameof(AngleRad360ClampToleranceTestsParameters))]
+	public void AngleRad360ClampToleranceTests(Vector2 vector1, Vector2 vector2, int direction, float expectedAngle, float tolerance)
+	{
+		Settings.SetEqualsTolerance(tolerance);
+		var actualAngle = Vector2Utils.AngleRad360Clamp(vector1, vector2, direction);
+		Settings.SetEqualsTolerance(0.001f);
+		var actual = actualAngle.EqualTo(expectedAngle);
+		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedAngle:F2}\n{"Actual:", 9} {actualAngle:F2}");
+	}
+	
+#pragma warning disable S4144 // Methods should not have identical implementations
+	private static IEnumerable<TestCaseData> AngleRad360ClampSpecialCasesTestsParameters()
+	{
+		yield return new TestCaseData(new Vector2(float.NaN, 0.0f), new Vector2(0.0f, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, float.NaN), new Vector2(0.0f, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(float.NaN, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(0.0f, float.NaN));
+		
+		yield return new TestCaseData(new Vector2(float.PositiveInfinity, 0.0f), new Vector2(0.0f, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, float.PositiveInfinity), new Vector2(0.0f, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(float.PositiveInfinity, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(0.0f, float.PositiveInfinity));
+		
+		yield return new TestCaseData(new Vector2(float.NegativeInfinity, 0.0f), new Vector2(0.0f, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, float.NegativeInfinity), new Vector2(0.0f, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(float.NegativeInfinity, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(0.0f, float.NegativeInfinity));
+	}
+#pragma warning restore S4144 // Methods should not have identical implementations
+	
+	[Test, TestCaseSource(nameof(AngleRad360ClampSpecialCasesTestsParameters))]
+	public void AngleRad360ClampSpecialCasesTests(Vector2 vector1, Vector2 vector2)
+	{
+		var actualAngle = Vector2Utils.AngleRad360Clamp(vector1, vector2, -1);
+		var actual = float.IsNaN(actualAngle);
+		Assert.That(actual, Is.True);
+	}
+	
+	private static IEnumerable<TestCaseData> AngleDeg360ClampTestsParameters()
+	{
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0f), -1, 0.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, 1.0f), -1, 270.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(-1.0f, 0.0f), -1, 180.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, -1.0f), -1, 90.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, 0.70710677f), -1, 315.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, -0.70710677f), -1, 45.0f);
+		
+		yield return new TestCaseData(new Vector2(0.0f, 1.0f), new Vector2(1.0f, 0.0f), -1, 90.0f);
+		yield return new TestCaseData(new Vector2(-1.0f, 0.0f), new Vector2(1.0f, 0.0f), -1, 180.0f);
+		yield return new TestCaseData(new Vector2(0.0f, -1.0f), new Vector2(1.0f, 0.0f), -1, 270.0f);
+		yield return new TestCaseData(new Vector2(2.0f, 0.0f), new Vector2(0.0f, 2.0f), -1, 270.0f);
+		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), new Vector2(1.0f, 0.0f), -1, 45.0f);
+		yield return new TestCaseData(new Vector2(0.70710677f, -0.70710677f), new Vector2(1.0f, 0.0f), -1, 315.0f);
+		
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0f), 1, 0.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, 1.0f), 1, 90.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(-1.0f, 0.0f), 1, 180.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.0f, -1.0f), 1, 270.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, 0.70710677f), 1, 45.0f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(0.70710677f, -0.70710677f), 1, 315.0f);
+		
+		yield return new TestCaseData(new Vector2(0.0f, 1.0f), new Vector2(1.0f, 0.0f), 1, 270.0f);
+		yield return new TestCaseData(new Vector2(-1.0f, 0.0f), new Vector2(1.0f, 0.0f), 1, 180.0f);
+		yield return new TestCaseData(new Vector2(0.0f, -1.0f), new Vector2(1.0f, 0.0f), 1, 90.0f);
+		yield return new TestCaseData(new Vector2(2.0f, 0.0f), new Vector2(0.0f, 2.0f), 1, 90.0f);
+		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), new Vector2(1.0f, 0.0f), 1, 315.0f);
+		yield return new TestCaseData(new Vector2(0.70710677f, -0.70710677f), new Vector2(1.0f, 0.0f), 1, 45.0f);
+	}
+	
+	[Test, TestCaseSource(nameof(AngleDeg360ClampTestsParameters))]
+	public void AngleDeg360ClampTests(Vector2 vector1, Vector2 vector2, int direction, float expectedAngle)
+	{
+		var actualAngle = Vector2Utils.AngleDeg360Clamp(vector1, vector2, direction);
+		var actual = actualAngle.EqualTo(expectedAngle);
+		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedAngle:F2}\n{"Actual:", 9} {actualAngle:F2}");
+	}
+	
+	private static IEnumerable<TestCaseData> AngleDeg360ClampToleranceTestsParameters()
+	{
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0000017453292f), -1, 0.0f, 0.0001f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0000017453292f), -1, 360.0f, 0.000001f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, -0.0000017453292f), 1, 0.0f, 0.0001f);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, -0.0000017453292f), 1, 360.0f, 0.000001f);
+	}
+	
+	[Test, TestCaseSource(nameof(AngleDeg360ClampToleranceTestsParameters))]
+	public void AngleDeg360ClampToleranceTests(Vector2 vector1, Vector2 vector2, int direction, float expectedAngle, float tolerance)
+	{
+		Settings.SetEqualsTolerance(tolerance);
+		var actualAngle = Vector2Utils.AngleDeg360Clamp(vector1, vector2, direction);
+		Settings.SetEqualsTolerance(0.001f);
+		var actual = actualAngle.EqualTo(expectedAngle);
+		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedAngle:F2}\n{"Actual:", 9} {actualAngle:F2}");
+	}
+	
+#pragma warning disable S4144 // Methods should not have identical implementations
+	private static IEnumerable<TestCaseData> AngleDeg360ClampSpecialCasesTestsParameters()
+	{
+		yield return new TestCaseData(new Vector2(float.NaN, 0.0f), new Vector2(0.0f, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, float.NaN), new Vector2(0.0f, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(float.NaN, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(0.0f, float.NaN));
+		
+		yield return new TestCaseData(new Vector2(float.PositiveInfinity, 0.0f), new Vector2(0.0f, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, float.PositiveInfinity), new Vector2(0.0f, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(float.PositiveInfinity, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(0.0f, float.PositiveInfinity));
+		
+		yield return new TestCaseData(new Vector2(float.NegativeInfinity, 0.0f), new Vector2(0.0f, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, float.NegativeInfinity), new Vector2(0.0f, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(float.NegativeInfinity, 0.0f));
+		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(0.0f, float.NegativeInfinity));
+	}
+#pragma warning restore S4144 // Methods should not have identical implementations
+	
+	[Test, TestCaseSource(nameof(AngleDeg360ClampSpecialCasesTestsParameters))]
+	public void AngleDeg360ClampSpecialCasesTests(Vector2 vector1, Vector2 vector2)
+	{
+		var actualAngle = Vector2Utils.AngleDeg360Clamp(vector1, vector2, -1);
+		var actual = float.IsNaN(actualAngle);
+		Assert.That(actual, Is.True);
+	}
+	
 	private static IEnumerable<TestCaseData> IsParallelTestsParameters()
 	{
 		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.0f)).Returns(true);
@@ -688,8 +1168,8 @@ private static IEnumerable<TestCaseData> SignedAngleRad360TestsParameters()
 		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(2.0f, 0.0f)).Returns(true);
 		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), new Vector2(0.70710677f * 2.0f, 0.70710677f * 2.0f)).Returns(true);
 		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), new Vector2(0.70710677f, 0.70710677f)).Returns(true);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.03f)).Returns(true);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.05f)).Returns(false);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.00001f)).Returns(true);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.00002f)).Returns(false);
 	}
 	
 	[Test, TestCaseSource(nameof(IsParallelTestsParameters))]
@@ -741,52 +1221,17 @@ private static IEnumerable<TestCaseData> SignedAngleRad360TestsParameters()
 		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(2.0f, 0.0f), 0.00001f).Returns(true);
 		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), new Vector2(0.70710677f * 2.0f, 0.70710677f * 2.0f), 0.00001f).Returns(true);
 		yield return new TestCaseData(new Vector2(0.70710677f, 0.70710677f), new Vector2(0.70710677f, 0.70710677f), 0.00001f).Returns(true);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.005f), 0.00001f).Returns(false);
-		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.005f), 0.01f).Returns(false);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.00001f), 0.0001f).Returns(false);
+		yield return new TestCaseData(new Vector2(1.0f, 0.0f), new Vector2(1.0f, 0.00002f), 0.01f).Returns(true);
 	}
 	
 	[Test, TestCaseSource(nameof(IsParallelToleranceTestsParameters))]
 	public bool IsParallelToleranceTests(Vector2 vector1, Vector2 vector2, float tolerance)
 	{
-		return Vector2Utils.IsParallel(vector1, vector2, tolerance);
-	}
-	
-#pragma warning disable S4144 // Methods should not have identical implementations
-	private static IEnumerable<TestCaseData> IsParallelToleranceSpecialTestsParameters()
-	{
-		yield return new TestCaseData(new Vector2(float.NaN, 0.0f), new Vector2(0.0f, 0.0f)).Returns(false);
-		yield return new TestCaseData(new Vector2(0.0f, float.NaN), new Vector2(0.0f, 0.0f)).Returns(false);
-		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(float.NaN, 0.0f)).Returns(false);
-		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(0.0f, float.NaN)).Returns(false);
-		
-		yield return new TestCaseData(new Vector2(float.PositiveInfinity, 0.0f), new Vector2(0.0f, 0.0f)).Returns(false);
-		yield return new TestCaseData(new Vector2(0.0f, float.PositiveInfinity), new Vector2(0.0f, 0.0f)).Returns(false);
-		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(float.PositiveInfinity, 0.0f)).Returns(false);
-		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(0.0f, float.PositiveInfinity)).Returns(false);
-		
-		yield return new TestCaseData(new Vector2(float.NegativeInfinity, 0.0f), new Vector2(0.0f, 0.0f)).Returns(false);
-		yield return new TestCaseData(new Vector2(0.0f, float.NegativeInfinity), new Vector2(0.0f, 0.0f)).Returns(false);
-		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(float.NegativeInfinity, 0.0f)).Returns(false);
-		yield return new TestCaseData(new Vector2(0.0f, 0.0f), new Vector2(0.0f, float.NegativeInfinity)).Returns(false);
-		
-		yield return new TestCaseData(new Vector2(float.NaN, 0.0f), new Vector2(float.NaN, 0.0f)).Returns(false);
-		yield return new TestCaseData(new Vector2(1.0f, float.NaN), new Vector2(1.0f, float.NaN)).Returns(false);
-		yield return new TestCaseData(new Vector2(float.NaN, float.NaN), new Vector2(float.NaN, float.NaN)).Returns(false);
-		
-		yield return new TestCaseData(new Vector2(float.PositiveInfinity, 0.0f), new Vector2(float.PositiveInfinity, 0.0f)).Returns(false);
-		yield return new TestCaseData(new Vector2(1.0f, float.PositiveInfinity), new Vector2(1.0f, float.PositiveInfinity)).Returns(false);
-		yield return new TestCaseData(new Vector2(float.PositiveInfinity, float.PositiveInfinity), new Vector2(float.PositiveInfinity, float.PositiveInfinity)).Returns(false);
-		
-		yield return new TestCaseData(new Vector2(float.NegativeInfinity, 0.0f), new Vector2(float.NegativeInfinity, 0.0f)).Returns(false);
-		yield return new TestCaseData(new Vector2(1.0f, float.NegativeInfinity), new Vector2(1.0f, float.NegativeInfinity)).Returns(false);
-		yield return new TestCaseData(new Vector2(float.NegativeInfinity, float.NegativeInfinity), new Vector2(float.NegativeInfinity, float.NegativeInfinity)).Returns(false);
-	}
-#pragma warning restore S4144 // Methods should not have identical implementations
-	
-	[Test, TestCaseSource(nameof(IsParallelToleranceSpecialTestsParameters))]
-	public bool IsParallelToleranceSpecialTests(Vector2 vector1, Vector2 vector2)
-	{
-		return Vector2Utils.IsParallel(vector1, vector2, 1.0f);
+		Settings.SetEqualsTolerance(tolerance);
+		var value =  Vector2Utils.IsParallel(vector1, vector2);
+		Settings.SetEqualsTolerance(0.001f);
+		return value;
 	}
 	
 	private static IEnumerable<TestCaseData> PointProjectionOnLineTestsParameters()

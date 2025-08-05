@@ -41,6 +41,9 @@ public class Vector2ExtensionsTests
 	[Test, TestCaseSource(nameof(EqualToToleranceTestsParameters))]
 	public bool EqualToToleranceTests(Vector2 vector1, Vector2 vector2, float tolerance)
 	{
-		return vector1.EqualTo(vector2, tolerance);
+		Settings.SetEqualsTolerance(tolerance);
+		var value = vector1.EqualTo(vector2);
+		Settings.SetEqualsTolerance(0.001f);
+		return value;
 	}
 }

@@ -33,10 +33,13 @@ public class FloatExtensionsTests
 	[Test, TestCaseSource(nameof(EqualToToleranceTestsParameters))]
 	public bool EqualToToleranceTests(float a, float b, float tolerance)
 	{
-		return a.EqualTo(b, tolerance);
+		Settings.SetEqualsTolerance(tolerance);
+		var value = a.EqualTo(b);
+		Settings.SetEqualsTolerance(0.001f);
+		return value;
 	}
 	
-	private static IEnumerable<TestCaseData> EqualToTolerance_ExceptionsParameters()
+	private static IEnumerable<TestCaseData> SetEqualsTolerance_ExceptionsParameters()
 	{
 		yield return new TestCaseData(float.NaN);
 		yield return new TestCaseData(float.NegativeInfinity);
@@ -44,11 +47,11 @@ public class FloatExtensionsTests
 		yield return new TestCaseData(-0.001f);
 	}
 	
-	[Test, TestCaseSource(nameof(EqualToTolerance_ExceptionsParameters))]
-	public void EqualToTolerance_Exceptions_ReturnException(float tolerance)
+	[Test, TestCaseSource(nameof(SetEqualsTolerance_ExceptionsParameters))]
+	public void SetEqualsTolerance_Exceptions_ReturnException(float tolerance)
 	{
 		var exception = Assert.Throws<ArithmeticException>(
-			() => 1.0f.EqualTo(1.0f, tolerance)
+			() => Settings.SetEqualsTolerance(tolerance)
 		);
 		Assert.That(exception.Source, Is.EqualTo("Commons"));
 	}
