@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Numerics;
 using Commons.Intersection2D.Shapes;
 
@@ -8,14 +7,6 @@ namespace Commons.Intersection2D.Strategies
 	[Strategy]
 	internal class LineToLineIntersectionStrategy: IntersectionStrategy<CLine, CLine>
 	{
-		protected override List<IntersectionShapeTypesPair> GetShapeTypes()
-		{
-			return new List<IntersectionShapeTypesPair>
-			{
-				new(typeof(CLine), typeof(CLine))
-			};
-		}
-
 		protected override bool IsIntersect(CLine line1, CLine line2)
 		{
 			return IsIntersect(out _, line1, line2);

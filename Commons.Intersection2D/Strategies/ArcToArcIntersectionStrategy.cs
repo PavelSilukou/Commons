@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using Commons.Intersection2D.Shapes;
@@ -11,14 +10,6 @@ namespace Commons.Intersection2D.Strategies
 	{
 		private readonly IIntersectionStrategy _circleToCircleIntersectionStrategy =
 			new CircleToCircleIntersectionStrategy();
-		
-		protected override List<IntersectionShapeTypesPair> GetShapeTypes()
-		{
-			return new List<IntersectionShapeTypesPair>
-			{
-				new(typeof(CArc), typeof(CArc))
-			};
-		}
 
 		protected override bool IsIntersect(CArc arc1, CArc arc2)
 		{

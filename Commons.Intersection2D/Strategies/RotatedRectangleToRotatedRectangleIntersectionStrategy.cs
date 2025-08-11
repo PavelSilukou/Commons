@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Numerics;
 using Commons.Intersection2D.Shapes;
 
@@ -8,14 +7,6 @@ namespace Commons.Intersection2D.Strategies
 	[Strategy]
 	internal class RotatedRectangleToRotatedRectangleIntersectionStrategy: IntersectionStrategy<CRotatedRectangle, CRotatedRectangle>
 	{
-		protected override List<IntersectionShapeTypesPair> GetShapeTypes()
-		{
-			return new List<IntersectionShapeTypesPair>
-			{
-				new(typeof(CRotatedRectangle), typeof(CRotatedRectangle))
-			};
-		}
-
 		protected override bool IsIntersect(CRotatedRectangle rect1, CRotatedRectangle rect2)
 		{
 			var rect1Points = new[] { rect1.Point1, rect1.Point2, rect1.Point3, rect1.Point4 };

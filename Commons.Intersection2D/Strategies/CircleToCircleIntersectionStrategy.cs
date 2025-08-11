@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Numerics;
 using Commons.Intersection2D.Shapes;
 
@@ -8,14 +7,6 @@ namespace Commons.Intersection2D.Strategies
 	[Strategy]
 	internal class CircleToCircleIntersectionStrategy: IntersectionStrategy<CCircle, CCircle>
 	{
-		protected override List<IntersectionShapeTypesPair> GetShapeTypes()
-		{
-			return new List<IntersectionShapeTypesPair>
-			{
-				new(typeof(CCircle), typeof(CCircle))
-			};
-		}
-
 		protected override bool IsIntersect(CCircle circle1, CCircle circle2)
 		{
 			var distance = Vector2.Distance(circle1.Center, circle2.Center);

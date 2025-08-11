@@ -68,7 +68,7 @@ namespace Commons.Intersection2D.Strategies
 			{
 				yield return type;
 				type = type.BaseType;
-			} while (type != null && type != typeof(CShape));
+			} while (type != null);
 		}
 	}
 }

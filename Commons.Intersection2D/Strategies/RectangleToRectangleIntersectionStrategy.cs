@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Numerics;
 using Commons.Intersection2D.Shapes;
 
@@ -8,14 +7,6 @@ namespace Commons.Intersection2D.Strategies
 	[Strategy]
 	internal class RectangleToRectangleIntersectionStrategy: IntersectionStrategy<CRectangle, CRectangle>
 	{
-		protected override List<IntersectionShapeTypesPair> GetShapeTypes()
-		{
-			return new List<IntersectionShapeTypesPair>
-			{
-				new(typeof(CRectangle), typeof(CRectangle))
-			};
-		}
-
 		protected override bool IsIntersect(CRectangle rect1, CRectangle rect2)
 		{
 			return !(rect2.Left > rect1.Right
