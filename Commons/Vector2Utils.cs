@@ -76,7 +76,7 @@ namespace Commons
 		
 		public static float SignedAngleRad360(Vector2 vector1, Vector2 vector2, int direction)
 		{
-			var directionSign = MathFUtils.Sign(direction);
+			var directionSign = MathUtils.Sign(direction);
 			var y = vector1.Y * vector2.X - vector1.X * vector2.Y;
 			var x = vector1.X * vector2.X + vector1.Y * vector2.Y;
 			return MathF.Atan2(-y, -x) + -directionSign * MathF.PI;
@@ -170,7 +170,7 @@ namespace Commons
 		
 		public static Vector2 Perpendicular(Vector2 vector, int direction)
 		{
-			var directionSign = MathFUtils.Sign(direction);
+			var directionSign = MathUtils.Sign(direction);
 			return IsFinite(vector) ? new Vector2(-directionSign * vector.Y, directionSign * vector.X): NaN();
 		}
 

@@ -64,14 +64,19 @@ public class EnumerableExtensionsTests
 	[Test]
 	public void GetAllPairs_NotEmptyEnumerables_ReturnPairs()
 	{
-		var enumerable1 = new[] { 1, 2 }.AsEnumerable();
-		var enumerable2 = new[] { 3, 4 }.AsEnumerable();
+		var enumerable1 = new[] { 1, 2, 3 }.AsEnumerable();
+		var enumerable2 = new[] { 5, 6, 7 }.AsEnumerable();
 		var expected = new[]
 		{
-			(1, 3),
-			(1, 4),
-			(2, 3),
-			(2, 4)
+			(1, 5),
+			(1, 6),
+			(1, 7),
+			(2, 5),
+			(2, 6),
+			(2, 7),
+			(3, 5),
+			(3, 6),
+			(3, 7)
 		};
 		var actual = enumerable1.GetAllPairs(enumerable2).ToArray();
 		CollectionAssert.AreEqual(expected, actual);

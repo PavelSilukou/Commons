@@ -98,5 +98,10 @@ namespace Commons
 				value -= nextGroupValue;
 			}
 		}
+		
+		public static int Sign(int x)
+		{
+			return Math.Sign(x) == -1 ? -1 : 1;
+		}
 	}
 }
