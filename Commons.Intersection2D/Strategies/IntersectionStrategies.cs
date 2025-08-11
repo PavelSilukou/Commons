@@ -6,7 +6,7 @@ using Commons.Intersection2D.Shapes;
 
 namespace Commons.Intersection2D.Strategies
 {
-	public class IntersectionStrategies
+	internal class IntersectionStrategies
 	{
 		private readonly Dictionary<IntersectionShapeTypesPair, IIntersectionStrategy> _strategies = InitStrategies();
 		
