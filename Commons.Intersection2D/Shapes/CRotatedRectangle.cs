@@ -3,6 +3,7 @@ using System.Numerics;
 
 namespace Commons.Intersection2D.Shapes
 {
+	[Shape]
 	public class CRotatedRectangle : CQuadrilateral
 	{
 		public CRotatedRectangle(Vector2 point1, Vector2 point2, Vector2 point3, Vector2 point4) 
@@ -12,7 +13,7 @@ namespace Commons.Intersection2D.Shapes
 
 		protected override CShape OverrideTrueShape()
 		{
-			if (Point1.EqualTo(Point2) && Point1.EqualTo(Point3) && Point1.EqualTo(Point4)) return new CPoint(Point1);
+			if (IsPoint()) return new CPoint(Point1);
 			if (Point1.EqualTo(Point4) && Point2.EqualTo(Point3)) return new CLineSegment(Point1, Point2);
 			if (Point1.EqualTo(Point2) && Point3.EqualTo(Point4)) return new CLineSegment(Point1, Point3);
 			return IsRotatedRectangle() ? this : new CQuadrilateral(Point1, Point2, Point3, Point4);

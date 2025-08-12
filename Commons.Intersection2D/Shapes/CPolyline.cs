@@ -2,9 +2,11 @@
 using System.Numerics;
 using System.Collections.Immutable;
 using System.Linq;
+using Commons.EqualityComparers;
 
 namespace Commons.Intersection2D.Shapes
 {
+	[Shape]
 	public class CPolyline : CShape
 	{
 		public readonly ImmutableArray<Vector2> Points;
@@ -22,10 +24,21 @@ namespace Commons.Intersection2D.Shapes
 		protected override void Validation()
 		{
 			if (Points.Length == 0) throw new ArithmeticException("Points length is 0.");
-			for(var i = 1; i <= Points.Length; i++)
+			for(var i = 0; i < Points.Length; i++)
 			{
-				if (!Vector2Utils.IsFinite(Points[i - 1])) throw new ArithmeticException($"Point{i} is not finite.");
+				if (!Vector2Utils.IsFinite(Points[i])) throw new ArithmeticException($"Point{i + 1} is not finite.");
 			}
+		}
+
+		protected override CShape OverrideTrueShape()
+		{
+			if (IsPoint()) return new CPoint(Points[0]);
+			return this;
+		}
+
+		protected bool IsPoint()
+		{
+			return Points.AllEquals(new Vector2EqualityComparer());
 		}
 	}
 }

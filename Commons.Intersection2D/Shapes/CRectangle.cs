@@ -3,6 +3,7 @@ using System.Numerics;
 
 namespace Commons.Intersection2D.Shapes
 {
+	[Shape]
 	public class CRectangle : CRotatedRectangle
 	{
 		public readonly float Left;
@@ -32,15 +33,6 @@ namespace Commons.Intersection2D.Shapes
 			
 			if (Left > Right) throw new ArithmeticException("Left value should be less than Right value.");
 			if (Bottom > Top) throw new ArithmeticException("Bottom value should be less than Top value.");
-		}
-
-		protected override CShape OverrideTrueShape()
-		{
-			if (Left.EqualTo(Right) && Top.EqualTo(Bottom)) return new CPoint(new Vector2(Left, Left));
-			if (Left.EqualTo(Right)) return new CLineSegment(new Vector2(Left, Top), new Vector2(Right, Bottom));
-			if (Top.EqualTo(Bottom)) return new CLineSegment(new Vector2(Left, Top), new Vector2(Right, Bottom));
-
-			return this;
 		}
 	}
 }

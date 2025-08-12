@@ -17,7 +17,7 @@ namespace Commons.Intersection2D.Strategies
 			throw new IntersectionStrategyException($"There is no strategy for intersection {shape1.GetType().Name} and {shape2.GetType().Name}.");
 		}
 
-		private static IEnumerable<IIntersectionStrategy> FindStrategies()
+		private static IEnumerable<IIntersectionStrategy> FindAllStrategies()
 		{
 			var assembly = Assembly.GetExecutingAssembly();
 			var classesWithAttribute = assembly.GetTypes()
@@ -30,14 +30,15 @@ namespace Commons.Intersection2D.Strategies
 		
 		private static Dictionary<IntersectionShapeTypesPair, IIntersectionStrategy> InitStrategies()
 		{
-			var strategies = FindStrategies();
+			var strategies = FindAllStrategies();
 			var strategiesDict = new Dictionary<IntersectionShapeTypesPair, IIntersectionStrategy>();
 			foreach (var strategy in strategies)
 			{
 				var shapeTypes = strategy.GetShapeTypes();
-				foreach (var types in shapeTypes)
+				strategiesDict.Add(shapeTypes, strategy);
+				if (shapeTypes.Type2 != shapeTypes.Type1)
 				{
-					strategiesDict.Add(types, strategy);
+					strategiesDict.Add(new IntersectionShapeTypesPair(shapeTypes.Type2, shapeTypes.Type1), strategy);
 				}
 			}
 
@@ -46,7 +47,7 @@ namespace Commons.Intersection2D.Strategies
 
 		private IIntersectionStrategy? GetStrategyByShapes(CShape shape1, CShape shape2)
 		{
-			var shapeTypesPairs = GetAllIntersectionShapeTypesPairs(shape1, shape2);
+			var shapeTypesPairs = GetAllIntersectionShapeTypePairs(shape1, shape2);
 			foreach (var pair in shapeTypesPairs)
 			{
 				if (_strategies.TryGetValue(pair, out var strategy)) return strategy;
@@ -54,7 +55,7 @@ namespace Commons.Intersection2D.Strategies
 			return null;
 		}
 
-		private static IEnumerable<IntersectionShapeTypesPair> GetAllIntersectionShapeTypesPairs(CShape shape1, CShape shape2)
+		private static IEnumerable<IntersectionShapeTypesPair> GetAllIntersectionShapeTypePairs(CShape shape1, CShape shape2)
 		{
 			var shape1Types = GetShapeTypes(shape1);
 			var shape2Types = GetShapeTypes(shape2);
@@ -68,7 +69,7 @@ namespace Commons.Intersection2D.Strategies
 			{
 				yield return type;
 				type = type.BaseType;
-			} while (type != null);
+			} while (type != null && type.IsDefined(typeof(ShapeAttribute), false));
 		}
 	}
 }

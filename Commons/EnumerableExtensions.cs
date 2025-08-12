@@ -6,7 +6,7 @@ namespace Commons
 {
     public static class EnumerableExtensions
     {
-        private const string MinMaxExceptionMessage = "Sequence contains no elements";
+        private const string SequenceNoElementsExceptionMessage = "Sequence contains no elements";
 
         public static bool IsEmpty<T>(this IEnumerable<T> source)
         {
@@ -52,16 +52,19 @@ namespace Commons
         }
         // ReSharper restore PossibleMultipleEnumeration
 
-        public static TSource MinObjectBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector)
+        public static TSource MinObjectBy<TSource, TKey>(
+            this IEnumerable<TSource> source, 
+            Func<TSource, TKey> selector,
+            IComparer<TKey>? comparer = null)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
             if (selector == null) throw new ArgumentNullException(nameof(selector));
             
-            var comparer = Comparer<TKey>.Default;
+            comparer ??= Comparer<TKey>.Default;
             using var sourceIterator = source.GetEnumerator();
             if (!sourceIterator.MoveNext())
             {
-                throw new InvalidOperationException(MinMaxExceptionMessage);
+                throw new InvalidOperationException(SequenceNoElementsExceptionMessage);
             }
             var min = sourceIterator.Current;
             var minKey = selector(min);
@@ -76,16 +79,19 @@ namespace Commons
             return min;
         }
 
-        public static IEnumerable<TSource> MinObjectsBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector)
+        public static IEnumerable<TSource> MinObjectsBy<TSource, TKey>(
+            this IEnumerable<TSource> source, 
+            Func<TSource, TKey> selector,
+            IComparer<TKey>? comparer = null)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
             if (selector == null) throw new ArgumentNullException(nameof(selector));
             
-            var comparer = Comparer<TKey>.Default;
+            comparer ??= Comparer<TKey>.Default;
             using var sourceIterator = source.GetEnumerator();
             if (!sourceIterator.MoveNext())
             {
-                throw new InvalidOperationException(MinMaxExceptionMessage);
+                throw new InvalidOperationException(SequenceNoElementsExceptionMessage);
             }
             var min = new List<TSource> { sourceIterator.Current };
             var minKey = selector(min[0]);
@@ -108,16 +114,19 @@ namespace Commons
             return min;
         }
 
-        public static TSource MaxObjectBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector)
+        public static TSource MaxObjectBy<TSource, TKey>(
+            this IEnumerable<TSource> source, 
+            Func<TSource, TKey> selector,
+            IComparer<TKey>? comparer = null)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
             if (selector == null) throw new ArgumentNullException(nameof(selector));
             
-            var comparer = Comparer<TKey>.Default;
+            comparer ??= Comparer<TKey>.Default;
             using var sourceIterator = source.GetEnumerator();
             if (!sourceIterator.MoveNext())
             {
-                throw new InvalidOperationException(MinMaxExceptionMessage);
+                throw new InvalidOperationException(SequenceNoElementsExceptionMessage);
             }
             var max = sourceIterator.Current;
             var maxKey = selector(max);
@@ -132,16 +141,19 @@ namespace Commons
             return max;
         }
 
-        public static IEnumerable<TSource> MaxObjectsBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector)
+        public static IEnumerable<TSource> MaxObjectsBy<TSource, TKey>(
+            this IEnumerable<TSource> source, 
+            Func<TSource, TKey> selector,
+            IComparer<TKey>? comparer = null)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
             if (selector == null) throw new ArgumentNullException(nameof(selector));
             
-            var comparer = Comparer<TKey>.Default;
+            comparer ??= Comparer<TKey>.Default;
             using var sourceIterator = source.GetEnumerator();
             if (!sourceIterator.MoveNext())
             {
-                throw new InvalidOperationException(MinMaxExceptionMessage);
+                throw new InvalidOperationException(SequenceNoElementsExceptionMessage);
             }
             var max = new List<TSource> { sourceIterator.Current };
             var maxKey = selector(max[0]);
@@ -278,6 +290,28 @@ namespace Commons
             if (source == null) throw new ArgumentNullException(nameof(source));
             
             return source.Skip(index).Take(count);
+        }
+        
+        public static bool AllEquals<T>(this IEnumerable<T> source, IEqualityComparer<T>? equalityComparer = null)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
+            equalityComparer ??= EqualityComparer<T>.Default;
+            using var sourceIterator = source.GetEnumerator();
+            if (!sourceIterator.MoveNext())
+            {
+                throw new InvalidOperationException(SequenceNoElementsExceptionMessage);
+            }
+            var first = sourceIterator.Current;
+            while (sourceIterator.MoveNext())
+            {
+                if (!equalityComparer.Equals(first, sourceIterator.Current))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

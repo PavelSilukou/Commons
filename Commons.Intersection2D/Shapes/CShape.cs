@@ -2,6 +2,7 @@
 
 namespace Commons.Intersection2D.Shapes
 {
+	[Shape]
 	public abstract class CShape
 	{
 		private CShape? _trueShape;

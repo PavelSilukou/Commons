@@ -2,6 +2,7 @@
 
 namespace Commons.Intersection2D.Shapes
 {
+	[Shape]
 	public class CQuadrilateral : CPolygon
 	{
 		public readonly Vector2 Point1;
@@ -16,11 +17,6 @@ namespace Commons.Intersection2D.Shapes
 			Point2 = point2;
 			Point3 = point3;
 			Point4 = point4;
-		}
-		
-		protected override CShape OverrideTrueShape()
-		{
-			return this;
 		}
 	}
 }

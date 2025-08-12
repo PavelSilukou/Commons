@@ -4,8 +4,8 @@ namespace Commons.Intersection2D.Shapes
 {
 	internal class IntersectionShapeTypesPair
 	{
-		private Type Type1 { get; }
-		private Type Type2 { get; }
+		public Type Type1 { get; }
+		public Type Type2 { get; }
 
 		public IntersectionShapeTypesPair(Type type1, Type type2)
 		{

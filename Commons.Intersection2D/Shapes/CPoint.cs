@@ -3,6 +3,7 @@ using System.Numerics;
 
 namespace Commons.Intersection2D.Shapes
 {
+	[Shape]
 	public class CPoint : CShape
 	{
 		public readonly Vector2 P;

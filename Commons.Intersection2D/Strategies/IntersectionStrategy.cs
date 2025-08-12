@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Numerics;
+﻿using System.Numerics;
 using Commons.Intersection2D.Shapes;
 
 namespace Commons.Intersection2D.Strategies
@@ -8,14 +7,9 @@ namespace Commons.Intersection2D.Strategies
 		where T1: CShape 
 		where T2: CShape
 	{
-		List<IntersectionShapeTypesPair> IIntersectionStrategy.GetShapeTypes()
+		IntersectionShapeTypesPair IIntersectionStrategy.GetShapeTypes()
 		{
-			var shapeTypes = new List<IntersectionShapeTypesPair>
-			{
-				new(typeof(T1), typeof(T2)),
-				new(typeof(T2), typeof(T1))
-			};
-			return shapeTypes;
+			return new IntersectionShapeTypesPair(typeof(T1), typeof(T2));
 		}
 
 		bool IIntersectionStrategy.IsIntersect(CShape shape1, CShape shape2)
