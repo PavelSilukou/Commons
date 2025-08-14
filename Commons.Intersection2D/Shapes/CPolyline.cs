@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Numerics;
-using System.Collections.Immutable;
 using System.Linq;
 using Commons.EqualityComparers;
 
@@ -9,16 +8,16 @@ namespace Commons.Intersection2D.Shapes
 	[Shape]
 	public class CPolyline : CShape
 	{
-		public readonly ImmutableArray<Vector2> Points;
-		public readonly ImmutableArray<CLineSegment> Segments;
-		
+		public Vector2[] Points { get; }
+		public CLineSegment[] Segments { get; }
+
 		public CPolyline(Vector2[] points)
 		{
-			Points = points.ToImmutableArray();
+			Points = points;
 			Segments = Points
 				.GetPairs()
 				.Select(pair => new CLineSegment(pair.Item1, pair.Item2))
-				.ToImmutableArray();
+				.ToArray();
 		}
 
 		protected override void Validation()
