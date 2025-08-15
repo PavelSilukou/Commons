@@ -6,8 +6,6 @@ namespace Commons
 {
     public static class EnumerableExtensions
     {
-        private const string SequenceNoElementsExceptionMessage = "Sequence contains no elements";
-
         public static bool IsEmpty<T>(this IEnumerable<T> source)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
@@ -64,7 +62,7 @@ namespace Commons
             using var sourceIterator = source.GetEnumerator();
             if (!sourceIterator.MoveNext())
             {
-                throw new InvalidOperationException(SequenceNoElementsExceptionMessage);
+                throw new InvalidOperationException($"Sequence {nameof(source)} is empty");
             }
             var min = sourceIterator.Current;
             var minKey = selector(min);
@@ -91,7 +89,7 @@ namespace Commons
             using var sourceIterator = source.GetEnumerator();
             if (!sourceIterator.MoveNext())
             {
-                throw new InvalidOperationException(SequenceNoElementsExceptionMessage);
+                throw new InvalidOperationException($"Sequence {nameof(source)} is empty");
             }
             var min = new List<TSource> { sourceIterator.Current };
             var minKey = selector(min[0]);
@@ -126,7 +124,7 @@ namespace Commons
             using var sourceIterator = source.GetEnumerator();
             if (!sourceIterator.MoveNext())
             {
-                throw new InvalidOperationException(SequenceNoElementsExceptionMessage);
+                throw new InvalidOperationException($"Sequence {nameof(source)} is empty");
             }
             var max = sourceIterator.Current;
             var maxKey = selector(max);
@@ -153,7 +151,7 @@ namespace Commons
             using var sourceIterator = source.GetEnumerator();
             if (!sourceIterator.MoveNext())
             {
-                throw new InvalidOperationException(SequenceNoElementsExceptionMessage);
+                throw new InvalidOperationException($"Sequence {nameof(source)} is empty");
             }
             var max = new List<TSource> { sourceIterator.Current };
             var maxKey = selector(max[0]);
@@ -300,7 +298,7 @@ namespace Commons
             using var sourceIterator = source.GetEnumerator();
             if (!sourceIterator.MoveNext())
             {
-                throw new InvalidOperationException(SequenceNoElementsExceptionMessage);
+                throw new InvalidOperationException($"Sequence {nameof(source)} is empty");
             }
             var first = sourceIterator.Current;
             while (sourceIterator.MoveNext())
