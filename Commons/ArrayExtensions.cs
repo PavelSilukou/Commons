@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Commons
 {
@@ -34,7 +35,12 @@ namespace Commons
 
 			return GetColumnInternal(array, columnIndex);
 		}
-		
+
+		public static ReadOnlyCollection<T> AsReadOnly<T>(this T[] array)
+		{
+			return Array.AsReadOnly(array);
+		}
+
 		private static IEnumerable<T> GetColumnInternal<T>(this T[,] array, int columnIndex)
 		{
 			var rowsCount = array.GetLength(0);

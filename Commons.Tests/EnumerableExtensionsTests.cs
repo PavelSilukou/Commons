@@ -449,7 +449,7 @@ public class EnumerableExtensionsTests
 	{
 		var enumerable1 = new[] { 1, 2, 3, 4 }.AsEnumerable();
 		var enumerable2 = new[] { 1, 2, 3, 4 }.AsEnumerable();
-		var actual = enumerable1.EqualsTo(enumerable2);
+		var actual = enumerable1.SequenceEqualDisorder(enumerable2);
 		Assert.That(actual, Is.True);
 	}
 	
@@ -458,7 +458,7 @@ public class EnumerableExtensionsTests
 	{
 		var enumerable1 = new[] { 1, 2, 3, 4 }.AsEnumerable();
 		var enumerable2 = new[] { 4, 3, 2, 1 }.AsEnumerable();
-		var actual = enumerable1.EqualsTo(enumerable2);
+		var actual = enumerable1.SequenceEqualDisorder(enumerable2);
 		Assert.That(actual, Is.True);
 	}
 	
@@ -467,7 +467,7 @@ public class EnumerableExtensionsTests
 	{
 		var enumerable1 = new[] { 1, 2, 3, 4 }.AsEnumerable();
 		var enumerable2 = new[] { 1, 2, 3 }.AsEnumerable();
-		var actual = enumerable1.EqualsTo(enumerable2);
+		var actual = enumerable1.SequenceEqualDisorder(enumerable2);
 		Assert.That(actual, Is.False);
 	}
 	
@@ -476,7 +476,7 @@ public class EnumerableExtensionsTests
 	{
 		var enumerable1 = Array.Empty<int>().AsEnumerable();
 		var enumerable2 = Array.Empty<int>().AsEnumerable();
-		var actual = enumerable1.EqualsTo(enumerable2);
+		var actual = enumerable1.SequenceEqualDisorder(enumerable2);
 		Assert.That(actual, Is.True);
 	}
 	
@@ -485,7 +485,7 @@ public class EnumerableExtensionsTests
 	{
 		var enumerable1 = new[] { 1, 2, 3, 4 }.AsEnumerable();
 		var enumerable2 = new[] { 1, 2, 3, 4 }.AsEnumerable();
-		var actual = enumerable1.EqualsToOrdered(enumerable2);
+		var actual = enumerable1.SequenceEqual(enumerable2);
 		Assert.That(actual, Is.True);
 	}
 	
@@ -494,7 +494,7 @@ public class EnumerableExtensionsTests
 	{
 		var enumerable1 = new[] { 1, 2, 3, 4 }.AsEnumerable();
 		var enumerable2 = new[] { 4, 3, 2, 1 }.AsEnumerable();
-		var actual = enumerable1.EqualsToOrdered(enumerable2);
+		var actual = enumerable1.SequenceEqual(enumerable2);
 		Assert.That(actual, Is.False);
 	}
 	
@@ -503,7 +503,7 @@ public class EnumerableExtensionsTests
 	{
 		var enumerable1 = new[] { 1, 2, 3, 4 }.AsEnumerable();
 		var enumerable2 = new[] { 1, 2, 3 }.AsEnumerable();
-		var actual = enumerable1.EqualsToOrdered(enumerable2);
+		var actual = enumerable1.SequenceEqual(enumerable2);
 		Assert.That(actual, Is.False);
 	}
 	
@@ -512,7 +512,7 @@ public class EnumerableExtensionsTests
 	{
 		var enumerable1 = Array.Empty<int>().AsEnumerable();
 		var enumerable2 = Array.Empty<int>().AsEnumerable();
-		var actual = enumerable1.EqualsToOrdered(enumerable2);
+		var actual = enumerable1.SequenceEqual(enumerable2);
 		Assert.That(actual, Is.True);
 	}
 	

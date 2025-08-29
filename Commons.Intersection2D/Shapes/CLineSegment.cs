@@ -6,8 +6,8 @@ namespace Commons.Intersection2D.Shapes
 	[Shape]
 	public class CLineSegment : CShape
 	{
-		public readonly Vector2 Point1;
-		public readonly Vector2 Point2;
+		public Vector2 Point1 { get; }
+		public Vector2 Point2 { get; }
 		
 		public CLineSegment(Vector2 point1, Vector2 point2)
 		{

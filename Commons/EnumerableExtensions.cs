@@ -1,15 +1,18 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Commons
 {
+    // TODO: rename T to TSource
+    // TODO: add checking if enumerable is collection/array/list
+    // TODO: fix PossibleMultipleEnumeration
     public static class EnumerableExtensions
     {
         public static bool IsEmpty<T>(this IEnumerable<T> source)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
-            
             return !source.Any();
         }
         
@@ -262,24 +265,16 @@ namespace Commons
         }
         
         // ReSharper disable PossibleMultipleEnumeration
-        public static bool EqualsTo<T>(this IEnumerable<T> source1, IEnumerable<T> source2)
+        public static bool SequenceEqualDisorder<T>(this IEnumerable<T> source1, IEnumerable<T> source2)
         {
             if (source1 == null) throw new ArgumentNullException(nameof(source1));
             if (source2 == null) throw new ArgumentNullException(nameof(source2));
-            
-            var firstNotSecond = source1.Except(source2);
-            var secondNotFirst = source2.Except(source1);
-            return source1.Count() == source2.Count() && !firstNotSecond.Any() && !secondNotFirst.Any();
-        }
-        // ReSharper restore PossibleMultipleEnumeration
 
-        // ReSharper disable PossibleMultipleEnumeration
-        public static bool EqualsToOrdered<T>(this IEnumerable<T> source1, IEnumerable<T> source2)
-        {
-            if (source1 == null) throw new ArgumentNullException(nameof(source1));
-            if (source2 == null) throw new ArgumentNullException(nameof(source2));
-            
-            return source1.Count() == source2.Count() && source1.Intersect(source2).SequenceEqual(source2);
+            if (source1.Count() != source2.Count()) return false;
+            var firstNotSecond = source1.Except(source2);
+            if (!firstNotSecond.IsEmpty()) return false;
+            var secondNotFirst = source2.Except(source1);
+            return secondNotFirst.IsEmpty();
         }
         // ReSharper restore PossibleMultipleEnumeration
         
@@ -310,6 +305,24 @@ namespace Commons
             }
 
             return true;
+        }
+
+        public static IEnumerable<T> AggregateIntermediate<T>(this IEnumerable<T> source, Func<T, T, T> func, T? seed = default)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            
+            foreach (var item in source)
+            {
+#pragma warning disable CS8604 // Possible null reference argument.
+                seed = func(seed, item);
+#pragma warning restore CS8604 // Possible null reference argument.
+                yield return seed;
+            }
+        }
+
+        public static ReadOnlyCollection<T> ToReadOnlyArray<T>(this IEnumerable<T> source)
+        {
+            return Array.AsReadOnly(source.ToArray());
         }
     }
 }

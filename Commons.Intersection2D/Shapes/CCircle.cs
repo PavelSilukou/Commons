@@ -6,8 +6,8 @@ namespace Commons.Intersection2D.Shapes
 	[Shape]
 	public class CCircle : CShape
 	{
-		public readonly Vector2 Center;
-		public readonly float Radius;
+		public Vector2 Center { get; }
+		public float Radius { get; }
 		
 		public CCircle(Vector2 center, float radius)
 		{

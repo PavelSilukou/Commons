@@ -6,10 +6,10 @@ namespace Commons.Intersection2D.Shapes
 	[Shape]
 	public class CRectangle : CRotatedRectangle
 	{
-		public readonly float Left;
-		public readonly float Top;
-		public readonly float Right;
-		public readonly float Bottom;
+		public float Left { get; }
+		public float Top { get; }
+		public float Right { get; }
+		public float Bottom { get; }
 		
 		public CRectangle(float left, float top, float right, float bottom) 
 			: base(

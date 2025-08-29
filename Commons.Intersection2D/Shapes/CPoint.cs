@@ -6,7 +6,7 @@ namespace Commons.Intersection2D.Shapes
 	[Shape]
 	public class CPoint : CShape
 	{
-		public readonly Vector2 P;
+		public Vector2 P { get; }
 		
 		public CPoint(Vector2 point)
 		{
