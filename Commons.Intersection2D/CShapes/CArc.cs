@@ -1,8 +1,9 @@
 ﻿using System.Numerics;
+using Commons.Intersection2D.CShapes.Internal;
 
 namespace Commons.Intersection2D.CShapes
 {
-	[Shape]
+	[CShape]
 	internal class CArc : CShape
 	{
 		public Vector2 Center { get; }

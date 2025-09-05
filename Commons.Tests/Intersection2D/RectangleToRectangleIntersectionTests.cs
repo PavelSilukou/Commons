@@ -1,5 +1,5 @@
 ﻿using Commons.Intersection2D;
-using CShapes = Commons.Intersection2D.Shapes;
+using Commons.Intersection2D.ShapeCreators;
 
 namespace Commons.Tests.Intersection2D;
 
@@ -144,8 +144,8 @@ public class RectangleToRectangleIntersectionTests
 	public bool IsRectangleToRectangleIntersectTests(float[] rects)
 	{
 		var intersection = new Intersection();
-		var rectangle1 = CShapes.TryCreateRectangle(rects[0], rects[1], rects[2], rects[3]);
-		var rectangle2 = CShapes.TryCreateRectangle(rects[4], rects[5], rects[6], rects[7]);
+		var rectangle1 = RectangleCreator.TryCreate(rects[0], rects[1], rects[2], rects[3]);
+		var rectangle2 = RectangleCreator.TryCreate(rects[4], rects[5], rects[6], rects[7]);
 		var isIntersect = intersection.IsIntersect(rectangle1, rectangle2);
 		return isIntersect;
 	}
@@ -243,8 +243,8 @@ public class RectangleToRectangleIntersectionTests
 			() =>
 			{
 				var intersection = new Intersection();
-				var rectangle1 = CShapes.TryCreateRectangle(rects[0], rects[1], rects[2], rects[3]);
-				var rectangle2 = CShapes.TryCreateRectangle(rects[4], rects[5], rects[6], rects[7]);
+				var rectangle1 = RectangleCreator.TryCreate(rects[0], rects[1], rects[2], rects[3]);
+				var rectangle2 = RectangleCreator.TryCreate(rects[4], rects[5], rects[6], rects[7]);
 				isIntersect = intersection.IsIntersect(rectangle1, rectangle2);
 			});
 		return isIntersect;
@@ -384,8 +384,8 @@ public class RectangleToRectangleIntersectionTests
 			() =>
 			{
 				var intersection = new Intersection();
-				var rectangle1 = CShapes.TryCreateRectangle(rects[0], rects[1], rects[2], rects[3]);
-				var rectangle2 = CShapes.TryCreateRectangle(rects[4], rects[5], rects[6], rects[7]);
+				var rectangle1 = RectangleCreator.TryCreate(rects[0], rects[1], rects[2], rects[3]);
+				var rectangle2 = RectangleCreator.TryCreate(rects[4], rects[5], rects[6], rects[7]);
 				intersection.IsIntersect(rectangle1, rectangle2);
 			});
 	}

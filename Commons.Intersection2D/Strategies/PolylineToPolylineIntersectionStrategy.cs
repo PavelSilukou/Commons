@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Numerics;
 using Commons.Intersection2D.CShapes;
+using Commons.Intersection2D.Strategies.Internal;
 
 namespace Commons.Intersection2D.Strategies
 {

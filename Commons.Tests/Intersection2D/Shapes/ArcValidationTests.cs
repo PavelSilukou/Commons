@@ -1,5 +1,5 @@
 ﻿using System.Numerics;
-using CShapes = Commons.Intersection2D.Shapes;
+using Commons.Intersection2D.ShapeCreators;
 
 namespace Commons.Tests.Intersection2D.Shapes;
 
@@ -27,7 +27,7 @@ public class ArcValidationTests
 	[Test, TestCaseSource(nameof(DoesNotThrowTestsParameters))]
 	public void DoesNotThrowTests(Vector2 arcCenter, Vector2 arcPoint, float arcAngleDeg)
 	{
-		Assert.DoesNotThrow(() => CShapes.ValidateAndCreateArc(arcCenter, arcPoint, arcAngleDeg));
+		Assert.DoesNotThrow(() => ArcCreator.ValidateAndCreate(arcCenter, arcPoint, arcAngleDeg));
 	}
 	
 	private static IEnumerable<TestCaseData> AssertThrowTestsParameters()
@@ -78,7 +78,7 @@ public class ArcValidationTests
 	[Test, TestCaseSource(nameof(AssertThrowTestsParameters))]
 	public void AssertThrowTests(Vector2 arcCenter, Vector2 arcPoint, float arcAngleDeg)
 	{
-		var exception = Assert.Throws<ArithmeticException>(() => CShapes.ValidateAndCreateArc(arcCenter, arcPoint, arcAngleDeg));
+		var exception = Assert.Throws<ArithmeticException>(() => ArcCreator.ValidateAndCreate(arcCenter, arcPoint, arcAngleDeg));
 		Assert.That(exception.Source, Is.EqualTo("Commons.Intersection2D"));
 	}
 }

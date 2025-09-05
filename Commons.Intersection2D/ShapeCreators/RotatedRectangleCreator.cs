@@ -3,16 +3,16 @@ using System.Numerics;
 using Commons.EqualityComparers;
 using Commons.Intersection2D.CShapes;
 
-namespace Commons.Intersection2D
+namespace Commons.Intersection2D.ShapeCreators
 {
-	public static partial class Shapes
+	public static class RotatedRectangleCreator
 	{
-		public static CShape CreateRotatedRectangle(Vector2 point1, Vector2 point2, Vector2 point3, Vector2 point4)
+		public static CShape Create(Vector2 point1, Vector2 point2, Vector2 point3, Vector2 point4)
 		{
 			return new CRotatedRectangle(point1, point2, point3, point4);
 		}
 		
-		public static CShape TryCreateRotatedRectangle(Vector2 point1, Vector2 point2, Vector2 point3, Vector2 point4)
+		public static CShape TryCreate(Vector2 point1, Vector2 point2, Vector2 point3, Vector2 point4)
 		{
 			if (IsPoint(point1, point2, point3, point4)) return new CPoint(point1);
 			if (point1.EqualTo(point4) && point2.EqualTo(point3)) return new CLineSegment(point1, point2);
@@ -21,7 +21,7 @@ namespace Commons.Intersection2D
 			return new CRotatedRectangle(point1, point2, point3, point4);
 		}
 
-		public static CShape ValidateAndCreateRotatedRectangle(Vector2 point1, Vector2 point2, Vector2 point3, Vector2 point4)
+		public static CShape ValidateAndCreate(Vector2 point1, Vector2 point2, Vector2 point3, Vector2 point4)
 		{
 			if (!Vector2Utils.IsFinite(point1)) 
 				throw new ArithmeticException($"'{nameof(point1)}' should be finite.");

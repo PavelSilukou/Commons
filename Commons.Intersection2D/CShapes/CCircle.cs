@@ -1,9 +1,10 @@
 ﻿using System.Numerics;
+using Commons.Intersection2D.CShapes.Internal;
 
 namespace Commons.Intersection2D.CShapes
 {
-	[Shape]
-	public class CCircle : CShape
+	[CShape]
+	internal class CCircle : CShape
 	{
 		public Vector2 Center { get; }
 		public float Radius { get; }

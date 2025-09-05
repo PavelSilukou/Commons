@@ -1,9 +1,10 @@
 ﻿using System.Numerics;
+using Commons.Intersection2D.CShapes.Internal;
 
 namespace Commons.Intersection2D.CShapes
 {
-	[Shape]
-	public class CRectangle : CRotatedRectangle
+	[CShape]
+	internal class CRectangle : CRotatedRectangle
 	{
 		public float Left { get; }
 		public float Top { get; }

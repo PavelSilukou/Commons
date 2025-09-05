@@ -1,7 +1,7 @@
 ﻿using System;
 using JetBrains.Annotations;
 
-namespace Commons.Intersection2D.Strategies
+namespace Commons.Intersection2D.Strategies.Internal
 {
 	[AttributeUsage(AttributeTargets.Class, Inherited = false)]
 	[MeansImplicitUse]

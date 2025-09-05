@@ -1,6 +1,8 @@
-﻿namespace Commons.Intersection2D.CShapes
+﻿using Commons.Intersection2D.CShapes.Internal;
+
+namespace Commons.Intersection2D.CShapes
 {
-	[Shape]
+	[CShape]
 	public abstract class CShape
 	{
 	}

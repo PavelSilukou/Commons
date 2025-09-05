@@ -1,9 +1,10 @@
 ﻿using System.Numerics;
+using Commons.Intersection2D.CShapes.Internal;
 
 namespace Commons.Intersection2D.CShapes
 {
-	[Shape]
-	public class CLine : CShape
+	[CShape]
+	internal class CLine : CShape
 	{
 		public Vector2 Point1 { get; }
 		public Vector2 Point2 { get; }

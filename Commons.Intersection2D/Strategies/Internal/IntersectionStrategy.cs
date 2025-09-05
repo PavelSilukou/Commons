@@ -1,15 +1,15 @@
 ﻿using System.Numerics;
 using Commons.Intersection2D.CShapes;
 
-namespace Commons.Intersection2D.Strategies
+namespace Commons.Intersection2D.Strategies.Internal
 {
 	internal abstract class IntersectionStrategy<T1, T2>: IIntersectionStrategy 
 		where T1: CShape 
 		where T2: CShape
 	{
-		IntersectionShapeTypesPair IIntersectionStrategy.GetShapeTypes()
+		IntersectionCShapeTypesPair IIntersectionStrategy.GetShapeTypes()
 		{
-			return new IntersectionShapeTypesPair(typeof(T1), typeof(T2));
+			return new IntersectionCShapeTypesPair(typeof(T1), typeof(T2));
 		}
 
 		bool IIntersectionStrategy.IsIntersect(CShape shape1, CShape shape2)

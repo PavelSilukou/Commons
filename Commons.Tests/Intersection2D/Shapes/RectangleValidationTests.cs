@@ -1,4 +1,4 @@
-﻿using CShapes = Commons.Intersection2D.Shapes;
+﻿using Commons.Intersection2D.ShapeCreators;
 
 namespace Commons.Tests.Intersection2D.Shapes;
 
@@ -16,7 +16,7 @@ public class RectangleValidationTests
 	[Test, TestCaseSource(nameof(DoesNotThrowTestsParameters))]
 	public void DoesNotThrowTests(float[] rect)
 	{
-		Assert.DoesNotThrow(() => CShapes.ValidateAndCreateRectangle(rect[0], rect[1], rect[2], rect[3]));
+		Assert.DoesNotThrow(() => RectangleCreator.ValidateAndCreate(rect[0], rect[1], rect[2], rect[3]));
 	}
 	
 	private static IEnumerable<TestCaseData> AssertThrowTestsParameters()
@@ -61,7 +61,7 @@ public class RectangleValidationTests
 	[Test, TestCaseSource(nameof(AssertThrowTestsParameters))]
 	public void AssertThrowTests(float[] rect)
 	{
-		var exception = Assert.Throws<ArithmeticException>(() => CShapes.ValidateAndCreateRectangle(rect[0], rect[1], rect[2], rect[3]));
+		var exception = Assert.Throws<ArithmeticException>(() => RectangleCreator.ValidateAndCreate(rect[0], rect[1], rect[2], rect[3]));
 		Assert.That(exception.Source, Is.EqualTo("Commons.Intersection2D"));
 	}
 }

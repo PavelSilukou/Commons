@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 using Commons.Intersection2D;
-using CShapes = Commons.Intersection2D.Shapes;
+using Commons.Intersection2D.ShapeCreators;
 
 namespace Commons.Tests.Intersection2D;
 
@@ -73,8 +73,8 @@ public class LineToLineIntersectionReturnTests
 	)
 	{
 		var intersection = new Intersection();
-		var line1 = CShapes.TryCreateLine(point1, point2);
-		var line2 = CShapes.TryCreateLine(point3, point4);
+		var line1 = LineCreator.TryCreate(point1, point2);
+		var line2 = LineCreator.TryCreate(point3, point4);
 		var isIntersect = intersection.IsIntersect(out var intersectionPoints, line1, line2);
 		return (isIntersect, intersectionPoints);
 	}
@@ -144,8 +144,8 @@ public class LineToLineIntersectionReturnTests
 			() =>
 			{
 				var intersection = new Intersection();
-				var line1 = CShapes.TryCreateLine(point1, point2);
-				var line2 = CShapes.TryCreateLine(point3, point4);
+				var line1 = LineCreator.TryCreate(point1, point2);
+				var line2 = LineCreator.TryCreate(point3, point4);
 				intersection.IsIntersect(out _,line1, line2);
 			});
 	}

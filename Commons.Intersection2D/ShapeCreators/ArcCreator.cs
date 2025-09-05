@@ -2,18 +2,18 @@
 using System.Numerics;
 using Commons.Intersection2D.CShapes;
 
-namespace Commons.Intersection2D
+namespace Commons.Intersection2D.ShapeCreators
 {
-	public static partial class Shapes
+	public static class ArcCreator
 	{
-		public static CShape CreateArc(Vector2 center, Vector2 point, float angle)
+		public static CShape Create(Vector2 center, Vector2 point, float angle)
 		{
 			var angleSign = GetAngleSign(angle);
 			var radius = GetRadius(center, point);
 			return new CArc(center, point, angle, angleSign, radius);
 		}
 		
-		public static CShape TryCreateArc(Vector2 center, Vector2 point, float angle)
+		public static CShape TryCreate(Vector2 center, Vector2 point, float angle)
 		{
 			var angleSign = GetAngleSign(angle);
 			var radius = GetRadius(center, point);
@@ -25,7 +25,7 @@ namespace Commons.Intersection2D
 			return new CArc(center, point, angle, angleSign, radius);
 		}
 
-		public static CShape ValidateAndCreateArc(Vector2 center, Vector2 point, float angle)
+		public static CShape ValidateAndCreate(Vector2 center, Vector2 point, float angle)
 		{
 			if (!Vector2Utils.IsFinite(center)) 
 				throw new ArithmeticException($"'{nameof(center)}' should be finite.");

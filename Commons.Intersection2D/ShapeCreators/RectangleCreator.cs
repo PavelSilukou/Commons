@@ -3,22 +3,22 @@ using System.Numerics;
 using Commons.EqualityComparers;
 using Commons.Intersection2D.CShapes;
 
-namespace Commons.Intersection2D
+namespace Commons.Intersection2D.ShapeCreators
 {
-	public static partial class Shapes
+	public static class RectangleCreator
 	{
-		public static CShape CreateRectangle(float left, float top, float right, float bottom) 
+		public static CShape Create(float left, float top, float right, float bottom) 
 		{
 			return new CRectangle(left, top, right, bottom);
 		}
 		
-		public static CShape TryCreateRectangle(float left, float top, float right, float bottom) 
+		public static CShape TryCreate(float left, float top, float right, float bottom) 
 		{
 			if (IsPoint(left, top, right, bottom)) return new CPoint(new Vector2(left, top));
 			return new CRectangle(left, top, right, bottom);
 		}
 
-		public static CShape ValidateAndCreateRectangle(float left, float top, float right, float bottom) 
+		public static CShape ValidateAndCreate(float left, float top, float right, float bottom) 
 		{
 			if (!float.IsFinite(left)) 
 				throw new ArithmeticException($"'{nameof(left)}' should be finite.");

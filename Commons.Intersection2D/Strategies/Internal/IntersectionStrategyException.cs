@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Commons.Intersection2D.Strategies
+namespace Commons.Intersection2D.Strategies.Internal
 {
 	public class IntersectionStrategyException : Exception
 	{

@@ -1,11 +1,12 @@
 ﻿using System.Collections.ObjectModel;
 using System.Numerics;
 using System.Linq;
+using Commons.Intersection2D.CShapes.Internal;
 
 namespace Commons.Intersection2D.CShapes
 {
-	[Shape]
-	public class CPolyline : CShape
+	[CShape]
+	internal class CPolyline : CShape
 	{
 		public ReadOnlyCollection<Vector2> Points { get; }
 		public ReadOnlyCollection<CLineSegment> Segments { get; }

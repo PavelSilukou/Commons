@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Commons.Intersection2D.CShapes;
+using Commons.Intersection2D.CShapes.Internal;
 
-namespace Commons.Intersection2D.Strategies
+namespace Commons.Intersection2D.Strategies.Internal
 {
 	internal class IntersectionStrategies
 	{
-		private readonly Dictionary<IntersectionShapeTypesPair, IIntersectionStrategy> _strategies = InitStrategies();
+		private readonly Dictionary<IntersectionCShapeTypesPair, IIntersectionStrategy> _strategies = InitStrategies();
 		
 		internal IIntersectionStrategy GetStrategy(CShape shape1, CShape shape2)
 		{
-			var pair = new IntersectionShapeTypesPair(shape1.GetType(), shape2.GetType());
+			var pair = new IntersectionCShapeTypesPair(shape1.GetType(), shape2.GetType());
 			var strategy = _strategies.GetValueOrDefault(pair);
 			if (strategy != null) return strategy;
 			
@@ -36,17 +37,17 @@ namespace Commons.Intersection2D.Strategies
 			}
 		}
 		
-		private static Dictionary<IntersectionShapeTypesPair, IIntersectionStrategy> InitStrategies()
+		private static Dictionary<IntersectionCShapeTypesPair, IIntersectionStrategy> InitStrategies()
 		{
 			var strategies = FindAllStrategies();
-			var strategiesDict = new Dictionary<IntersectionShapeTypesPair, IIntersectionStrategy>();
+			var strategiesDict = new Dictionary<IntersectionCShapeTypesPair, IIntersectionStrategy>();
 			foreach (var strategy in strategies)
 			{
 				var shapeTypes = strategy.GetShapeTypes();
 				strategiesDict.Add(shapeTypes, strategy);
 				if (shapeTypes.Type2 != shapeTypes.Type1)
 				{
-					strategiesDict.Add(new IntersectionShapeTypesPair(shapeTypes.Type2, shapeTypes.Type1), strategy);
+					strategiesDict.Add(new IntersectionCShapeTypesPair(shapeTypes.Type2, shapeTypes.Type1), strategy);
 				}
 			}
 
@@ -63,11 +64,11 @@ namespace Commons.Intersection2D.Strategies
 			return null;
 		}
 
-		private static IEnumerable<IntersectionShapeTypesPair> GetAllIntersectionShapeTypePairs(CShape shape1, CShape shape2)
+		private static IEnumerable<IntersectionCShapeTypesPair> GetAllIntersectionShapeTypePairs(CShape shape1, CShape shape2)
 		{
 			var shape1Types = GetShapeTypes(shape1);
 			var shape2Types = GetShapeTypes(shape2);
-			return shape1Types.GetAllPairs(shape2Types).Select(tuple => new IntersectionShapeTypesPair(tuple.Item1, tuple.Item2));
+			return shape1Types.GetAllPairs(shape2Types).Select(tuple => new IntersectionCShapeTypesPair(tuple.Item1, tuple.Item2));
 		}
 
 		private static IEnumerable<Type> GetShapeTypes(CShape shape)
@@ -77,7 +78,7 @@ namespace Commons.Intersection2D.Strategies
 			{
 				yield return type;
 				type = type.BaseType;
-			} while (type != null && type.IsDefined(typeof(ShapeAttribute), false));
+			} while (type != null && type.IsDefined(typeof(CShapeAttribute), false));
 		}
 	}
 }

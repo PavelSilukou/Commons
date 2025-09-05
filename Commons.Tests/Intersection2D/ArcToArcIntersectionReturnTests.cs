@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
-using CShapes = Commons.Intersection2D.Shapes;
 using Commons.Intersection2D;
+using Commons.Intersection2D.ShapeCreators;
 
 namespace Commons.Tests.Intersection2D;
 
@@ -86,8 +86,8 @@ public class ArcToArcIntersectionReturnTests
 	)
 	{
 		var intersection = new Intersection();
-		var arc1 = CShapes.TryCreateArc(arc1Center, arc1Point, arc1AngleDeg);
-		var arc2 = CShapes.TryCreateArc(arc2Center, arc2Point, arc2AngleDeg);
+		var arc1 = ArcCreator.TryCreate(arc1Center, arc1Point, arc1AngleDeg);
+		var arc2 = ArcCreator.TryCreate(arc2Center, arc2Point, arc2AngleDeg);
 		var isIntersect = intersection.IsIntersect(out var intersectionPoints, arc1, arc2);
 		return (isIntersect, intersectionPoints);
 	}
@@ -171,8 +171,8 @@ public class ArcToArcIntersectionReturnTests
 			() =>
 			{
 				var intersection = new Intersection();
-				var arc1 = CShapes.TryCreateArc(arc1Center, arc1Point, arc1AngleDeg);
-				var arc2 = CShapes.TryCreateArc(arc2Center, arc2Point, arc2AngleDeg);
+				var arc1 = ArcCreator.TryCreate(arc1Center, arc1Point, arc1AngleDeg);
+				var arc2 = ArcCreator.TryCreate(arc2Center, arc2Point, arc2AngleDeg);
 				intersection.IsIntersect(out _, arc1, arc2);
 			});
 	}
