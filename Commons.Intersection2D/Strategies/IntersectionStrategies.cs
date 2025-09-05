@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Commons.Intersection2D.Shapes;
+using Commons.Intersection2D.CShapes;
 
 namespace Commons.Intersection2D.Strategies
 {
@@ -29,7 +29,7 @@ namespace Commons.Intersection2D.Strategies
 		{
 			var assembly = Assembly.GetExecutingAssembly();
 			var classesWithAttribute = assembly.GetTypes()
-				.Where(type => type.IsClass && type.GetCustomAttribute<StrategyAttribute>() != null);
+				.Where(type => type.IsClass && type.GetCustomAttribute<IntersectionStrategyAttribute>() != null);
 			foreach (var type in classesWithAttribute)
 			{
 				yield return (IIntersectionStrategy)Activator.CreateInstance(type);

@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 using Commons.Intersection2D;
-using Commons.Intersection2D.Shapes;
+using CShapes = Commons.Intersection2D.Shapes;
 
 namespace Commons.Tests.Intersection2D;
 
@@ -46,8 +46,8 @@ public class CircleToCircleIntersectionTests
 	)
 	{
 		var intersection = new Intersection();
-		var circle1 = new CCircle(center1, radius1);
-		var circle2 = new CCircle(center2, radius2);
+		var circle1 = CShapes.TryCreateCircle(center1, radius1);
+		var circle2 = CShapes.TryCreateCircle(center2, radius2);
 		var isIntersect = intersection.IsIntersect(circle1, circle2);
 		return isIntersect;
 	}
@@ -105,8 +105,8 @@ public class CircleToCircleIntersectionTests
 			() =>
 			{
 				var intersection = new Intersection();
-				var circle1 = new CCircle(center1, radius1);
-				var circle2 = new CCircle(center2, radius2);
+				var circle1 = CShapes.TryCreateCircle(center1, radius1);
+				var circle2 = CShapes.TryCreateCircle(center2, radius2);
 				intersection.IsIntersect(circle1, circle2);
 			});
 	}

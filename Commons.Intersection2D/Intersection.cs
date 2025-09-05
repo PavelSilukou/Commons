@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Numerics;
-using Commons.Intersection2D.Shapes;
+using Commons.Intersection2D.CShapes;
 using Commons.Intersection2D.Strategies;
 
 namespace Commons.Intersection2D
@@ -11,13 +11,10 @@ namespace Commons.Intersection2D
 		
 		public bool IsIntersect(CShape shape1, CShape shape2)
 		{
-			var trueShape1 = shape1.GetTrueShape();
-			var trueShape2 = shape2.GetTrueShape();
-			
-			var strategy = _strategies.GetStrategy(trueShape1, trueShape2);
+			var strategy = _strategies.GetStrategy(shape1, shape2);
 			try
 			{
-				return strategy.IsIntersect(trueShape1, trueShape2);
+				return strategy.IsIntersect(shape1, shape2);
 			}
 			catch (NotImplementedException)
 			{
@@ -27,13 +24,10 @@ namespace Commons.Intersection2D
 		
 		public bool IsIntersect(out Vector2[] intersectionPoints, CShape shape1, CShape shape2)
 		{
-			var trueShape1 = shape1.GetTrueShape();
-			var trueShape2 = shape2.GetTrueShape();
-			
-			var strategy = _strategies.GetStrategy(trueShape1, trueShape2);
+			var strategy = _strategies.GetStrategy(shape1, shape2);
 			try
 			{
-				return strategy.IsIntersect(out intersectionPoints, trueShape2, trueShape1);
+				return strategy.IsIntersect(out intersectionPoints, shape1, shape2);
 			}
 			catch (NotImplementedException)
 			{

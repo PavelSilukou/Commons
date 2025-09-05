@@ -1,11 +1,11 @@
 ﻿using System;
 using JetBrains.Annotations;
 
-namespace Commons.Intersection2D.Shapes
+namespace Commons.Intersection2D.Strategies
 {
 	[AttributeUsage(AttributeTargets.Class, Inherited = false)]
 	[MeansImplicitUse]
-	internal class ShapeAttribute : Attribute
+	internal class IntersectionStrategyAttribute : Attribute
 	{
 	}
 }

@@ -13,8 +13,9 @@ namespace Commons
 
 		public static void SetEqualsTolerance(float tolerance)
 		{
-			if (!float.IsFinite(tolerance)) throw new ArithmeticException($"'{nameof(tolerance)}' parameter must be finite");
-			if (float.IsNegative(tolerance)) throw new ArithmeticException($"'{nameof(tolerance)}' parameter must be positive");
+			if (!float.IsFinite(tolerance) || float.IsNegative(tolerance)) 
+				throw new ArithmeticException($"'{nameof(tolerance)}' should be finite and positive.");
+			
 			_equalsTolerance = tolerance;
 		}
 	}

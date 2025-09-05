@@ -1,5 +1,5 @@
 ﻿using System.Numerics;
-using Commons.Intersection2D.Shapes;
+using CShapes = Commons.Intersection2D.Shapes;
 using Commons.Intersection2D;
 
 namespace Commons.Tests.Intersection2D;
@@ -35,7 +35,7 @@ public class ArcToArcIntersectionReturnTests
 		var args25 = new object?[] { new Vector2(10.0f, 10.0f), new Vector2(10.0f, 19.0f), 540.0f, new Vector2(20.0f, 10.0f), new Vector2(20.0f, 19.0f), 180.0f };
 		var args26 = new object?[] { new Vector2(10.0f, 10.0f), new Vector2(10.0f, 19.0f), -180.0f, new Vector2(20.0f, 10.0f), new Vector2(20.0f, 19.0f), 540.0f };
 		
-		(bool, Vector2[]) returns1 = (true, [new Vector2(15.0f, 17.483315f), new Vector2(15.0f, 2.516685f)]);
+		(bool, Vector2[]) returns1 = (true, [new Vector2(15.0f, 2.516685f), new Vector2(15.0f, 17.483315f)]);
 		(bool, Vector2[]) returns2 = (true, [new Vector2(15.0f, 17.483315f)]);
 		(bool, Vector2[]) returns3 = (true, [new Vector2(15.0f, 2.516685f)]);
 		(bool, Vector2[]) returns4 = (false, []);
@@ -43,8 +43,9 @@ public class ArcToArcIntersectionReturnTests
 		(bool, Vector2[]) returns6 = (true, [new Vector2(10.0f, 14.0f), new Vector2(10.0f, 6.0f)]);
 		(bool, Vector2[]) returns7 = (true, [new Vector2(6.0f, 10.0f)]);
 		(bool, Vector2[]) returns8 = (true, [new Vector2(float.NaN, float.NaN)]);
-		(bool, Vector2[]) returns9 = (true, [new Vector2(-15.0f, -17.483315f), new Vector2(-15.0f, -2.516685f)]);
+		(bool, Vector2[]) returns9 = (true, [new Vector2(-15.0f, -2.516685f), new Vector2(-15.0f, -17.483315f)]);
 		(bool, Vector2[]) returns10 = (true, [new Vector2(15.0f, 2.516685f), new Vector2(15.0f, 17.483315f)]);
+		(bool, Vector2[]) returns11 = (true, [new Vector2(15.0f, 17.483315f), new Vector2(15.0f, 2.516685f)]);
 	
 		yield return new TestCaseData(args1).Returns(returns1);
 		yield return new TestCaseData(args2).Returns(returns2);
@@ -65,7 +66,7 @@ public class ArcToArcIntersectionReturnTests
 		yield return new TestCaseData(args17).Returns(returns8);
 		yield return new TestCaseData(args18).Returns(returns7);
 		yield return new TestCaseData(args19).Returns(returns9);
-		yield return new TestCaseData(args20).Returns(returns1);
+		yield return new TestCaseData(args20).Returns(returns11);
 		yield return new TestCaseData(args21).Returns(returns10);
 		yield return new TestCaseData(args22).Returns(returns4);
 		yield return new TestCaseData(args23).Returns(returns4);
@@ -85,8 +86,8 @@ public class ArcToArcIntersectionReturnTests
 	)
 	{
 		var intersection = new Intersection();
-		var arc1 = new CArc(arc1Center, arc1Point, arc1AngleDeg);
-		var arc2 = new CArc(arc2Center, arc2Point, arc2AngleDeg);
+		var arc1 = CShapes.TryCreateArc(arc1Center, arc1Point, arc1AngleDeg);
+		var arc2 = CShapes.TryCreateArc(arc2Center, arc2Point, arc2AngleDeg);
 		var isIntersect = intersection.IsIntersect(out var intersectionPoints, arc1, arc2);
 		return (isIntersect, intersectionPoints);
 	}
@@ -170,8 +171,8 @@ public class ArcToArcIntersectionReturnTests
 			() =>
 			{
 				var intersection = new Intersection();
-				var arc1 = new CArc(arc1Center, arc1Point, arc1AngleDeg);
-				var arc2 = new CArc(arc2Center, arc2Point, arc2AngleDeg);
+				var arc1 = CShapes.TryCreateArc(arc1Center, arc1Point, arc1AngleDeg);
+				var arc2 = CShapes.TryCreateArc(arc2Center, arc2Point, arc2AngleDeg);
 				intersection.IsIntersect(out _, arc1, arc2);
 			});
 	}

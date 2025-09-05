@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Numerics;
-using Commons.Intersection2D.Shapes;
+using Commons.Intersection2D.CShapes;
 
 namespace Commons.Intersection2D.Strategies
 {
-	[Strategy]
+	[IntersectionStrategy]
 	internal class LineSegmentToLineSegmentIntersectionStrategy: IntersectionStrategy<CLineSegment, CLineSegment>
 	{
 		protected override bool IsIntersect(CLineSegment lineSegment1, CLineSegment lineSegment2)

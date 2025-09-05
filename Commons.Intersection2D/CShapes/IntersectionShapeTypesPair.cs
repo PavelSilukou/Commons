@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Commons.Intersection2D.Shapes
+namespace Commons.Intersection2D.CShapes
 {
 	internal class IntersectionShapeTypesPair
 	{

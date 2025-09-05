@@ -115,13 +115,33 @@ public class EnumerableExtensionsTests
 	[Test]
 	public void GetPairs_NotEmptyEnumerable_ReturnPairs()
 	{
-		var enumerable = new[] { 1, 2, 3, 4 }.AsEnumerable();
+		var enumerable = new[] { 1, 2, 3 }.AsEnumerable();
 		var expected = new[]
 		{
 			(1, 2),
-			(2, 3),
-			(3, 4)
+			(2, 3)
 		};
+		var actual = enumerable.GetPairs().ToArray();
+		CollectionAssert.AreEqual(expected, actual);
+	}
+	
+	[Test]
+	public void GetPairs_2Elements_ReturnPairs()
+	{
+		var enumerable = new[] { 1, 2 }.AsEnumerable();
+		var expected = new[]
+		{
+			(1, 2)
+		};
+		var actual = enumerable.GetPairs().ToArray();
+		CollectionAssert.AreEqual(expected, actual);
+	}
+	
+	[Test]
+	public void GetPairs_1Element_ReturnEmpty()
+	{
+		var enumerable = new[] { 1 }.AsEnumerable();
+		var expected = Array.Empty<int>().AsEnumerable();
 		var actual = enumerable.GetPairs().ToArray();
 		CollectionAssert.AreEqual(expected, actual);
 	}

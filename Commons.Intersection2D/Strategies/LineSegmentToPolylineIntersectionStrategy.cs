@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Numerics;
-using Commons.Intersection2D.Shapes;
+using Commons.Intersection2D.CShapes;
 
 namespace Commons.Intersection2D.Strategies
 {
-	[Strategy]
+	[IntersectionStrategy]
 	internal class LineSegmentToPolylineIntersectionStrategy: IntersectionStrategy<CLineSegment, CPolyline>
 	{
 		private readonly IIntersectionStrategy _lineSegmentToLineSegmentIntersectionStrategy = 

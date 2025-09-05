@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Numerics;
-using Commons.Intersection2D.Shapes;
+using Commons.Intersection2D.CShapes;
 
 namespace Commons.Intersection2D.Strategies
 {
-	[Strategy]
+	[IntersectionStrategy]
 	internal class RectangleToRectangleIntersectionStrategy: IntersectionStrategy<CRectangle, CRectangle>
 	{
 		protected override bool IsIntersect(CRectangle rect1, CRectangle rect2)

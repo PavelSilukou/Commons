@@ -178,10 +178,10 @@ namespace Commons
 			}
 		}
 
-		public static int Sign(float x)
+		public static int Sign(float value)
 		{
-			if (!float.IsFinite(x)) throw new ArithmeticException("Value is not finite.");
-			return MathF.Sign(x) == -1 ? -1 : 1;
+			if (!float.IsFinite(value)) throw new ArithmeticException($"'{nameof(value)}' should be finite.");
+			return MathF.Sign(value) == -1 ? -1 : 1;
 		}
 	}
 }

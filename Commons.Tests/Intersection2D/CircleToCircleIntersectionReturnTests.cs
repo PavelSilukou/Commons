@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 using Commons.Intersection2D;
-using Commons.Intersection2D.Shapes;
+using CShapes = Commons.Intersection2D.Shapes;
 
 namespace Commons.Tests.Intersection2D;
 
@@ -22,11 +22,11 @@ public class CircleToCircleIntersectionReturnTests
 		var args12 = new object?[] { new Vector2(10.0f, 10.0f), -9.0f, new Vector2(10.0f, 10.0f), -9.0f };
 		var args13 = new object?[] { new Vector2(10.0f, 10.0f), 0.0f, new Vector2(10.0f, 10.0f), 0.0f };
 		
-		(bool, Vector2[]) returns1 = (true, [new Vector2(15.0f, 17.483315f), new Vector2(15.0f, 2.516685f)]);
+		(bool, Vector2[]) returns1 = (true, [new Vector2(15.0f, 2.516685f), new Vector2(15.0f, 17.483315f)]);
 		(bool, Vector2[]) returns2 = (true, [new Vector2(15.0f, 10.0f)]);
 		(bool, Vector2[]) returns3 = (false, []);
 		(bool, Vector2[]) returns4 = (true, [new Vector2(float.NaN, float.NaN)]);
-		(bool, Vector2[]) returns5 = (true, [new Vector2(-15.0f, -17.483315f), new Vector2(-15.0f, -2.516685f)]);
+		(bool, Vector2[]) returns5 = (true, [new Vector2(-15.0f, -2.516685f), new Vector2(-15.0f, -17.483315f)]);
 		
 		yield return new TestCaseData(args1).Returns(returns1);
 		yield return new TestCaseData(args2).Returns(returns2);
@@ -52,8 +52,8 @@ public class CircleToCircleIntersectionReturnTests
 	)
 	{
 		var intersection = new Intersection();
-		var circle1 = new CCircle(center1, radius1);
-		var circle2 = new CCircle(center2, radius2);
+		var circle1 = CShapes.TryCreateCircle(center1, radius1);
+		var circle2 = CShapes.TryCreateCircle(center2, radius2);
 		var isIntersect = intersection.IsIntersect(out var intersectionPoints, circle1, circle2);
 		return (isIntersect, intersectionPoints);
 	}
@@ -113,8 +113,8 @@ public class CircleToCircleIntersectionReturnTests
 			() =>
 			{
 				var intersection = new Intersection();
-				var circle1 = new CCircle(center1, radius1);
-				var circle2 = new CCircle(center2, radius2);
+				var circle1 = CShapes.TryCreateCircle(center1, radius1);
+				var circle2 = CShapes.TryCreateCircle(center2, radius2);
 				intersection.IsIntersect(out _, circle1, circle2);
 			});
 	}

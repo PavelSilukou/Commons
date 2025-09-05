@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 using Commons.Intersection2D;
-using Commons.Intersection2D.Shapes;
+using CShapes = Commons.Intersection2D.Shapes;
 
 namespace Commons.Tests.Intersection2D;
 
@@ -39,7 +39,7 @@ public class ArcToCircleIntersectionReturnTests
 		(bool, Vector2[]) returns5 = (true, [new Vector2(15.0f, 10.0f)]);
 		(bool, Vector2[]) returns6 = (true, [new Vector2(float.NaN, float.NaN)]);
 		(bool, Vector2[]) returns7 = (true, [new Vector2(-15.0f, -2.516685f), new Vector2(-15.0f, -17.483315f)]);
-		(bool, Vector2[]) returns8 = (true, [new Vector2(15.0f, 17.483315f), new Vector2(15.0f, 2.516685f)]);
+		(bool, Vector2[]) returns8 = (true, [new Vector2(15.0f, 2.516685f), new Vector2(15.0f, 17.483315f)]);
 	
 		yield return new TestCaseData(args1).Returns(returns1);
 		yield return new TestCaseData(args2).Returns(returns2);
@@ -77,8 +77,8 @@ public class ArcToCircleIntersectionReturnTests
 	)
 	{
 		var intersection = new Intersection();
-		var arc = new CArc(arcCenter, arcPoint, arcAngleDeg);
-		var circle = new CCircle(circleCenter, circleRadius);
+		var arc = CShapes.TryCreateArc(arcCenter, arcPoint, arcAngleDeg);
+		var circle = CShapes.TryCreateCircle(circleCenter, circleRadius);
 		var isIntersect = intersection.IsIntersect(out var intersectionPoints, arc, circle);
 		return (isIntersect, intersectionPoints);
 	}
@@ -149,8 +149,8 @@ public class ArcToCircleIntersectionReturnTests
 			() =>
 			{
 				var intersection = new Intersection();
-				var arc = new CArc(arcCenter, arcPoint, arcAngleDeg);
-				var circle = new CCircle(circleCenter, circleRadius);
+				var arc = CShapes.TryCreateArc(arcCenter, arcPoint, arcAngleDeg);
+				var circle = CShapes.TryCreateCircle(circleCenter, circleRadius);
 				intersection.IsIntersect(out _, arc, circle);
 			});
 	}

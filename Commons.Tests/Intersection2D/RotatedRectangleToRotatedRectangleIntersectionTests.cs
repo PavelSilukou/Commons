@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 using Commons.Intersection2D;
-using Commons.Intersection2D.Shapes;
+using CShapes = Commons.Intersection2D.Shapes;
 
 namespace Commons.Tests.Intersection2D;
 
@@ -145,8 +145,8 @@ public class RotatedRectangleToRotatedRectangleIntersectionTests
 	public bool IsRotatedRectangleToRotatedRectangleIntersectTests(Vector2[] rects)
 	{
 		var intersection = new Intersection();
-		var rotatedRectangle1 = new CRotatedRectangle(rects[0], rects[1], rects[2], rects[3]);
-		var rotatedRectangle2 = new CRotatedRectangle(rects[4], rects[5], rects[6], rects[7]);
+		var rotatedRectangle1 = CShapes.TryCreateRotatedRectangle(rects[0], rects[1], rects[2], rects[3]);
+		var rotatedRectangle2 = CShapes.TryCreateRotatedRectangle(rects[4], rects[5], rects[6], rects[7]);
 		var isIntersect = intersection.IsIntersect(rotatedRectangle1, rotatedRectangle2);
 		return isIntersect;
 	}
@@ -156,8 +156,8 @@ public class RotatedRectangleToRotatedRectangleIntersectionTests
 	{
 		var newRects = rects.Select(rect => Vector2Utils.RotateDeg(rect, 42.5f)).ToArray();
 		var intersection = new Intersection();
-		var rotatedRectangle1 = new CRotatedRectangle(newRects[0], newRects[1], newRects[2], newRects[3]);
-		var rotatedRectangle2 = new CRotatedRectangle(newRects[4], newRects[5], newRects[6], newRects[7]);
+		var rotatedRectangle1 = CShapes.TryCreateRotatedRectangle(newRects[0], newRects[1], newRects[2], newRects[3]);
+		var rotatedRectangle2 = CShapes.TryCreateRotatedRectangle(newRects[4], newRects[5], newRects[6], newRects[7]);
 		var isIntersect = intersection.IsIntersect(rotatedRectangle1, rotatedRectangle2);
 		return isIntersect;
 	}
@@ -333,8 +333,8 @@ public class RotatedRectangleToRotatedRectangleIntersectionTests
 			() =>
 			{
 				var intersection = new Intersection();
-				var rotatedRectangle1 = new CRotatedRectangle(newRects[0], newRects[1], newRects[2], newRects[3]);
-				var rotatedRectangle2 = new CRotatedRectangle(newRects[4], newRects[5], newRects[6], newRects[7]);
+				var rotatedRectangle1 = CShapes.TryCreateRotatedRectangle(newRects[0], newRects[1], newRects[2], newRects[3]);
+				var rotatedRectangle2 = CShapes.TryCreateRotatedRectangle(newRects[4], newRects[5], newRects[6], newRects[7]);
 				isIntersect = intersection.IsIntersect(rotatedRectangle1, rotatedRectangle2);
 			});
 		return isIntersect;
@@ -595,8 +595,8 @@ public class RotatedRectangleToRotatedRectangleIntersectionTests
 			() =>
 			{
 				var intersection = new Intersection();
-				var rotatedRectangle1 = new CRotatedRectangle(newRects[0], newRects[1], newRects[2], newRects[3]);
-				var rotatedRectangle2 = new CRotatedRectangle(newRects[4], newRects[5], newRects[6], newRects[7]);
+				var rotatedRectangle1 = CShapes.TryCreateRotatedRectangle(newRects[0], newRects[1], newRects[2], newRects[3]);
+				var rotatedRectangle2 = CShapes.TryCreateRotatedRectangle(newRects[4], newRects[5], newRects[6], newRects[7]);
 				intersection.IsIntersect(rotatedRectangle1, rotatedRectangle2);
 			});
 	}
