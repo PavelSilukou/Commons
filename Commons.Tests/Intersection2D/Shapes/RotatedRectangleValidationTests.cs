@@ -21,14 +21,14 @@ public class RotatedRectangleValidationTests
 	[Test, TestCaseSource(nameof(DoesNotThrowTestsParameters))]
 	public void DoesNotThrowTests(Vector2[] rect)
 	{
-		Assert.DoesNotThrow(() => RotatedRectangleCreator.ValidateAndCreate(rect[0], rect[1], rect[2], rect[3]));
+		Assert.DoesNotThrow(() => RotatedRectangleCreator.Create(rect[0], rect[1], rect[2], rect[3]));
 	}
 	
 	[Test, TestCaseSource(nameof(DoesNotThrowTestsParameters))]
 	public void DoesNotThrowRotatedTests(Vector2[] rect)
 	{
 		var newRect = rect.Select(r => Vector2Utils.RotateDeg(r, 42.5f)).ToArray();
-		Assert.DoesNotThrow(() => RotatedRectangleCreator.ValidateAndCreate(newRect[0], newRect[1], newRect[2], newRect[3]));
+		Assert.DoesNotThrow(() => RotatedRectangleCreator.Create(newRect[0], newRect[1], newRect[2], newRect[3]));
 	}
 	
 	private static IEnumerable<TestCaseData> AssertThrowTestsParameters()
@@ -180,7 +180,7 @@ public class RotatedRectangleValidationTests
 	[Test, TestCaseSource(nameof(AssertThrowTestsParameters))]
 	public void AssertThrowTests(Vector2[] rect)
 	{
-		var exception = Assert.Throws<ArithmeticException>(() => RotatedRectangleCreator.ValidateAndCreate(rect[0], rect[1], rect[2], rect[3]));
+		var exception = Assert.Throws<ArithmeticException>(() => RotatedRectangleCreator.Create(rect[0], rect[1], rect[2], rect[3]));
 		Assert.That(exception.Source, Is.EqualTo("Commons.Intersection2D"));
 	}
 	
@@ -188,7 +188,7 @@ public class RotatedRectangleValidationTests
 	public void AssertThrowRotatedTests(Vector2[] rect)
 	{
 		var newRect = rect.Select(r => Vector2Utils.RotateDeg(r, 42.5f)).ToArray();
-		var exception = Assert.Throws<ArithmeticException>(() => RotatedRectangleCreator.ValidateAndCreate(newRect[0], newRect[1], newRect[2], newRect[3]));
+		var exception = Assert.Throws<ArithmeticException>(() => RotatedRectangleCreator.Create(newRect[0], newRect[1], newRect[2], newRect[3]));
 		Assert.That(exception.Source, Is.EqualTo("Commons.Intersection2D"));
 	}
 }

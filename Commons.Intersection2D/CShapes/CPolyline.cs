@@ -28,7 +28,7 @@ namespace Commons.Intersection2D.CShapes
 		// 	return new CPolyline(points);
 		// }
 		//
-		// public static CShape ValidateAndCreate(Vector2[] points)
+		// public static CShape Create(Vector2[] points)
 		// {
 		// 	if (points.Length == 0) throw new ArithmeticException($"'{nameof(points)}' is empty.");
 		// 	for(var i = 0; i < points.Length; i++)

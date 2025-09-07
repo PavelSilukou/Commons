@@ -8,8 +8,17 @@ namespace Commons.Intersection2D.ShapeCreators
 	{
 		public static CShape Create(Vector2 center, Vector2 point, float angle)
 		{
+			if (!Vector2Utils.IsFinite(center)) 
+				throw new ArithmeticException($"'{nameof(center)}' should be finite.");
+			if (!Vector2Utils.IsFinite(point)) 
+				throw new ArithmeticException($"'{nameof(point)}' should be finite.");
+			
+			if (!float.IsFinite(angle) || MathF.Abs(angle).MoreOrEqualTo(360.0f) || angle.EqualTo(0.0f)) 
+				throw new ArithmeticException($"'{nameof(angle)}' should be in range (0.0f, 360.0f).");
 			var angleSign = GetAngleSign(angle);
 			var radius = GetRadius(center, point);
+			if (radius.EqualTo(0.0f)) throw new ArithmeticException("Arc radius should be more than 0.0f.");
+			
 			return new CArc(center, point, angle, angleSign, radius);
 		}
 		
@@ -21,22 +30,6 @@ namespace Commons.Intersection2D.ShapeCreators
 			if (radius.EqualTo(0.0f)) return new CPoint(center);
 			if (angle.EqualTo(0.0f)) return new CPoint(point);
 			if (MathF.Abs(angle).EqualTo(360.0f)) return new CCircle(center, radius);
-			
-			return new CArc(center, point, angle, angleSign, radius);
-		}
-
-		public static CShape ValidateAndCreate(Vector2 center, Vector2 point, float angle)
-		{
-			if (!Vector2Utils.IsFinite(center)) 
-				throw new ArithmeticException($"'{nameof(center)}' should be finite.");
-			if (!Vector2Utils.IsFinite(point)) 
-				throw new ArithmeticException($"'{nameof(point)}' should be finite.");
-			
-			if (!float.IsFinite(angle) || MathF.Abs(angle).MoreOrEqualTo(360.0f) || angle.EqualTo(0.0f)) 
-				throw new ArithmeticException($"'{nameof(angle)}' should be in range (0.0f, 360.0f).");
-			var angleSign = GetAngleSign(angle);
-			var radius = GetRadius(center, point);
-			if (radius.EqualTo(0.0f)) throw new ArithmeticException("Arc radius should be more than 0.0f.");
 			
 			return new CArc(center, point, angle, angleSign, radius);
 		}

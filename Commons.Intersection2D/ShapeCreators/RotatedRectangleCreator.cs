@@ -9,20 +9,6 @@ namespace Commons.Intersection2D.ShapeCreators
 	{
 		public static CShape Create(Vector2 point1, Vector2 point2, Vector2 point3, Vector2 point4)
 		{
-			return new CRotatedRectangle(point1, point2, point3, point4);
-		}
-		
-		public static CShape TryCreate(Vector2 point1, Vector2 point2, Vector2 point3, Vector2 point4)
-		{
-			if (IsPoint(point1, point2, point3, point4)) return new CPoint(point1);
-			if (point1.EqualTo(point4) && point2.EqualTo(point3)) return new CLineSegment(point1, point2);
-			if (point1.EqualTo(point2) && point3.EqualTo(point4)) return new CLineSegment(point1, point3);
-			if (!IsRotatedRectangle(point1, point2, point3, point4)) return new CQuadrilateral(point1, point2, point3, point4);
-			return new CRotatedRectangle(point1, point2, point3, point4);
-		}
-
-		public static CShape ValidateAndCreate(Vector2 point1, Vector2 point2, Vector2 point3, Vector2 point4)
-		{
 			if (!Vector2Utils.IsFinite(point1)) 
 				throw new ArithmeticException($"'{nameof(point1)}' should be finite.");
 			if (!Vector2Utils.IsFinite(point2)) 
@@ -32,16 +18,24 @@ namespace Commons.Intersection2D.ShapeCreators
 			if (!Vector2Utils.IsFinite(point4)) 
 				throw new ArithmeticException($"'{nameof(point4)}' should be finite.");
 
-			// TODO
-			if (IsPoint(point1, point2, point3, point4)) 
-				throw new ArithmeticException("Points do not form a rotated rectangle.");
-			if (point1.EqualTo(point4) && point2.EqualTo(point3))
-				throw new ArithmeticException("Points do not form a rotated rectangle.");
-			if (point1.EqualTo(point2) && point3.EqualTo(point4))
-				throw new ArithmeticException("Points do not form a rotated rectangle.");
-			if (!IsRotatedRectangle(point1, point2, point3, point4))
+			if (point1.EqualTo(point2) 
+			    || point1.EqualTo(point3)
+			    || point1.EqualTo(point4)
+			    || point2.EqualTo(point3)
+			    || point2.EqualTo(point4)
+			    || point3.EqualTo(point4)
+			    || !IsRotatedRectangle(point1, point2, point3, point4))
 				throw new ArithmeticException("Points do not form a rotated rectangle.");
 			
+			return new CRotatedRectangle(point1, point2, point3, point4);
+		}
+		
+		public static CShape TryCreate(Vector2 point1, Vector2 point2, Vector2 point3, Vector2 point4)
+		{
+			if (IsPoint(point1, point2, point3, point4)) return new CPoint(point1);
+			if (point1.EqualTo(point4) && point2.EqualTo(point3)) return new CLineSegment(point1, point2);
+			if (point1.EqualTo(point2) && point3.EqualTo(point4)) return new CLineSegment(point1, point3);
+			if (!IsRotatedRectangle(point1, point2, point3, point4)) return new CQuadrilateral(point1, point2, point3, point4);
 			return new CRotatedRectangle(point1, point2, point3, point4);
 		}
 		

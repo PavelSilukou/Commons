@@ -26,7 +26,7 @@ namespace Commons.Intersection2D.CShapes
 		// 	return new CQuadrilateral(point1, point2, point3, point4);
 		// }
 		//
-		// public static CShape ValidateAndCreate(Vector2 point1, Vector2 point2, Vector2 point3, Vector2 point4)
+		// public static CShape Create(Vector2 point1, Vector2 point2, Vector2 point3, Vector2 point4)
 		// {
 		// 	if (!Vector2Utils.IsFinite(point1)) 
 		// 		throw new ArithmeticException($"'{nameof(point1)}' should be finite.");

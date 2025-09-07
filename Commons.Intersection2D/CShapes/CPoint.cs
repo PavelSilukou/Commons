@@ -18,7 +18,7 @@ namespace Commons.Intersection2D.CShapes
 		// 	return new CPoint(point);
 		// }
 		//
-		// public static CShape ValidateAndCreate(Vector2 point)
+		// public static CShape Create(Vector2 point)
 		// {
 		// 	if (!Vector2Utils.IsFinite(point)) throw new ArithmeticException("Point should be finite.");
 		// 	

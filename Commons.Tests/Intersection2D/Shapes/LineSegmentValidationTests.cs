@@ -25,7 +25,7 @@ public class LineSegmentValidationTests
 	[Test, TestCaseSource(nameof(DoesNotThrowTestsParameters))]
 	public void DoesNotThrowTests(Vector2 point1, Vector2 point2)
 	{
-		Assert.DoesNotThrow(() => LineSegmentCreator.ValidateAndCreate(point1, point2));
+		Assert.DoesNotThrow(() => LineSegmentCreator.Create(point1, point2));
 	}
 	
 	private static IEnumerable<TestCaseData> AssertThrowTestsParameters()
@@ -62,7 +62,7 @@ public class LineSegmentValidationTests
 	[Test, TestCaseSource(nameof(AssertThrowTestsParameters))]
 	public void AssertThrowTests(Vector2 point1, Vector2 point2)
 	{
-		var exception = Assert.Throws<ArithmeticException>(() => LineSegmentCreator.ValidateAndCreate(point1, point2));
+		var exception = Assert.Throws<ArithmeticException>(() => LineSegmentCreator.Create(point1, point2));
 		Assert.That(exception.Source, Is.EqualTo("Commons.Intersection2D"));
 	}
 }

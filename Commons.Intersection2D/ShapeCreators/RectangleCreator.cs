@@ -9,17 +9,6 @@ namespace Commons.Intersection2D.ShapeCreators
 	{
 		public static CShape Create(float left, float top, float right, float bottom) 
 		{
-			return new CRectangle(left, top, right, bottom);
-		}
-		
-		public static CShape TryCreate(float left, float top, float right, float bottom) 
-		{
-			if (IsPoint(left, top, right, bottom)) return new CPoint(new Vector2(left, top));
-			return new CRectangle(left, top, right, bottom);
-		}
-
-		public static CShape ValidateAndCreate(float left, float top, float right, float bottom) 
-		{
 			if (!float.IsFinite(left)) 
 				throw new ArithmeticException($"'{nameof(left)}' should be finite.");
 			if (!float.IsFinite(top))
@@ -34,6 +23,12 @@ namespace Commons.Intersection2D.ShapeCreators
 			if (bottom.MoreOrEqualTo(top))
 				throw new ArithmeticException($"'{nameof(bottom)}' should be less than '{nameof(top)}'.");
 			
+			return new CRectangle(left, top, right, bottom);
+		}
+		
+		public static CShape TryCreate(float left, float top, float right, float bottom) 
+		{
+			if (IsPoint(left, top, right, bottom)) return new CPoint(new Vector2(left, top));
 			return new CRectangle(left, top, right, bottom);
 		}
 		

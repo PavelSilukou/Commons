@@ -19,7 +19,7 @@ public class CircleValidationTests
 	[Test, TestCaseSource(nameof(DoesNotThrowTestsParameters))]
 	public void DoesNotThrowTests(Vector2 circleCenter, float circleRadius)
 	{
-		Assert.DoesNotThrow(() => CircleCreator.ValidateAndCreate(circleCenter, circleRadius));
+		Assert.DoesNotThrow(() => CircleCreator.Create(circleCenter, circleRadius));
 	}
 	
 	private static IEnumerable<TestCaseData> AssertThrowTestsParameters()
@@ -52,7 +52,7 @@ public class CircleValidationTests
 	[Test, TestCaseSource(nameof(AssertThrowTestsParameters))]
 	public void AssertThrowTests(Vector2 circleCenter, float circleRadius)
 	{
-		var exception = Assert.Throws<ArithmeticException>(() => CircleCreator.ValidateAndCreate(circleCenter, circleRadius));
+		var exception = Assert.Throws<ArithmeticException>(() => CircleCreator.Create(circleCenter, circleRadius));
 		Assert.That(exception.Source, Is.EqualTo("Commons.Intersection2D"));
 	}
 }
