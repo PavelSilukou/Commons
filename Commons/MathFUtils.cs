@@ -7,6 +7,8 @@ namespace Commons
 	[PublicAPI]
 	public static class MathFUtils
 	{
+		// TODO
+		// Math.Clamp(t, 0.0f, 1.0f)
 		public static float Clamp(float value, float minValue, float maxValue)
 		{
 			return Math.Max(minValue, Math.Min(value, maxValue));
@@ -180,6 +182,7 @@ namespace Commons
 
 		public static int Sign(float value)
 		{
+			// TODO: think about infinity
 			if (!float.IsFinite(value)) throw new ArithmeticException($"'{nameof(value)}' should be finite.");
 			return MathF.Sign(value) == -1 ? -1 : 1;
 		}

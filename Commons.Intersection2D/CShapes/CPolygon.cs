@@ -10,6 +10,7 @@ namespace Commons.Intersection2D.CShapes
 		{
 		}
 		
+		// TODO
 		// public new static CShape Create(Vector2[] points)
 		// {
 		// 	if (IsPoint(points)) return new CPoint(points[0]);

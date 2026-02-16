@@ -13,6 +13,7 @@ namespace Commons.Intersection2D.CShapes
 			Point = point;
 		}
 		
+		// TODO
 		// public static CShape Create(Vector2 point)
 		// {
 		// 	return new CPoint(point);

@@ -20,6 +20,7 @@ namespace Commons.Intersection2D.CShapes
 			Point4 = point4;
 		}
 		
+		// TODO
 		// public static CShape Create(Vector2 point1, Vector2 point2, Vector2 point3, Vector2 point4)
 		// {
 		// 	if (IsPoint(point1, point2, point3, point4)) return new CPoint(point1);

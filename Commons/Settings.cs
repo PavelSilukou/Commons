@@ -2,6 +2,7 @@
 
 namespace Commons
 {
+	// TODO
 	public static class Settings
 	{
 		private static float _equalsTolerance = 0.001f;
