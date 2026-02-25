@@ -9,8 +9,12 @@ namespace Commons.Intersection2D.Strategies
 	[IntersectionStrategy]
 	internal class LineSegmentToPolylineIntersectionStrategy: IntersectionStrategy<CLineSegment, CPolyline>
 	{
-		private readonly IIntersectionStrategy _lineSegmentToLineSegmentIntersectionStrategy = 
-			new LineSegmentToLineSegmentIntersectionStrategy();
+		private readonly IIntersectionStrategy _lineSegmentToLineSegmentIntersectionStrategy;
+		
+		public LineSegmentToPolylineIntersectionStrategy(LineSegmentToLineSegmentIntersectionStrategy lineSegmentToLineSegmentIntersectionStrategy)
+		{
+			_lineSegmentToLineSegmentIntersectionStrategy = lineSegmentToLineSegmentIntersectionStrategy;
+		}
 		
 		protected override bool IsIntersect(CLineSegment lineSegment, CPolyline polyline)
 		{

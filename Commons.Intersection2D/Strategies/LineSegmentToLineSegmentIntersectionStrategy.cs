@@ -8,6 +8,13 @@ namespace Commons.Intersection2D.Strategies
 	[IntersectionStrategy]
 	internal class LineSegmentToLineSegmentIntersectionStrategy: IntersectionStrategy<CLineSegment, CLineSegment>
 	{
+		private readonly Approximation.Approximation _approximation;
+		
+		public LineSegmentToLineSegmentIntersectionStrategy(Approximation.Approximation approximation)
+		{
+			_approximation = approximation;
+		}
+		
 		protected override bool IsIntersect(CLineSegment lineSegment1, CLineSegment lineSegment2)
 		{
 			return IsIntersect(out _, lineSegment1, lineSegment2);
@@ -27,7 +34,7 @@ namespace Commons.Intersection2D.Strategies
 			var s = (-s1Y * (lineSegment1.Point1.X - lineSegment2.Point1.X) + s1X * (lineSegment1.Point1.Y - lineSegment2.Point1.Y)) / denominator;
 			var t = (s2X * (lineSegment1.Point1.Y - lineSegment2.Point1.Y) - s2Y * (lineSegment1.Point1.X - lineSegment2.Point1.X)) / denominator;
 
-			if (denominator.EqualTo(0.0f) && float.IsNaN(s) && float.IsNaN(t)) // parallel and lie on the same line
+			if (_approximation.Float.EqualTo(denominator, 0.0f) && float.IsNaN(s) && float.IsNaN(t)) // parallel and lie on the same line
 			{
 				if (AreCollinearLineSegmentsTouch(out var touchPoint, lineSegment1.Point1, lineSegment1.Point2, lineSegment2.Point1, lineSegment2.Point2))
 				{
@@ -41,12 +48,12 @@ namespace Commons.Intersection2D.Strategies
 				// ReSharper disable once InvertIf
 				if (AreCollinearLineSegmentsOverlay(lineSegment1.Point1, lineSegment1.Point2, lineSegment2.Point1, lineSegment2.Point2))
 				{
-					intersectionPoints = new []{ Vector2Utils.NaN() };
-					if (Vector2.Distance(lineSegment1.Point1, lineSegment1.Point2).EqualTo(0.0f))
+					intersectionPoints = new []{ _approximation.Vector2.NaN() };
+					if (_approximation.Float.EqualTo(Vector2.Distance(lineSegment1.Point1, lineSegment1.Point2), 0.0f))
 					{
 						intersectionPoints[0] = lineSegment1.Point1;
 					}
-					if (Vector2.Distance(lineSegment2.Point1, lineSegment2.Point2).EqualTo(0.0f))
+					if (_approximation.Float.EqualTo(Vector2.Distance(lineSegment2.Point1, lineSegment2.Point2), 0.0f))
 					{
 						intersectionPoints[0] = lineSegment2.Point1;
 					}
@@ -64,7 +71,7 @@ namespace Commons.Intersection2D.Strategies
 		
 		// TODO: rework
 		// ReSharper disable once InvertIf
-		private static bool AreCollinearLineSegmentsTouch(
+		private bool AreCollinearLineSegmentsTouch(
 			out Vector2? touchPoint,
 			Vector2 point1,
 			Vector2 point2,
@@ -100,18 +107,18 @@ namespace Commons.Intersection2D.Strategies
 			return false;
 		}
 
-		private static bool AreCollinearLineSegmentsTouch(Vector2 a, Vector2 b, Vector2 c, Vector2 d)
+		private bool AreCollinearLineSegmentsTouch(Vector2 a, Vector2 b, Vector2 c, Vector2 d)
 		{
-			if (!(a - b).EqualTo(Vector2.Zero)) return false;
+			if (!_approximation.Vector2.EqualTo(a - b, Vector2.Zero)) return false;
 			
 			var t1 = a - c;
 			var t2 = b - d;
-			return Vector2Utils.AngleRad(t1, t2).EqualTo(MathF.PI);
+			return _approximation.Float.EqualTo(_approximation.Vector2.AngleRad(t1, t2), MathF.PI);
 		}
 		
 		// TODO: rework
 		// ReSharper disable once ConvertIfStatementToReturnStatement
-		private static bool AreCollinearLineSegmentsOverlay(
+		private bool AreCollinearLineSegmentsOverlay(
 			Vector2 point1,
 			Vector2 point2,
 			Vector2 point3,
@@ -125,14 +132,14 @@ namespace Commons.Intersection2D.Strategies
 			return false;
 		}
 		
-		private static bool IsCollinearPointOnLineSegment(Vector2 point, Vector2 lineSegmentPoint1, Vector2 lineSegmentPoint2)
+		private bool IsCollinearPointOnLineSegment(Vector2 point, Vector2 lineSegmentPoint1, Vector2 lineSegmentPoint2)
 		{
 			var dotProduct = (point.X - lineSegmentPoint1.X) * (lineSegmentPoint2.X - lineSegmentPoint1.X) +
 			                 (point.Y - lineSegmentPoint1.Y) * (lineSegmentPoint2.Y - lineSegmentPoint1.Y);
 			if (dotProduct < 0.0f) return false;
 
 			var squaredLength = Vector2.DistanceSquared(lineSegmentPoint1, lineSegmentPoint2);
-			return dotProduct.LessOrEqualTo(squaredLength);
+			return _approximation.Float.LessOrEqualTo(dotProduct, squaredLength);
 		}
 	}
 }

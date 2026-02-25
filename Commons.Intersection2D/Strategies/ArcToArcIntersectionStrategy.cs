@@ -10,8 +10,17 @@ namespace Commons.Intersection2D.Strategies
 	[IntersectionStrategy]
 	internal class ArcToArcIntersectionStrategy: IntersectionStrategy<CArc, CArc>
 	{
-		private readonly IIntersectionStrategy _circleToCircleIntersectionStrategy =
-			new CircleToCircleIntersectionStrategy();
+		private readonly Approximation.Approximation _approximation;
+		private readonly IIntersectionStrategy _circleToCircleIntersectionStrategy;
+		
+		public ArcToArcIntersectionStrategy(
+			Approximation.Approximation approximation, 
+			CircleToCircleIntersectionStrategy circleToCircleIntersectionStrategy
+		)
+		{
+			_approximation = approximation;
+			_circleToCircleIntersectionStrategy = circleToCircleIntersectionStrategy;
+		}
 
 		protected override bool IsIntersect(CArc arc1, CArc arc2)
 		{
@@ -35,7 +44,7 @@ namespace Commons.Intersection2D.Strategies
 			
 			var isIntersect = false;
 			var point1 = circlesIntersectionPoints[0];
-			if (Vector2Utils.IsNaN(point1))
+			if (_approximation.Vector2.IsNaN(point1))
 			{
 				var areArcsOverlay = CheckArcsOverlay(arc1, arc2);
 				if (areArcsOverlay)
@@ -48,7 +57,8 @@ namespace Commons.Intersection2D.Strategies
 					out var touchPoint1, 
 					out var touchPoint2, 
 					arc1, 
-					arc2);
+					arc2
+				);
 
 				if (!areArcsTouch) return false;
 
@@ -79,62 +89,55 @@ namespace Commons.Intersection2D.Strategies
 		
 		// TODO
 		// ReSharper disable once InvertIf
-		private static bool IsPointsOnArc(
+		private bool IsPointsOnArc(
 			Vector2 point,
 			CArc arc
 		)
 		{
 			var anglePoint1 =
-				Vector2Utils.SignedAngleDeg360Clamp(arc.Point - arc.Center, point - arc.Center, arc.AngleSign);
-			return MathF.Abs(anglePoint1).LessOrEqualTo(MathF.Abs(arc.Angle));
+				_approximation.Vector2.SignedAngleDeg360Clamp(
+					arc.Point - arc.Center, 
+					point - arc.Center, arc.AngleSign
+				);
+			return _approximation.Float.LessOrEqualTo(MathF.Abs(anglePoint1), MathF.Abs(arc.Angle));
 		}
 		
 		// TODO: rework
 		// ReSharper disable once InvertIf
 		// ReSharper disable once ConvertIfStatementToReturnStatement
-		private static bool CheckArcsOverlay(
+		private bool CheckArcsOverlay(
 			CArc arc1,
 			CArc arc2
 		)
 		{
-			var arc1Point2 = Vector2Utils.RotateDeg(arc1.Point - arc1.Center, arc1.Angle) + arc1.Center;
-			var arc2Point2 = Vector2Utils.RotateDeg(arc2.Point - arc1.Center, arc2.Angle) + arc1.Center;
+			var arc1Point2 = _approximation.Vector2.RotateDeg(arc1.Point - arc1.Center, arc1.Angle) + arc1.Center;
+			var arc2Point2 = _approximation.Vector2.RotateDeg(arc2.Point - arc1.Center, arc2.Angle) + arc1.Center;
 			
 			var angle1Point1 =
-				Vector2Utils.SignedAngleDeg360Clamp(arc1.Point - arc1.Center, arc2.Point - arc1.Center, arc1.AngleSign);
+				_approximation.Vector2.SignedAngleDeg360Clamp(arc1.Point - arc1.Center, arc2.Point - arc1.Center, arc1.AngleSign);
 			var angle1Point2 =
-				Vector2Utils.SignedAngleDeg360Clamp(arc1.Point - arc1.Center, arc2Point2 - arc1.Center, arc1.AngleSign);
+				_approximation.Vector2.SignedAngleDeg360Clamp(arc1.Point - arc1.Center, arc2Point2 - arc1.Center, arc1.AngleSign);
 			var angle2Point1 =
-				Vector2Utils.SignedAngleDeg360Clamp(arc2.Point - arc1.Center, arc1.Point - arc1.Center, arc2.AngleSign);
+				_approximation.Vector2.SignedAngleDeg360Clamp(arc2.Point - arc1.Center, arc1.Point - arc1.Center, arc2.AngleSign);
 			var angle2Point2 =
-				Vector2Utils.SignedAngleDeg360Clamp(arc2.Point - arc1.Center, arc1Point2 - arc1.Center, arc2.AngleSign);
+				_approximation.Vector2.SignedAngleDeg360Clamp(arc2.Point - arc1.Center, arc1Point2 - arc1.Center, arc2.AngleSign);
 			
-			if (MathF.Abs(angle1Point1) < MathF.Abs(arc1.Angle) && !angle1Point1.EqualTo(0.0f))
+			if (MathF.Abs(angle1Point1) < MathF.Abs(arc1.Angle) && !_approximation.Float.EqualTo(angle1Point1, 0.0f)) return true;
+			if (MathF.Abs(angle1Point2) < MathF.Abs(arc1.Angle) && !_approximation.Float.EqualTo(angle1Point2, 0.0f)) return true;
+			if (MathF.Abs(angle2Point1) < MathF.Abs(arc2.Angle) && !_approximation.Float.EqualTo(angle2Point1, 0.0f)) return true;
+			if (MathF.Abs(angle2Point2) < MathF.Abs(arc2.Angle) && !_approximation.Float.EqualTo(angle2Point2, 0.0f)) return true;
+			if (_approximation.Float.EqualTo(arc1.Angle, arc2.Angle) 
+			    && _approximation.Vector2.EqualTo(arc1.Point, arc2.Point) 
+			    && _approximation.Vector2.EqualTo(arc1Point2, arc2Point2)
+			)
 			{
 				return true;
 			}
 			
-			if (MathF.Abs(angle1Point2) < MathF.Abs(arc1.Angle) && !angle1Point2.EqualTo(0.0f))
-			{
-				return true;
-			}
-			
-			if (MathF.Abs(angle2Point1) < MathF.Abs(arc2.Angle) && !angle2Point1.EqualTo(0.0f))
-			{
-				return true;
-			}
-			
-			if (MathF.Abs(angle2Point2) < MathF.Abs(arc2.Angle) && !angle2Point2.EqualTo(0.0f))
-			{
-				return true;
-			}
-
-			if (arc1.Angle.EqualTo(arc2.Angle) && arc1.Point.EqualTo(arc2.Point) && arc1Point2.EqualTo(arc2Point2))
-			{
-				return true;
-			}
-			
-			if (MathF.Abs(arc1.Angle).EqualTo(MathF.Abs(arc2.Angle)) && arc1.Point.EqualTo(arc2Point2) && arc1Point2.EqualTo(arc2.Point))
+			if (_approximation.Float.EqualTo(MathF.Abs(arc1.Angle), MathF.Abs(arc2.Angle)) 
+			    && _approximation.Vector2.EqualTo(arc1.Point, arc2Point2) 
+			    && _approximation.Vector2.EqualTo(arc1Point2, arc2.Point)
+			)
 			{
 				return true;
 			}
@@ -146,7 +149,7 @@ namespace Commons.Intersection2D.Strategies
 		// works only in conjunction with CheckArcsOverlay
 		// ReSharper disable once InvertIf
 		// ReSharper disable once ConvertIfStatementToReturnStatement
-		private static bool CheckArcsTouch(
+		private bool CheckArcsTouch(
 			out Vector2? touchPoint1,
 			out Vector2? touchPoint2,
 			CArc arc1,
@@ -156,18 +159,18 @@ namespace Commons.Intersection2D.Strategies
 			touchPoint1 = null;
 			touchPoint2 = null;
 
-			var arc1Point2 = Vector2Utils.RotateDeg(arc1.Point - arc1.Center, arc1.Angle) + arc1.Center;
-			var arc2Point2 = Vector2Utils.RotateDeg(arc2.Point - arc1.Center, arc2.Angle) + arc1.Center;
+			var arc1Point2 = _approximation.Vector2.RotateDeg(arc1.Point - arc1.Center, arc1.Angle) + arc1.Center;
+			var arc2Point2 = _approximation.Vector2.RotateDeg(arc2.Point - arc1.Center, arc2.Angle) + arc1.Center;
 			
 			var isTouch = false;
 
-			if (arc1.Point.EqualTo(arc2.Point) || arc1.Point.EqualTo(arc2Point2))
+			if (_approximation.Vector2.EqualTo(arc1.Point, arc2.Point) || _approximation.Vector2.EqualTo(arc1.Point, arc2Point2))
 			{
 				touchPoint1 = arc1.Point;
 				isTouch = true;
 			}
 			
-			if (arc1Point2.EqualTo(arc2.Point) || arc1Point2.EqualTo(arc2Point2))
+			if (_approximation.Vector2.EqualTo(arc1Point2, arc2.Point) || _approximation.Vector2.EqualTo(arc1Point2, arc2Point2))
 			{
 				touchPoint2 = arc1Point2;
 				isTouch = true;

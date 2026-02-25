@@ -1,13 +1,23 @@
 ﻿using System;
 using System.Numerics;
 using Commons.Intersection2D.CShapes;
+using Commons.Intersection2D.ShapeCreators;
 using Commons.Intersection2D.Strategies.Internal;
 
 namespace Commons.Intersection2D
 {
 	public class Intersection
 	{
-		private readonly IntersectionStrategies _strategies = new();
+		public ArcCreator Arc { get; }
+
+		private readonly IntersectionStrategies _strategies;
+
+		public Intersection(float tolerance)
+		{
+			var approximation = new Approximation.Approximation(tolerance);
+			Arc = new ArcCreator(approximation);
+			_strategies = new IntersectionStrategies(approximation);
+		}
 		
 		public bool IsIntersect(CShape shape1, CShape shape2)
 		{

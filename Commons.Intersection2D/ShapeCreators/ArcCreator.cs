@@ -4,35 +4,48 @@ using Commons.Intersection2D.CShapes;
 
 namespace Commons.Intersection2D.ShapeCreators
 {
-	public static class ArcCreator
+	public class ArcCreator
 	{
-		public static CShape Create(Vector2 center, Vector2 point, float angle)
+		private readonly Approximation.Approximation _approximation;
+		
+		internal ArcCreator(Approximation.Approximation approximation)
 		{
-			if (!Vector2Utils.IsFinite(center)) 
+			_approximation = approximation;
+		}
+		
+		public CShape Create(Vector2 center, Vector2 point, float angle)
+		{
+			if (!_approximation.Vector2.IsFinite(center)) 
 				throw new ArithmeticException($"'{nameof(center)}' should be finite.");
-			if (!Vector2Utils.IsFinite(point)) 
+			if (!_approximation.Vector2.IsFinite(point)) 
 				throw new ArithmeticException($"'{nameof(point)}' should be finite.");
 			
-			if (!float.IsFinite(angle) || MathF.Abs(angle).MoreOrEqualTo(360.0f) || angle.EqualTo(0.0f)) 
+			if (!float.IsFinite(angle) 
+			    || _approximation.Float.MoreOrEqualTo(MathF.Abs(angle), 360.0f) 
+			    || _approximation.Float.EqualTo(angle, 0.0f)) 
 				throw new ArithmeticException($"'{nameof(angle)}' should be in range (0.0f, 360.0f).");
 			var angleSign = GetAngleSign(angle);
 			var radius = GetRadius(center, point);
-			if (radius.EqualTo(0.0f)) throw new ArithmeticException("Arc radius should be more than 0.0f.");
+			if (_approximation.Float.EqualTo(radius, 0.0f)) 
+				throw new ArithmeticException("Arc radius should be more than 0.0f.");
 			
 			return new CArc(center, point, angle, angleSign, radius);
 		}
 		
-		public static CShape TryCreate(Vector2 center, Vector2 point, float angle)
+		public CShape TryCreate(Vector2 center, Vector2 point, float angle)
 		{
 			var angleSign = GetAngleSign(angle);
 			var radius = GetRadius(center, point);
 			
-			if (radius.EqualTo(0.0f)) return new CPoint(center);
-			if (angle.EqualTo(0.0f)) return new CPoint(point);
-			if (MathF.Abs(angle).EqualTo(360.0f)) return new CCircle(center, radius);
+			if (_approximation.Float.EqualTo(radius, 0.0f)) return new CPoint(center);
+			if (_approximation.Float.EqualTo(angle, 0.0f)) return new CPoint(point);
+			if (_approximation.Float.EqualTo(MathF.Abs(angle), 360.0f)) return new CCircle(center, radius);
 			
 			return new CArc(center, point, angle, angleSign, radius);
 		}
+		
+		// TODO:
+		// public CShape ForceCreate(Vector2 center, Vector2 point, float angle)
 
 		private static int GetAngleSign(float angle)
 		{

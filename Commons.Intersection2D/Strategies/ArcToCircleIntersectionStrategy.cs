@@ -9,8 +9,14 @@ namespace Commons.Intersection2D.Strategies
 	[IntersectionStrategy]
 	internal class ArcToCircleIntersectionStrategy: IntersectionStrategy<CArc, CCircle>
 	{
-		private readonly IIntersectionStrategy _circleToCircleIntersectionStrategy =
-			new CircleToCircleIntersectionStrategy();
+		private readonly Approximation.Approximation _approximation;
+		private readonly IIntersectionStrategy _circleToCircleIntersectionStrategy;
+		
+		public ArcToCircleIntersectionStrategy(Approximation.Approximation approximation, CircleToCircleIntersectionStrategy circleToCircleIntersectionStrategy)
+		{
+			_approximation = approximation;
+			_circleToCircleIntersectionStrategy = circleToCircleIntersectionStrategy;
+		}
 
 		protected override bool IsIntersect(CArc arc, CCircle circle)
 		{
@@ -27,13 +33,10 @@ namespace Commons.Intersection2D.Strategies
 				circle
 			);
 
-			if (!circlesIntersection)
-			{
-				return false;
-			}
+			if (!circlesIntersection) return false;
 
 			var point1 = circlesIntersectionPoints[0];
-			if (Vector2Utils.IsNaN(point1))
+			if (_approximation.Vector2.IsNaN(point1))
 			{
 				intersectionPoints = new []{ point1 };
 				return true;
@@ -62,14 +65,14 @@ namespace Commons.Intersection2D.Strategies
 		}
 		
 		// ReSharper disable once InvertIf
-		private static bool IsPointsOnArc(
+		private bool IsPointsOnArc(
 			Vector2 point,
 			CArc arc
 		)
 		{
 			var anglePoint1 =
-				Vector2Utils.SignedAngleDeg360Clamp(arc.Point - arc.Center, point - arc.Center, arc.AngleSign);
-			return MathF.Abs(anglePoint1).LessOrEqualTo(MathF.Abs(arc.Angle));
+				_approximation.Vector2.SignedAngleDeg360Clamp(arc.Point - arc.Center, point - arc.Center, arc.AngleSign);
+			return _approximation.Float.LessOrEqualTo(MathF.Abs(anglePoint1), MathF.Abs(arc.Angle));
 		}
 	}
 }

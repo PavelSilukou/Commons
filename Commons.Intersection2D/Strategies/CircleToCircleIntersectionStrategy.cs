@@ -8,25 +8,31 @@ namespace Commons.Intersection2D.Strategies
 	[IntersectionStrategy]
 	internal class CircleToCircleIntersectionStrategy: IntersectionStrategy<CCircle, CCircle>
 	{
+		private readonly Approximation.Approximation _approximation;
+		
+		public CircleToCircleIntersectionStrategy(Approximation.Approximation approximation)
+		{
+			_approximation = approximation;
+		}
+		
 		protected override bool IsIntersect(CCircle circle1, CCircle circle2)
 		{
 			var distance = Vector2.Distance(circle1.Center, circle2.Center);
-			if (distance.EqualTo(0.0f) && circle1.Radius.EqualTo(circle2.Radius))
+			if (_approximation.Float.EqualTo(distance, 0.0f) 
+			    && _approximation.Float.EqualTo(circle1.Radius, circle2.Radius)
+			)
 			{
 				return true;
 			}
 			
-			return distance.LessOrEqualTo(circle1.Radius + circle2.Radius) 
-			       && distance.MoreOrEqualTo(MathF.Abs(circle1.Radius - circle2.Radius));
+			return _approximation.Float.LessOrEqualTo(distance, circle1.Radius + circle2.Radius)
+			       && _approximation.Float.MoreOrEqualTo(distance, MathF.Abs(circle1.Radius - circle2.Radius));
 		}
 
 		protected override bool IsIntersect(out Vector2[] intersectionPoints, CCircle circle1, CCircle circle2)
 		{
 			intersectionPoints = Array.Empty<Vector2>();
-			if (!IsIntersect(circle1, circle2))
-			{
-				return false;
-			}
+			if (!IsIntersect(circle1, circle2)) return false;
 
 			var r = MathF.Sqrt(MathF.Pow(circle2.Center.X - circle1.Center.X, 2) 
 			                   + MathF.Pow(circle2.Center.Y - circle1.Center.Y, 2));
@@ -51,7 +57,9 @@ namespace Commons.Intersection2D.Strategies
 
 			var intersectionPoint1 = new Vector2(x00, y00);
 			var intersectionPoint2 = new Vector2(x01, y01);
-			intersectionPoints = intersectionPoint1.Equals(intersectionPoint2) ? new[] { intersectionPoint1 } : new[] { intersectionPoint1, intersectionPoint2 };
+			intersectionPoints = intersectionPoint1.Equals(intersectionPoint2) 
+				? new[] { intersectionPoint1 } 
+				: new[] { intersectionPoint1, intersectionPoint2 };
 			return true;
 		}
 	}

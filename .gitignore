@@ -1,5 +1,7 @@
 /Commons/obj/
 /Commons/bin/
+/Commons.Approximation/obj/
+/Commons.Approximation/bin/
 /Commons.Intersection2D/obj/
 /Commons.Intersection2D/bin/
 /Commons.Tests/obj/

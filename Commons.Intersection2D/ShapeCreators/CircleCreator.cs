@@ -4,20 +4,27 @@ using Commons.Intersection2D.CShapes;
 
 namespace Commons.Intersection2D.ShapeCreators
 {
-	public static class CircleCreator
+	public class CircleCreator
 	{
-		public static CShape Create(Vector2 center, float radius)
+		private readonly Approximation.Approximation _approximation;
+		
+		internal CircleCreator(Approximation.Approximation approximation)
 		{
-			if (!Vector2Utils.IsFinite(center)) 
+			_approximation = approximation;
+		}
+		
+		public CShape Create(Vector2 center, float radius)
+		{
+			if (!_approximation.Vector2.IsFinite(center)) 
 				throw new ArithmeticException($"'{nameof(center)}' should be finite.");
-			if (!float.IsFinite(radius) || float.IsNegative(radius) || radius.EqualTo(0.0f)) 
+			if (!float.IsFinite(radius) || float.IsNegative(radius) || _approximation.Float.EqualTo(radius, 0.0f)) 
 				throw new ArithmeticException($"'{nameof(radius)}' should be finite and more than zero.");
 			return new CCircle(center, radius);
 		}
 		
-		public static CShape TryCreate(Vector2 center, float radius)
+		public CShape TryCreate(Vector2 center, float radius)
 		{
-			if (float.IsNegative(radius) || radius.EqualTo(0.0f)) return new CPoint(center);
+			if (float.IsNegative(radius) || _approximation.Float.EqualTo(radius, 0.0f)) return new CPoint(center);
 			return new CCircle(center, radius);
 		}
 	}

@@ -29,7 +29,7 @@ namespace Commons.Intersection2D.Strategies.Internal
 
 		private static (T1 LeftShape, T2 RightShape) GetOrderedShapes(CShape shape1, CShape shape2)
 		{
-			return shape1 is T1 shape ? (shape, (T2)shape2) : ((T1)shape2, (T2)shape1);
+			return shape1 is T1 ? ((T1)shape1, (T2)shape2) : ((T1)shape2, (T2)shape1);
 		}
 	}
 }

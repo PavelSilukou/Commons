@@ -4,42 +4,122 @@ using System.Linq;
 using System.Reflection;
 using Commons.Intersection2D.CShapes;
 using Commons.Intersection2D.CShapes.Internal;
+using Microsoft.Extensions.DependencyInjection;
 
+//TODO:
 namespace Commons.Intersection2D.Strategies.Internal
 {
 	internal class IntersectionStrategies
 	{
-		private readonly Dictionary<IntersectionCShapeTypesPair, IIntersectionStrategy> _strategies = InitStrategies();
+		private readonly Dictionary<IntersectionCShapeTypesPair, IIntersectionStrategy> _strategies;
+		
+		internal IntersectionStrategies(Approximation.Approximation approximation)
+		{
+			_strategies = InitStrategies(approximation);
+		}
 		
 		internal IIntersectionStrategy GetStrategy(CShape shape1, CShape shape2)
 		{
-			var pair = new IntersectionCShapeTypesPair(shape1.GetType(), shape2.GetType());
+			var shape1Type = shape1.GetType();
+			var shape2Type = shape2.GetType();
+			
+			return GetStrategy(shape1Type, shape2Type);
+		}
+		
+		internal IEnumerable<IntersectionCShapeTypesPair> CanIntersect()
+		{
+			var assembly = Assembly.GetExecutingAssembly();
+			var types = assembly.GetTypes()
+				.Where(type =>
+					type.IsClass && type.GetCustomAttribute<CShapeAttribute>() != null && type != typeof(CShape)).ToList();
+			var pairs = types
+				.GetAllPairs()
+				.Select(pair => new IntersectionCShapeTypesPair(pair.Element1, pair.Element2))
+				.Concat(types.Zip(types, (a, b) => new IntersectionCShapeTypesPair(a, b)))
+				.Where(pair =>
+				{
+					try
+					{
+						GetStrategy(pair.Type1, pair.Type2);
+						return true;
+					}
+					catch (Exception)
+					{
+						return false;
+					}
+				});
+			
+			return pairs;
+		}
+		
+		internal IEnumerable<IntersectionCShapeTypesPair> CannotIntersect()
+		{
+			var assembly = Assembly.GetExecutingAssembly();
+			var types = assembly.GetTypes()
+				.Where(type =>
+					type.IsClass && type.GetCustomAttribute<CShapeAttribute>() != null && type != typeof(CShape)).ToList();
+			var pairs = types
+				.GetAllPairs()
+				.Select(pair => new IntersectionCShapeTypesPair(pair.Element1, pair.Element2))
+				.Concat(types.Zip(types, (a, b) => new IntersectionCShapeTypesPair(a, b)))
+				.Where(pair =>
+				{
+					try
+					{
+						GetStrategy(pair.Type1, pair.Type2);
+						return false;
+					}
+					catch (Exception)
+					{
+						return true;
+					}
+				});
+			
+			return pairs;
+		}
+		
+		private IIntersectionStrategy GetStrategy(Type shape1Type, Type shape2Type)
+		{
+			var pair = new IntersectionCShapeTypesPair(shape1Type, shape2Type);
 			var strategy = _strategies.GetValueOrDefault(pair);
 			if (strategy != null) return strategy;
 			
-			strategy = GetStrategyByShapes(shape1, shape2);
-			if (strategy == null) {
-				throw new IntersectionStrategyException($"There is no strategy for intersection {shape1.GetType().Name} and {shape2.GetType().Name}.");
-			}
+			strategy = GetStrategyByShapes(shape1Type, shape2Type);
+			if (strategy == null)
+				throw new IntersectionStrategyException($"There is no strategy for intersection {shape1Type.Name} and {shape2Type.Name}.");
 			
 			_strategies.Add(pair, strategy);
 			return strategy;
 		}
 
-		private static IEnumerable<IIntersectionStrategy> FindAllStrategies()
+		private IEnumerable<IIntersectionStrategy> FindAllStrategies(Approximation.Approximation approximation)
 		{
+			var services = new ServiceCollection();
+			services.AddSingleton(approximation);
+			
 			var assembly = Assembly.GetExecutingAssembly();
-			var classesWithAttribute = assembly.GetTypes()
+			var types = assembly
+				.GetTypes()
 				.Where(type => type.IsClass && type.GetCustomAttribute<IntersectionStrategyAttribute>() != null);
-			foreach (var type in classesWithAttribute)
+			
+			foreach (var type in types)
 			{
-				yield return (IIntersectionStrategy)Activator.CreateInstance(type);
+				services.AddSingleton(type, type);
+				
+				var interfaces = type.GetInterfaces();
+				foreach (var i in interfaces)
+				{
+					services.AddSingleton(i, x => x.GetService(type));
+				}
 			}
+			
+			using var serviceProvider = services.BuildServiceProvider();
+			return serviceProvider.GetServices<IIntersectionStrategy>();
 		}
 		
-		private static Dictionary<IntersectionCShapeTypesPair, IIntersectionStrategy> InitStrategies()
+		private Dictionary<IntersectionCShapeTypesPair, IIntersectionStrategy> InitStrategies(Approximation.Approximation approximation)
 		{
-			var strategies = FindAllStrategies();
+			var strategies = FindAllStrategies(approximation);
 			var strategiesDict = new Dictionary<IntersectionCShapeTypesPair, IIntersectionStrategy>();
 			foreach (var strategy in strategies)
 			{
@@ -54,9 +134,9 @@ namespace Commons.Intersection2D.Strategies.Internal
 			return strategiesDict;
 		}
 
-		private IIntersectionStrategy? GetStrategyByShapes(CShape shape1, CShape shape2)
+		private IIntersectionStrategy? GetStrategyByShapes(Type shapeType1, Type shapeType2)
 		{
-			var shapeTypesPairs = GetAllIntersectionShapeTypePairs(shape1, shape2);
+			var shapeTypesPairs = GetAllIntersectionShapeTypePairs(shapeType1, shapeType2);
 			foreach (var pair in shapeTypesPairs)
 			{
 				if (_strategies.TryGetValue(pair, out var strategy)) return strategy;
@@ -64,21 +144,20 @@ namespace Commons.Intersection2D.Strategies.Internal
 			return null;
 		}
 
-		private static IEnumerable<IntersectionCShapeTypesPair> GetAllIntersectionShapeTypePairs(CShape shape1, CShape shape2)
+		private static IEnumerable<IntersectionCShapeTypesPair> GetAllIntersectionShapeTypePairs(Type shape1Type, Type shape2Type)
 		{
-			var shape1Types = GetShapeTypes(shape1);
-			var shape2Types = GetShapeTypes(shape2);
-			return shape1Types.GetAllPairs(shape2Types).Select(tuple => new IntersectionCShapeTypesPair(tuple.Item1, tuple.Item2));
+			var shape1Types = GetShapeTypes(shape1Type);
+			var shape2Types = GetShapeTypes(shape2Type);
+			return shape1Types.GetAllPairs(shape2Types).Select(tuple => new IntersectionCShapeTypesPair(tuple.Element1, tuple.Element2));
 		}
 
-		private static IEnumerable<Type> GetShapeTypes(CShape shape)
+		private static IEnumerable<Type> GetShapeTypes(Type? type)
 		{
-			var type = shape.GetType();
-			do
+			while (type != null && type.IsDefined(typeof(CShapeAttribute), false))
 			{
 				yield return type;
 				type = type.BaseType;
-			} while (type != null && type.IsDefined(typeof(CShapeAttribute), false));
+			}
 		}
 	}
 }
