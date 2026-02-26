@@ -6,7 +6,6 @@ using Commons.Intersection2D.CShapes;
 using Commons.Intersection2D.CShapes.Internal;
 using Microsoft.Extensions.DependencyInjection;
 
-//TODO:
 namespace Commons.Intersection2D.Strategies.Internal
 {
 	internal class IntersectionStrategies
@@ -26,16 +25,21 @@ namespace Commons.Intersection2D.Strategies.Internal
 			return GetStrategy(shape1Type, shape2Type);
 		}
 		
-		internal IEnumerable<IntersectionCShapeTypesPair> CanIntersect()
+		private static IEnumerable<IntersectionCShapeTypesPair> GetIntersectionCShapeTypesPairs()
 		{
 			var assembly = Assembly.GetExecutingAssembly();
 			var types = assembly.GetTypes()
 				.Where(type =>
 					type.IsClass && type.GetCustomAttribute<CShapeAttribute>() != null && type != typeof(CShape)).ToList();
-			var pairs = types
+			return types
 				.GetAllPairs()
 				.Select(pair => new IntersectionCShapeTypesPair(pair.Element1, pair.Element2))
-				.Concat(types.Zip(types, (a, b) => new IntersectionCShapeTypesPair(a, b)))
+				.Concat(types.Zip(types, (a, b) => new IntersectionCShapeTypesPair(a, b)));
+		}
+		
+		internal IEnumerable<IntersectionCShapeTypesPair> CanIntersect()
+		{
+			return GetIntersectionCShapeTypesPairs()
 				.Where(pair =>
 				{
 					try
@@ -48,20 +52,11 @@ namespace Commons.Intersection2D.Strategies.Internal
 						return false;
 					}
 				});
-			
-			return pairs;
 		}
 		
 		internal IEnumerable<IntersectionCShapeTypesPair> CannotIntersect()
 		{
-			var assembly = Assembly.GetExecutingAssembly();
-			var types = assembly.GetTypes()
-				.Where(type =>
-					type.IsClass && type.GetCustomAttribute<CShapeAttribute>() != null && type != typeof(CShape)).ToList();
-			var pairs = types
-				.GetAllPairs()
-				.Select(pair => new IntersectionCShapeTypesPair(pair.Element1, pair.Element2))
-				.Concat(types.Zip(types, (a, b) => new IntersectionCShapeTypesPair(a, b)))
+			return GetIntersectionCShapeTypesPairs()
 				.Where(pair =>
 				{
 					try
@@ -74,8 +69,6 @@ namespace Commons.Intersection2D.Strategies.Internal
 						return true;
 					}
 				});
-			
-			return pairs;
 		}
 		
 		private IIntersectionStrategy GetStrategy(Type shape1Type, Type shape2Type)
@@ -92,7 +85,7 @@ namespace Commons.Intersection2D.Strategies.Internal
 			return strategy;
 		}
 
-		private IEnumerable<IIntersectionStrategy> FindAllStrategies(Approximation.Approximation approximation)
+		private static IEnumerable<IIntersectionStrategy> FindAllStrategies(Approximation.Approximation approximation)
 		{
 			var services = new ServiceCollection();
 			services.AddSingleton(approximation);
@@ -117,7 +110,7 @@ namespace Commons.Intersection2D.Strategies.Internal
 			return serviceProvider.GetServices<IIntersectionStrategy>();
 		}
 		
-		private Dictionary<IntersectionCShapeTypesPair, IIntersectionStrategy> InitStrategies(Approximation.Approximation approximation)
+		private static Dictionary<IntersectionCShapeTypesPair, IIntersectionStrategy> InitStrategies(Approximation.Approximation approximation)
 		{
 			var strategies = FindAllStrategies(approximation);
 			var strategiesDict = new Dictionary<IntersectionCShapeTypesPair, IIntersectionStrategy>();

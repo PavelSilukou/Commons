@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Numerics;
 using Commons.Approximation.CFloat;
+using JetBrains.Annotations;
 
 namespace Commons.Approximation.CVector2
 {
+	[PublicAPI]
     public class Vector2Approximation
     {
         private readonly FloatApproximation _floatApproximation;

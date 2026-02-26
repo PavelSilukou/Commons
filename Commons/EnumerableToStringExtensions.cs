@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 
 namespace Commons
 {
+	[PublicAPI]
 	public static class EnumerableToStringExtensions
 	{
 		public static string ToString(this IEnumerable<float> source, string? separator, string? format)

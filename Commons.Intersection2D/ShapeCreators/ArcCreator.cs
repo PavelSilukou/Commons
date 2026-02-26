@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Numerics;
 using Commons.Intersection2D.CShapes;
+using JetBrains.Annotations;
 
 namespace Commons.Intersection2D.ShapeCreators
 {
@@ -26,6 +27,8 @@ namespace Commons.Intersection2D.ShapeCreators
 				throw new ArithmeticException($"'{nameof(angle)}' should be in range (0.0f, 360.0f).");
 			var angleSign = GetAngleSign(angle);
 			var radius = GetRadius(center, point);
+			
+			// ReSharper disable once ConvertIfStatementToReturnStatement
 			if (_approximation.Float.EqualTo(radius, 0.0f)) 
 				throw new ArithmeticException("Arc radius should be more than 0.0f.");
 			
@@ -43,9 +46,15 @@ namespace Commons.Intersection2D.ShapeCreators
 			
 			return new CArc(center, point, angle, angleSign, radius);
 		}
-		
-		// TODO:
-		// public CShape ForceCreate(Vector2 center, Vector2 point, float angle)
+
+		[PublicAPI]
+		public CShape ForceCreate(Vector2 center, Vector2 point, float angle)
+		{
+			var angleSign = GetAngleSign(angle);
+			var radius = GetRadius(center, point);
+			
+			return new CArc(center, point, angle, angleSign, radius);
+		}
 
 		private static int GetAngleSign(float angle)
 		{

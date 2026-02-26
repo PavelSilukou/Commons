@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using JetBrains.Annotations;
 
 namespace Commons
 {
@@ -30,6 +31,7 @@ namespace Commons
         // ReSharper disable PossibleMultipleEnumeration
         public static IEnumerable<(T Element1, T Element2)> GetAllPairs<T>(this IEnumerable<T> source)
         {
+            // ReSharper disable once ConvertIfStatementToReturnStatement
             if (source == null) throw new ArgumentNullException(nameof(source));
             
             return source.SelectMany((_, i) => source.Where((_, j) => i < j), (x, y) => (x, y));
@@ -39,6 +41,7 @@ namespace Commons
         public static IEnumerable<(TOne Element1, TTwo Element2)> GetAllPairs<TOne, TTwo>(this IEnumerable<TOne> source, IEnumerable<TTwo> target)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
+            // ReSharper disable once ConvertIfStatementToReturnStatement
             if (target == null) throw new ArgumentNullException(nameof(target));
             
             return source.SelectMany(s => target.Select(t => (s, t)));
@@ -47,6 +50,7 @@ namespace Commons
         // ReSharper disable PossibleMultipleEnumeration
         public static IEnumerable<(T Element1, T Element2)> GetPairs<T>(this IEnumerable<T> source)
         {
+            // ReSharper disable once ConvertIfStatementToReturnStatement
             if (source == null) throw new ArgumentNullException(nameof(source));
             
             return source.Skip(1).Zip(source, (second, first) => (first, second));
@@ -179,6 +183,7 @@ namespace Commons
         
         public static IEnumerable<T> ClearNull<T>(this IEnumerable<T> source)
         {
+            // ReSharper disable once ConvertIfStatementToReturnStatement
             if (source == null) throw new ArgumentNullException(nameof(source));
             
             return source.Where(elem => !Equals(elem, default(T)));
@@ -187,6 +192,7 @@ namespace Commons
         public static IEnumerable<T> OfTypeName<T>(this IEnumerable<T> source, string typeName)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
+            // ReSharper disable once ConvertIfStatementToReturnStatement
             if (typeName == null) throw new ArgumentNullException(nameof(typeName));
             
             return source.Where(elem => elem is not null && elem.GetType().Name.Equals(typeName));
@@ -231,6 +237,7 @@ namespace Commons
 
         public static IEnumerable<int> IndicesOf<T>(this IEnumerable<T> source, T value)
         {
+            // ReSharper disable once ConvertIfStatementToReturnStatement
             if (source == null) throw new ArgumentNullException(nameof(source));
 
             return IndicesOfInternal(source, value);
@@ -239,6 +246,7 @@ namespace Commons
         public static IEnumerable<int> IndicesOf<T>(this IEnumerable<T> source, List<T> values)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
+            // ReSharper disable once ConvertIfStatementToReturnStatement
             if (values == null) throw new ArgumentNullException(nameof(values));
 
             return IndicesOfInternal(source, values);
@@ -280,6 +288,7 @@ namespace Commons
         
         public static IEnumerable<T> GetRange<T>(this IEnumerable<T> source, int index, int count)
         {
+            // ReSharper disable once ConvertIfStatementToReturnStatement
             if (source == null) throw new ArgumentNullException(nameof(source));
             
             return source.Skip(index).Take(count);
@@ -307,6 +316,7 @@ namespace Commons
             return true;
         }
 
+        [PublicAPI]
         public static IEnumerable<T> AggregateIntermediate<T>(this IEnumerable<T> source, Func<T, T, T> func, T? seed = default)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));

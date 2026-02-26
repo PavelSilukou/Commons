@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Numerics;
 using Commons.Intersection2D.CShapes;
-
-// TODO: check annotation PublicAPI
-// TODO: проверить фигурные кавычки в однострочных if
+using JetBrains.Annotations;
 
 namespace Commons.Intersection2D.ShapeCreators
 {
@@ -32,6 +30,12 @@ namespace Commons.Intersection2D.ShapeCreators
 		public CShape TryCreate(Vector2[] points)
 		{
 			if (IsPoint(points)) return new CPoint(points[0]);
+			return new CPolygon(points);
+		}
+		
+		[PublicAPI]
+		public CShape ForceCreate(Vector2[] points)
+		{
 			return new CPolygon(points);
 		}
 		

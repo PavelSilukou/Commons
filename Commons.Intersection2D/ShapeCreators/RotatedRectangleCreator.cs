@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Numerics;
 using Commons.Intersection2D.CShapes;
+using JetBrains.Annotations;
 
 namespace Commons.Intersection2D.ShapeCreators
 {
@@ -43,7 +44,14 @@ namespace Commons.Intersection2D.ShapeCreators
 			    && _approximation.Vector2.EqualTo(point2, point3)) return new CLineSegment(point1, point2);
 			if (_approximation.Vector2.EqualTo(point1, point2) 
 			    && _approximation.Vector2.EqualTo(point3, point4)) return new CLineSegment(point1, point3);
+			// ReSharper disable once ConvertIfStatementToReturnStatement
 			if (!IsRotatedRectangle(point1, point2, point3, point4)) return new CQuadrilateral(point1, point2, point3, point4);
+			return new CRotatedRectangle(point1, point2, point3, point4);
+		}
+		
+		[PublicAPI]
+		public CShape ForceCreate(Vector2 point1, Vector2 point2, Vector2 point3, Vector2 point4)
+		{
 			return new CRotatedRectangle(point1, point2, point3, point4);
 		}
 		

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Numerics;
 using Commons.Intersection2D.CShapes;
+using JetBrains.Annotations;
 
 namespace Commons.Intersection2D.ShapeCreators
 {
@@ -26,6 +27,7 @@ namespace Commons.Intersection2D.ShapeCreators
 			
 			if (_approximation.Float.MoreOrEqualTo(left, right)) 
 				throw new ArithmeticException($"'{nameof(left)}' should be less than '{nameof(right)}'.");
+			// ReSharper disable once ConvertIfStatementToReturnStatement
 			if (_approximation.Float.MoreOrEqualTo(bottom, top))
 				throw new ArithmeticException($"'{nameof(bottom)}' should be less than '{nameof(top)}'.");
 			
@@ -35,6 +37,12 @@ namespace Commons.Intersection2D.ShapeCreators
 		public CShape TryCreate(float left, float top, float right, float bottom) 
 		{
 			if (IsPoint(left, top, right, bottom)) return new CPoint(new Vector2(left, top));
+			return new CRectangle(left, top, right, bottom);
+		}
+		
+		[PublicAPI]
+		public CShape ForceCreate(float left, float top, float right, float bottom) 
+		{
 			return new CRectangle(left, top, right, bottom);
 		}
 		

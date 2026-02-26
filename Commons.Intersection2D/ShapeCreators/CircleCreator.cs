@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Numerics;
 using Commons.Intersection2D.CShapes;
+using JetBrains.Annotations;
 
 namespace Commons.Intersection2D.ShapeCreators
 {
@@ -25,6 +26,12 @@ namespace Commons.Intersection2D.ShapeCreators
 		public CShape TryCreate(Vector2 center, float radius)
 		{
 			if (float.IsNegative(radius) || _approximation.Float.EqualTo(radius, 0.0f)) return new CPoint(center);
+			return new CCircle(center, radius);
+		}
+		
+		[PublicAPI]
+		public CShape ForceCreate(Vector2 center, float radius)
+		{
 			return new CCircle(center, radius);
 		}
 	}

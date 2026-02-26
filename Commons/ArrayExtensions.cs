@@ -8,6 +8,7 @@ namespace Commons
 	{
 		public static IEnumerable<T> GetRow<T>(this T[,] array, int rowIndex)
 		{
+			// ReSharper disable once ConvertIfStatementToReturnStatement
 			if (array == null) throw new ArgumentNullException(nameof(array));
 
 			return GetRowInternal(array, rowIndex);
@@ -24,6 +25,7 @@ namespace Commons
 		
 		public static IEnumerable<T> GetColumn<T>(this T[,] array, int columnIndex)
 		{
+			// ReSharper disable once ConvertIfStatementToReturnStatement
 			if (array == null) throw new ArgumentNullException(nameof(array));
 
 			return GetColumnInternal(array, columnIndex);
@@ -31,6 +33,7 @@ namespace Commons
 		
 		public static IEnumerable<T> GetColumn<T>(this T[][] array, int columnIndex)
 		{
+			// ReSharper disable once ConvertIfStatementToReturnStatement
 			if (array == null) throw new ArgumentNullException(nameof(array));
 
 			return GetColumnInternal(array, columnIndex);

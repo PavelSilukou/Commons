@@ -64,7 +64,6 @@ namespace Commons.Intersection2D.Strategies
 			return isIntersect;
 		}
 		
-		// ReSharper disable once InvertIf
 		private bool IsPointsOnArc(
 			Vector2 point,
 			CArc arc

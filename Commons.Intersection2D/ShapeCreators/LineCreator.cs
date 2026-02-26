@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Numerics;
 using Commons.Intersection2D.CShapes;
+using JetBrains.Annotations;
 
 namespace Commons.Intersection2D.ShapeCreators
 {
@@ -19,6 +20,7 @@ namespace Commons.Intersection2D.ShapeCreators
 				throw new ArithmeticException($"'{nameof(point1)}' should be finite.");
 			if (!_approximation.Vector2.IsFinite(point2)) 
 				throw new ArithmeticException($"'{nameof(point2)}' should be finite.");
+			// ReSharper disable once ConvertIfStatementToReturnStatement
 			if (_approximation.Float.EqualTo(Vector2.Distance(point1, point2), 0.0f)) 
 				throw new ArithmeticException($"Distance between '{nameof(point1)}' and '{nameof(point2)}' should be more than 0.0f.");
 			
@@ -28,6 +30,12 @@ namespace Commons.Intersection2D.ShapeCreators
 		public CShape TryCreate(Vector2 point1, Vector2 point2)
 		{
 			if (_approximation.Float.EqualTo(Vector2.Distance(point1, point2), 0.0f)) return new CPoint(point1);
+			return new CLine(point1, point2);
+		}
+		
+		[PublicAPI]
+		public CShape ForceCreate(Vector2 point1, Vector2 point2)
+		{
 			return new CLine(point1, point2);
 		}
 	}

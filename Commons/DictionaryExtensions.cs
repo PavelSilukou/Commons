@@ -22,6 +22,7 @@ namespace Commons
 		
 		public static T FindKeyByValue<T, TU>(this IDictionary<T, TU> dict, TU value)
 		{
+			// ReSharper disable once ConvertIfStatementToReturnStatement
 			if (dict == null) throw new ArgumentNullException(nameof(dict));
 			
 			return dict.First(x => Equals(value, x.Value)).Key;

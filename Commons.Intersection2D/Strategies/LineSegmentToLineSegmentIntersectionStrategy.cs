@@ -70,7 +70,6 @@ namespace Commons.Intersection2D.Strategies
 #pragma warning restore S3776 // Cognitive Complexity of methods should not be too high
 		
 		// TODO: rework
-		// ReSharper disable once InvertIf
 		private bool AreCollinearLineSegmentsTouch(
 			out Vector2? touchPoint,
 			Vector2 point1,
@@ -80,6 +79,7 @@ namespace Commons.Intersection2D.Strategies
 		{
 			touchPoint = null;
 			
+			// ReSharper disable once InvertIf
 			if (AreCollinearLineSegmentsTouch(point1, point3, point2, point4))
 			{
 				touchPoint = point1;
@@ -92,12 +92,14 @@ namespace Commons.Intersection2D.Strategies
 				return true;
 			}
 			
+			// ReSharper disable once DuplicatedSequentialIfBodies
 			if (AreCollinearLineSegmentsTouch(point2, point3, point1, point4))
 			{
 				touchPoint = point2;
 				return true;
 			}
 			
+			// ReSharper disable once InvertIf
 			if (AreCollinearLineSegmentsTouch(point2, point4, point1, point3))
 			{
 				touchPoint = point2;
@@ -117,7 +119,6 @@ namespace Commons.Intersection2D.Strategies
 		}
 		
 		// TODO: rework
-		// ReSharper disable once ConvertIfStatementToReturnStatement
 		private bool AreCollinearLineSegmentsOverlay(
 			Vector2 point1,
 			Vector2 point2,
@@ -127,6 +128,7 @@ namespace Commons.Intersection2D.Strategies
 			if (IsCollinearPointOnLineSegment(point1, point3, point4)) return true;
 			if (IsCollinearPointOnLineSegment(point2, point3, point4)) return true;
 			if (IsCollinearPointOnLineSegment(point3, point1, point2)) return true;
+			// ReSharper disable once ConvertIfStatementToReturnStatement
 			if (IsCollinearPointOnLineSegment(point4, point1, point2)) return true;
 
 			return false;

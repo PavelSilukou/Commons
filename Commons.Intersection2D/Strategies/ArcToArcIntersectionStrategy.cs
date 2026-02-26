@@ -88,7 +88,6 @@ namespace Commons.Intersection2D.Strategies
 		}
 		
 		// TODO
-		// ReSharper disable once InvertIf
 		private bool IsPointsOnArc(
 			Vector2 point,
 			CArc arc
@@ -103,8 +102,6 @@ namespace Commons.Intersection2D.Strategies
 		}
 		
 		// TODO: rework
-		// ReSharper disable once InvertIf
-		// ReSharper disable once ConvertIfStatementToReturnStatement
 		private bool CheckArcsOverlay(
 			CArc arc1,
 			CArc arc2
@@ -134,6 +131,7 @@ namespace Commons.Intersection2D.Strategies
 				return true;
 			}
 			
+			// ReSharper disable once ConvertIfStatementToReturnStatement
 			if (_approximation.Float.EqualTo(MathF.Abs(arc1.Angle), MathF.Abs(arc2.Angle)) 
 			    && _approximation.Vector2.EqualTo(arc1.Point, arc2Point2) 
 			    && _approximation.Vector2.EqualTo(arc1Point2, arc2.Point)
@@ -147,8 +145,6 @@ namespace Commons.Intersection2D.Strategies
 		
 		// TODO: rework
 		// works only in conjunction with CheckArcsOverlay
-		// ReSharper disable once InvertIf
-		// ReSharper disable once ConvertIfStatementToReturnStatement
 		private bool CheckArcsTouch(
 			out Vector2? touchPoint1,
 			out Vector2? touchPoint2,
@@ -170,6 +166,7 @@ namespace Commons.Intersection2D.Strategies
 				isTouch = true;
 			}
 			
+			// ReSharper disable once InvertIf
 			if (_approximation.Vector2.EqualTo(arc1Point2, arc2.Point) || _approximation.Vector2.EqualTo(arc1Point2, arc2Point2))
 			{
 				touchPoint2 = arc1Point2;
