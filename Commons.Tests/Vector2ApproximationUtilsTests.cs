@@ -3,8 +3,11 @@
 namespace Commons.Tests;
 
 // TODO: rework to TestCaseData.Returns
-public class Vector2UtilsTests
+#pragma warning disable CA1707 // Identifiers should not contain underscores
+public class Vector2ApproximationUtilsTests
 {
+	private readonly Approximation.Approximation _approximation = new(0.001f);
+	
 	private static IEnumerable<TestCaseData> RotateRadTestsParameters()
 	{
 		yield return new TestCaseData(0.0f, new Vector2(1.0f, 0.0f));
@@ -20,8 +23,8 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(RotateRadTestsParameters))]
 	public void RotateRadTests(float radians, Vector2 expectedVector)
 	{
-		var actualVector = Vector2Utils.RotateRad(radians);
-		var actual = actualVector.EqualTo(expectedVector);
+		var actualVector = _approximation.Vector2.RotateRad(radians);
+		var actual = _approximation.Vector2.EqualTo(actualVector, expectedVector);
 		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedVector}\n{"Actual:", 9} {actualVector}");
 	}
 	
@@ -35,8 +38,8 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(RotateRadSpecialCasesTestsParameters))]
 	public void RotateRad_SpecialCases_ReturnNaN(float radians)
 	{
-		var actualVector = Vector2Utils.RotateRad(radians);
-		var actual = Vector2Utils.IsNaN(actualVector);
+		var actualVector = _approximation.Vector2.RotateRad(radians);
+		var actual = _approximation.Vector2.IsNaN(actualVector);
 		Assert.That(actual, Is.True);
 	}
 	
@@ -74,8 +77,8 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(RotateVectorRadTestsParameters))]
 	public void RotateVectorRadTests(Vector2 initialVector, float radians, Vector2 expectedVector)
 	{
-		var actualVector = Vector2Utils.RotateRad(initialVector, radians);
-		var actual = actualVector.EqualTo(expectedVector);
+		var actualVector = _approximation.Vector2.RotateRad(initialVector, radians);
+		var actual = _approximation.Vector2.EqualTo(actualVector, expectedVector);
 		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedVector}\n{"Actual:", 9} {actualVector}");
 	}
 	
@@ -95,9 +98,9 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(RotateVectorRadSpecialCasesTestsParameters))]
 	public void RotateVectorRadSpecialCasesTests(Vector2 initialVector, float radians)
 	{
-		var actualVector = Vector2Utils.RotateRad(initialVector, radians);
-		var actual = Vector2Utils.IsNaN(actualVector);
-		Assert.That(actual, Is.True, $"{"Expected:", 9} {Vector2Utils.NaN()}\n{"Actual:", 9} {actualVector}");
+		var actualVector = _approximation.Vector2.RotateRad(initialVector, radians);
+		var actual = _approximation.Vector2.IsNaN(actualVector);
+		Assert.That(actual, Is.True, $"{"Expected:", 9} {_approximation.Vector2.NaN()}\n{"Actual:", 9} {actualVector}");
 	}
 	
 	private static IEnumerable<TestCaseData> RotateDegTestsParameters()
@@ -115,8 +118,8 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(RotateDegTestsParameters))]
 	public void RotateDegTests(float degrees, Vector2 expectedVector)
 	{
-		var actualVector = Vector2Utils.RotateDeg(degrees);
-		var actual = actualVector.EqualTo(expectedVector);
+		var actualVector = _approximation.Vector2.RotateDeg(degrees);
+		var actual = _approximation.Vector2.EqualTo(actualVector, expectedVector);
 		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedVector}\n{"Actual:", 9} {actualVector}");
 	}
 	
@@ -132,8 +135,8 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(RotateDegSpecialCasesTestsParameters))]
 	public void RotateDeg_SpecialCases_ReturnNaN(float degrees)
 	{
-		var actualVector = Vector2Utils.RotateDeg(degrees);
-		var actual = Vector2Utils.IsNaN(actualVector);
+		var actualVector = _approximation.Vector2.RotateDeg(degrees);
+		var actual = _approximation.Vector2.IsNaN(actualVector);
 		Assert.That(actual, Is.True);
 	}
 	
@@ -171,8 +174,8 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(RotateVectorDegTestsParameters))]
 	public void RotateVectorDegTests(Vector2 initialVector, float degrees, Vector2 expectedVector)
 	{
-		var actualVector = Vector2Utils.RotateDeg(initialVector, degrees);
-		var actual = actualVector.EqualTo(expectedVector);
+		var actualVector = _approximation.Vector2.RotateDeg(initialVector, degrees);
+		var actual = _approximation.Vector2.EqualTo(actualVector, expectedVector);
 		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedVector}\n{"Actual:", 9} {actualVector}");
 	}
 	
@@ -194,8 +197,8 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(RotateVectorDegSpecialCasesTestsParameters))]
 	public void RotateVectorDegSpecialCasesTests(Vector2 initialVector, float degrees)
 	{
-		var actualVector = Vector2Utils.RotateDeg(initialVector, degrees);
-		var actual = Vector2Utils.IsNaN(actualVector);
+		var actualVector = _approximation.Vector2.RotateDeg(initialVector, degrees);
+		var actual = _approximation.Vector2.IsNaN(actualVector);
 		Assert.That(actual, Is.True);
 	}
 	
@@ -219,8 +222,8 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(SignedAngleRadTestsParameters))]
 	public void SignedAngleRadTests(Vector2 vector1, Vector2 vector2, float expectedAngle)
 	{
-		var actualAngle = Vector2Utils.SignedAngleRad(vector1, vector2);
-		var actual = actualAngle.EqualTo(expectedAngle);
+		var actualAngle = _approximation.Vector2.SignedAngleRad(vector1, vector2);
+		var actual = _approximation.Float.EqualTo(actualAngle, expectedAngle);
 		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedAngle:F2}\n{"Actual:", 9} {actualAngle:F2}");
 	}
 	
@@ -247,7 +250,7 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(SignedAngleRadSpecialCasesTestsParameters))]
 	public void SignedAngleRadSpecialCasesTests(Vector2 vector1, Vector2 vector2)
 	{
-		var actualAngle = Vector2Utils.SignedAngleRad(vector1, vector2);
+		var actualAngle = _approximation.Vector2.SignedAngleRad(vector1, vector2);
 		var actual = float.IsNaN(actualAngle);
 		Assert.That(actual, Is.True);
 	}
@@ -272,8 +275,8 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(SignedAngleDegTestsParameters))]
 	public void SignedAngleDegTests(Vector2 vector1, Vector2 vector2, float expectedAngle)
 	{
-		var actualAngle = Vector2Utils.SignedAngleDeg(vector1, vector2);
-		var actual = actualAngle.EqualTo(expectedAngle);
+		var actualAngle = _approximation.Vector2.SignedAngleDeg(vector1, vector2);
+		var actual = _approximation.Float.EqualTo(actualAngle, expectedAngle);
 		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedAngle:F2}\n{"Actual:", 9} {actualAngle:F2}");
 	}
 	
@@ -300,7 +303,7 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(SignedAngleDegSpecialCasesTestsParameters))]
 	public void SignedAngleDegSpecialCasesTests(Vector2 vector1, Vector2 vector2)
 	{
-		var actualAngle = Vector2Utils.SignedAngleDeg(vector1, vector2);
+		var actualAngle = _approximation.Vector2.SignedAngleDeg(vector1, vector2);
 		var actual = float.IsNaN(actualAngle);
 		Assert.That(actual, Is.True);
 	}
@@ -325,8 +328,8 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(SignedAngleRadClampTestsParameters))]
 	public void SignedAngleRadClampTests(Vector2 vector1, Vector2 vector2, float expectedAngle)
 	{
-		var actualAngle = Vector2Utils.SignedAngleRadClamp(vector1, vector2);
-		var actual = actualAngle.EqualTo(expectedAngle);
+		var actualAngle = _approximation.Vector2.SignedAngleRadClamp(vector1, vector2);
+		var actual = _approximation.Float.EqualTo(actualAngle, expectedAngle);
 		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedAngle:F2}\n{"Actual:", 9} {actualAngle:F2}");
 	}
 	
@@ -341,10 +344,9 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(SignedAngleRadClampToleranceTestsParameters))]
 	public void SignedAngleRadClampToleranceTests(Vector2 vector1, Vector2 vector2, float expectedAngle, float tolerance)
 	{
-		Settings.SetEqualsTolerance(tolerance);
-		var actualAngle = Vector2Utils.SignedAngleRadClamp(vector1, vector2);
-		Settings.SetEqualsTolerance(0.001f);
-		var actual = actualAngle.EqualTo(expectedAngle);
+		var approximation = new Approximation.Approximation(tolerance);
+		var actualAngle = approximation.Vector2.SignedAngleRadClamp(vector1, vector2);
+		var actual = _approximation.Float.EqualTo(actualAngle, expectedAngle);
 		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedAngle:F2}\n{"Actual:", 9} {actualAngle:F2}");
 	}
 	
@@ -371,7 +373,7 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(SignedAngleRadClampSpecialCasesTestsParameters))]
 	public void SignedAngleRadClampSpecialCasesTests(Vector2 vector1, Vector2 vector2)
 	{
-		var actualAngle = Vector2Utils.SignedAngleRadClamp(vector1, vector2);
+		var actualAngle = _approximation.Vector2.SignedAngleRadClamp(vector1, vector2);
 		var actual = float.IsNaN(actualAngle);
 		Assert.That(actual, Is.True);
 	}
@@ -396,8 +398,8 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(SignedAngleDegClampTestsParameters))]
 	public void SignedAngleDegClampTests(Vector2 vector1, Vector2 vector2, float expectedAngle)
 	{
-		var actualAngle = Vector2Utils.SignedAngleDegClamp(vector1, vector2);
-		var actual = actualAngle.EqualTo(expectedAngle);
+		var actualAngle = _approximation.Vector2.SignedAngleDegClamp(vector1, vector2);
+		var actual = _approximation.Float.EqualTo(actualAngle, expectedAngle);
 		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedAngle:F2}\n{"Actual:", 9} {actualAngle:F2}");
 	}
 	
@@ -412,10 +414,9 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(SignedAngleDegClampToleranceTestsParameters))]
 	public void SignedAngleDegClampToleranceTests(Vector2 vector1, Vector2 vector2, float expectedAngle, float tolerance)
 	{
-		Settings.SetEqualsTolerance(tolerance);
-		var actualAngle = Vector2Utils.SignedAngleDegClamp(vector1, vector2);
-		Settings.SetEqualsTolerance(0.001f);
-		var actual = actualAngle.EqualTo(expectedAngle);
+		var approximation = new Approximation.Approximation(tolerance);
+		var actualAngle = approximation.Vector2.SignedAngleDegClamp(vector1, vector2);
+		var actual = _approximation.Float.EqualTo(actualAngle, expectedAngle);
 		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedAngle:F2}\n{"Actual:", 9} {actualAngle:F2}");
 	}
 	
@@ -442,7 +443,7 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(SignedAngleDegClampSpecialCasesTestsParameters))]
 	public void SignedAngleDegClampSpecialCasesTests(Vector2 vector1, Vector2 vector2)
 	{
-		var actualAngle = Vector2Utils.SignedAngleDegClamp(vector1, vector2);
+		var actualAngle = _approximation.Vector2.SignedAngleDegClamp(vector1, vector2);
 		var actual = float.IsNaN(actualAngle);
 		Assert.That(actual, Is.True);
 	}
@@ -467,8 +468,8 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(AngleRadTestsParameters))]
 	public void AngleRadTests(Vector2 vector1, Vector2 vector2, float expectedAngle)
 	{
-		var actualAngle = Vector2Utils.AngleRad(vector1, vector2);
-		var actual = actualAngle.EqualTo(expectedAngle);
+		var actualAngle = _approximation.Vector2.AngleRad(vector1, vector2);
+		var actual = _approximation.Float.EqualTo(actualAngle, expectedAngle);
 		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedAngle:F2}\n{"Actual:", 9} {actualAngle:F2}");
 	}
 	
@@ -495,7 +496,7 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(AngleRadSpecialCasesTestsParameters))]
 	public void AngleRadSpecialCasesTests(Vector2 vector1, Vector2 vector2)
 	{
-		var actualAngle = Vector2Utils.AngleRad(vector1, vector2);
+		var actualAngle = _approximation.Vector2.AngleRad(vector1, vector2);
 		var actual = float.IsNaN(actualAngle);
 		Assert.That(actual, Is.True);
 	}
@@ -520,8 +521,8 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(AngleDegTestsParameters))]
 	public void AngleDegTests(Vector2 vector1, Vector2 vector2, float expectedAngle)
 	{
-		var actualAngle = Vector2Utils.AngleDeg(vector1, vector2);
-		var actual = actualAngle.EqualTo(expectedAngle);
+		var actualAngle = _approximation.Vector2.AngleDeg(vector1, vector2);
+		var actual = _approximation.Float.EqualTo(actualAngle, expectedAngle);
 		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedAngle:F2}\n{"Actual:", 9} {actualAngle:F2}");
 	}
 	
@@ -548,7 +549,7 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(AngleDegSpecialCasesTestsParameters))]
 	public void AngleDegSpecialCasesTests(Vector2 vector1, Vector2 vector2)
 	{
-		var actualAngle = Vector2Utils.AngleDeg(vector1, vector2);
+		var actualAngle = _approximation.Vector2.AngleDeg(vector1, vector2);
 		var actual = float.IsNaN(actualAngle);
 		Assert.That(actual, Is.True);
 	}
@@ -587,8 +588,8 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(SignedAngleRad360TestsParameters))]
 	public void SignedAngleRad360Tests(Vector2 vector1, Vector2 vector2, int direction, float expectedAngle)
 	{
-		var actualAngle = Vector2Utils.SignedAngleRad360(vector1, vector2, direction);
-		var actual = actualAngle.EqualTo(expectedAngle);
+		var actualAngle = _approximation.Vector2.SignedAngleRad360(vector1, vector2, direction);
+		var actual = _approximation.Float.EqualTo(actualAngle, expectedAngle);
 		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedAngle:F2}\n{"Actual:", 9} {actualAngle:F2}");
 	}
 	
@@ -615,7 +616,7 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(SignedAngleRad360SpecialCasesTestsParameters))]
 	public void SignedAngleRad360SpecialCasesTests(Vector2 vector1, Vector2 vector2)
 	{
-		var actualAngle = Vector2Utils.SignedAngleRad360(vector1, vector2, -1);
+		var actualAngle = _approximation.Vector2.SignedAngleRad360(vector1, vector2, -1);
 		var actual = float.IsNaN(actualAngle);
 		Assert.That(actual, Is.True);
 	}
@@ -654,8 +655,8 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(SignedAngleDeg360TestsParameters))]
 	public void SignedAngleDeg360Tests(Vector2 vector1, Vector2 vector2, int direction, float expectedAngle)
 	{
-		var actualAngle = Vector2Utils.SignedAngleDeg360(vector1, vector2, direction);
-		var actual = actualAngle.EqualTo(expectedAngle);
+		var actualAngle = _approximation.Vector2.SignedAngleDeg360(vector1, vector2, direction);
+		var actual = _approximation.Float.EqualTo(actualAngle, expectedAngle);
 		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedAngle:F2}\n{"Actual:", 9} {actualAngle:F2}");
 	}
 	
@@ -682,7 +683,7 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(SignedAngleDeg360SpecialCasesTestsParameters))]
 	public void SignedAngleDeg360SpecialCasesTests(Vector2 vector1, Vector2 vector2)
 	{
-		var actualAngle = Vector2Utils.SignedAngleDeg360(vector1, vector2, -1);
+		var actualAngle = _approximation.Vector2.SignedAngleDeg360(vector1, vector2, -1);
 		var actual = float.IsNaN(actualAngle);
 		Assert.That(actual, Is.True);
 	}
@@ -721,8 +722,8 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(AngleRad360TestsParameters))]
 	public void AngleRad360Tests(Vector2 vector1, Vector2 vector2, int direction, float expectedAngle)
 	{
-		var actualAngle = Vector2Utils.AngleRad360(vector1, vector2, direction);
-		var actual = actualAngle.EqualTo(expectedAngle);
+		var actualAngle = _approximation.Vector2.AngleRad360(vector1, vector2, direction);
+		var actual = _approximation.Float.EqualTo(actualAngle, expectedAngle);
 		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedAngle:F2}\n{"Actual:", 9} {actualAngle:F2}");
 	}
 	
@@ -749,7 +750,7 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(AngleRad360SpecialCasesTestsParameters))]
 	public void AngleRad360SpecialCasesTests(Vector2 vector1, Vector2 vector2)
 	{
-		var actualAngle = Vector2Utils.AngleRad360(vector1, vector2, -1);
+		var actualAngle = _approximation.Vector2.AngleRad360(vector1, vector2, -1);
 		var actual = float.IsNaN(actualAngle);
 		Assert.That(actual, Is.True);
 	}
@@ -788,8 +789,8 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(AngleDeg360TestsParameters))]
 	public void AngleDeg360Tests(Vector2 vector1, Vector2 vector2, int direction, float expectedAngle)
 	{
-		var actualAngle = Vector2Utils.AngleDeg360(vector1, vector2, direction);
-		var actual = actualAngle.EqualTo(expectedAngle);
+		var actualAngle = _approximation.Vector2.AngleDeg360(vector1, vector2, direction);
+		var actual = _approximation.Float.EqualTo(actualAngle, expectedAngle);
 		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedAngle:F2}\n{"Actual:", 9} {actualAngle:F2}");
 	}
 	
@@ -816,7 +817,7 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(AngleDeg360SpecialCasesTestsParameters))]
 	public void AngleDeg360SpecialCasesTests(Vector2 vector1, Vector2 vector2)
 	{
-		var actualAngle = Vector2Utils.AngleDeg360(vector1, vector2, -1);
+		var actualAngle = _approximation.Vector2.AngleDeg360(vector1, vector2, -1);
 		var actual = float.IsNaN(actualAngle);
 		Assert.That(actual, Is.True);
 	}
@@ -855,8 +856,8 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(SignedAngleRad360ClampTestsParameters))]
 	public void SignedAngleRad360ClampTests(Vector2 vector1, Vector2 vector2, int direction, float expectedAngle)
 	{
-		var actualAngle = Vector2Utils.SignedAngleRad360Clamp(vector1, vector2, direction);
-		var actual = actualAngle.EqualTo(expectedAngle);
+		var actualAngle = _approximation.Vector2.SignedAngleRad360Clamp(vector1, vector2, direction);
+		var actual = _approximation.Float.EqualTo(actualAngle, expectedAngle);
 		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedAngle:F2}\n{"Actual:", 9} {actualAngle:F2}");
 	}
 	
@@ -871,10 +872,9 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(SignedAngleRad360ClampToleranceTestsParameters))]
 	public void SignedAngleRad360ClampToleranceTests(Vector2 vector1, Vector2 vector2, int direction, float expectedAngle, float tolerance)
 	{
-		Settings.SetEqualsTolerance(tolerance);
-		var actualAngle = Vector2Utils.SignedAngleRad360Clamp(vector1, vector2, direction);
-		Settings.SetEqualsTolerance(0.001f);
-		var actual = actualAngle.EqualTo(expectedAngle);
+		var approximation = new Approximation.Approximation(tolerance);
+		var actualAngle = approximation.Vector2.SignedAngleRad360Clamp(vector1, vector2, direction);
+		var actual = _approximation.Float.EqualTo(actualAngle, expectedAngle);
 		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedAngle:F2}\n{"Actual:", 9} {actualAngle:F2}");
 	}
 	
@@ -901,7 +901,7 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(SignedAngleRad360ClampSpecialCasesTestsParameters))]
 	public void SignedAngleRad360ClampSpecialCasesTests(Vector2 vector1, Vector2 vector2)
 	{
-		var actualAngle = Vector2Utils.SignedAngleRad360Clamp(vector1, vector2, -1);
+		var actualAngle = _approximation.Vector2.SignedAngleRad360Clamp(vector1, vector2, -1);
 		var actual = float.IsNaN(actualAngle);
 		Assert.That(actual, Is.True);
 	}
@@ -940,8 +940,8 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(SignedAngleDeg360ClampTestsParameters))]
 	public void SignedAngleDeg360ClampTests(Vector2 vector1, Vector2 vector2, int direction, float expectedAngle)
 	{
-		var actualAngle = Vector2Utils.SignedAngleDeg360Clamp(vector1, vector2, direction);
-		var actual = actualAngle.EqualTo(expectedAngle);
+		var actualAngle = _approximation.Vector2.SignedAngleDeg360Clamp(vector1, vector2, direction);
+		var actual = _approximation.Float.EqualTo(actualAngle, expectedAngle);
 		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedAngle:F2}\n{"Actual:", 9} {actualAngle:F2}");
 	}
 	
@@ -956,10 +956,9 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(SignedAngleDeg360ClampToleranceTestsParameters))]
 	public void SignedAngleDeg360ClampToleranceTests(Vector2 vector1, Vector2 vector2, int direction, float expectedAngle, float tolerance)
 	{
-		Settings.SetEqualsTolerance(tolerance);
-		var actualAngle = Vector2Utils.SignedAngleDeg360Clamp(vector1, vector2, direction);
-		Settings.SetEqualsTolerance(0.001f);
-		var actual = actualAngle.EqualTo(expectedAngle);
+		var approximation = new Approximation.Approximation(tolerance);
+		var actualAngle = approximation.Vector2.SignedAngleDeg360Clamp(vector1, vector2, direction);
+		var actual = _approximation.Float.EqualTo(actualAngle, expectedAngle);
 		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedAngle:F2}\n{"Actual:", 9} {actualAngle:F2}");
 	}
 	
@@ -986,7 +985,7 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(SignedAngleDeg360ClampSpecialCasesTestsParameters))]
 	public void SignedAngleDeg360ClampSpecialCasesTests(Vector2 vector1, Vector2 vector2)
 	{
-		var actualAngle = Vector2Utils.SignedAngleDeg360Clamp(vector1, vector2, -1);
+		var actualAngle = _approximation.Vector2.SignedAngleDeg360Clamp(vector1, vector2, -1);
 		var actual = float.IsNaN(actualAngle);
 		Assert.That(actual, Is.True);
 	}
@@ -1025,8 +1024,8 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(AngleRad360ClampTestsParameters))]
 	public void AngleRad360ClampTests(Vector2 vector1, Vector2 vector2, int direction, float expectedAngle)
 	{
-		var actualAngle = Vector2Utils.AngleRad360Clamp(vector1, vector2, direction);
-		var actual = actualAngle.EqualTo(expectedAngle);
+		var actualAngle = _approximation.Vector2.AngleRad360Clamp(vector1, vector2, direction);
+		var actual = _approximation.Float.EqualTo(actualAngle, expectedAngle);
 		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedAngle:F2}\n{"Actual:", 9} {actualAngle:F2}");
 	}
 	
@@ -1041,10 +1040,9 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(AngleRad360ClampToleranceTestsParameters))]
 	public void AngleRad360ClampToleranceTests(Vector2 vector1, Vector2 vector2, int direction, float expectedAngle, float tolerance)
 	{
-		Settings.SetEqualsTolerance(tolerance);
-		var actualAngle = Vector2Utils.AngleRad360Clamp(vector1, vector2, direction);
-		Settings.SetEqualsTolerance(0.001f);
-		var actual = actualAngle.EqualTo(expectedAngle);
+		var approximation = new Approximation.Approximation(tolerance);
+		var actualAngle = approximation.Vector2.AngleRad360Clamp(vector1, vector2, direction);
+		var actual = _approximation.Float.EqualTo(actualAngle, expectedAngle);
 		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedAngle:F2}\n{"Actual:", 9} {actualAngle:F2}");
 	}
 	
@@ -1071,7 +1069,7 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(AngleRad360ClampSpecialCasesTestsParameters))]
 	public void AngleRad360ClampSpecialCasesTests(Vector2 vector1, Vector2 vector2)
 	{
-		var actualAngle = Vector2Utils.AngleRad360Clamp(vector1, vector2, -1);
+		var actualAngle = _approximation.Vector2.AngleRad360Clamp(vector1, vector2, -1);
 		var actual = float.IsNaN(actualAngle);
 		Assert.That(actual, Is.True);
 	}
@@ -1110,8 +1108,8 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(AngleDeg360ClampTestsParameters))]
 	public void AngleDeg360ClampTests(Vector2 vector1, Vector2 vector2, int direction, float expectedAngle)
 	{
-		var actualAngle = Vector2Utils.AngleDeg360Clamp(vector1, vector2, direction);
-		var actual = actualAngle.EqualTo(expectedAngle);
+		var actualAngle = _approximation.Vector2.AngleDeg360Clamp(vector1, vector2, direction);
+		var actual = _approximation.Float.EqualTo(actualAngle, expectedAngle);
 		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedAngle:F2}\n{"Actual:", 9} {actualAngle:F2}");
 	}
 	
@@ -1126,10 +1124,9 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(AngleDeg360ClampToleranceTestsParameters))]
 	public void AngleDeg360ClampToleranceTests(Vector2 vector1, Vector2 vector2, int direction, float expectedAngle, float tolerance)
 	{
-		Settings.SetEqualsTolerance(tolerance);
-		var actualAngle = Vector2Utils.AngleDeg360Clamp(vector1, vector2, direction);
-		Settings.SetEqualsTolerance(0.001f);
-		var actual = actualAngle.EqualTo(expectedAngle);
+		var approximation = new Approximation.Approximation(tolerance);
+		var actualAngle = approximation.Vector2.AngleDeg360Clamp(vector1, vector2, direction);
+		var actual = _approximation.Float.EqualTo(actualAngle, expectedAngle);
 		Assert.That(actual, Is.True, $"{"Expected:", 9} {expectedAngle:F2}\n{"Actual:", 9} {actualAngle:F2}");
 	}
 	
@@ -1156,7 +1153,7 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(AngleDeg360ClampSpecialCasesTestsParameters))]
 	public void AngleDeg360ClampSpecialCasesTests(Vector2 vector1, Vector2 vector2)
 	{
-		var actualAngle = Vector2Utils.AngleDeg360Clamp(vector1, vector2, -1);
+		var actualAngle = _approximation.Vector2.AngleDeg360Clamp(vector1, vector2, -1);
 		var actual = float.IsNaN(actualAngle);
 		Assert.That(actual, Is.True);
 	}
@@ -1175,7 +1172,7 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(IsParallelTestsParameters))]
 	public bool IsParallelTests(Vector2 vector1, Vector2 vector2)
 	{
-		return Vector2Utils.IsParallel(vector1, vector2);
+		return _approximation.Vector2.IsParallel(vector1, vector2);
 	}
 	
 	private static IEnumerable<TestCaseData> IsParallelSpecialTestsParameters()
@@ -1211,7 +1208,7 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(IsParallelSpecialTestsParameters))]
 	public bool IsParallelSpecialTests(Vector2 vector1, Vector2 vector2)
 	{
-		return Vector2Utils.IsParallel(vector1, vector2);
+		return _approximation.Vector2.IsParallel(vector1, vector2);
 	}
 	
 	private static IEnumerable<TestCaseData> IsParallelToleranceTestsParameters()
@@ -1228,9 +1225,8 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(IsParallelToleranceTestsParameters))]
 	public bool IsParallelToleranceTests(Vector2 vector1, Vector2 vector2, float tolerance)
 	{
-		Settings.SetEqualsTolerance(tolerance);
-		var value =  Vector2Utils.IsParallel(vector1, vector2);
-		Settings.SetEqualsTolerance(0.001f);
+		var approximation = new Approximation.Approximation(tolerance);
+		var value = approximation.Vector2.IsParallel(vector1, vector2);
 		return value;
 	}
 	
@@ -1255,8 +1251,8 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(PointProjectionOnLineTestsParameters))]
 	public void PointProjectionOnLineTests(Vector2 point, Vector2 linePoint1, Vector2 linePoint2, Vector2 expectedProjection)
 	{
-		var isProject = Vector2Utils.PointProjectionOnLine(out var actualProjection, point, linePoint1, linePoint2);
-		var actual = actualProjection.EqualTo(expectedProjection);
+		var isProject = _approximation.Vector2.PointProjectionOnLine(out var actualProjection, point, linePoint1, linePoint2);
+		var actual = _approximation.Vector2.EqualTo(actualProjection, expectedProjection);
         Assert.Multiple(() =>
         {
             Assert.That(actual, Is.True, $"{"Expected:",9} {expectedProjection:F6}\n{"Actual:",9} {actualProjection:F6}");
@@ -1294,8 +1290,8 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(PointProjectionOnLineSpecialTestsParameters))]
 	public void PointProjectionOnLineSpecialTests(Vector2 point, Vector2 linePoint1, Vector2 linePoint2)
 	{
-		var isProject = Vector2Utils.PointProjectionOnLine(out var actualProjection, point, linePoint1, linePoint2);
-		var actual = Vector2Utils.IsNaN(actualProjection);
+		var isProject = _approximation.Vector2.PointProjectionOnLine(out var actualProjection, point, linePoint1, linePoint2);
+		var actual = _approximation.Vector2.IsNaN(actualProjection);
         Assert.Multiple(() =>
         {
             Assert.That(actual, Is.True, $"{"Expected:",9} {new Vector2(float.NaN, float.NaN):F6}\n{"Actual:",9} {actualProjection:F6}");
@@ -1322,8 +1318,8 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(PointProjectionOnLineSegmentTestsParameters))]
 	public void PointProjectionOnLineSegmentTests(Vector2 point, Vector2 linePoint1, Vector2 linePoint2, Vector2 expectedProjection)
 	{
-		var isProject = Vector2Utils.PointProjectionOnLineSegment(out var actualProjection, point, linePoint1, linePoint2);
-		var actual = actualProjection!.Value.EqualTo(expectedProjection);
+		var isProject = _approximation.Vector2.PointProjectionOnLineSegment(out var actualProjection, point, linePoint1, linePoint2);
+		var actual = _approximation.Vector2.EqualTo(actualProjection!.Value, expectedProjection);
         Assert.Multiple(() =>
         {
             Assert.That(actual, Is.True, $"{"Expected:",9} {expectedProjection:F6}\n{"Actual:",9} {actualProjection:F6}");
@@ -1340,7 +1336,7 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(PointProjectionOnLineSegmentIsNullTestsParameters))]
 	public void PointProjectionOnLineSegmentIsNullTests(Vector2 point, Vector2 linePoint1, Vector2 linePoint2, Vector2 expectedProjection)
 	{
-		var isProject = Vector2Utils.PointProjectionOnLineSegment(out var actualProjection, point, linePoint1, linePoint2);
+		var isProject = _approximation.Vector2.PointProjectionOnLineSegment(out var actualProjection, point, linePoint1, linePoint2);
         Assert.Multiple(() =>
         {
             Assert.That(actualProjection, Is.Null);
@@ -1380,8 +1376,8 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(PointProjectionOnLineSegmentSpecialTestsParameters))]
 	public void PointProjectionOnLineSegmentSpecialTests(Vector2 point, Vector2 linePoint1, Vector2 linePoint2)
 	{
-		var isProject = Vector2Utils.PointProjectionOnLineSegment(out var actualProjection, point, linePoint1, linePoint2);
-		var actual = Vector2Utils.IsNaN(actualProjection!.Value);
+		var isProject = _approximation.Vector2.PointProjectionOnLineSegment(out var actualProjection, point, linePoint1, linePoint2);
+		var actual = _approximation.Vector2.IsNaN(actualProjection!.Value);
         Assert.Multiple(() =>
         {
             Assert.That(actual, Is.True, $"{"Expected:",9} {new Vector2(float.NaN, float.NaN):F6}\n{"Actual:",9} {actualProjection:F6}");
@@ -1399,8 +1395,8 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(PerpendicularTestsParameters))]
 	public void PerpendicularTests(Vector2 vector, Vector2 expectedVector)
 	{
-		var actualVector = Vector2Utils.Perpendicular(vector);
-		var actual = actualVector.EqualTo(expectedVector);
+		var actualVector = _approximation.Vector2.Perpendicular(vector);
+		var actual = _approximation.Vector2.EqualTo(actualVector, expectedVector);
 		Assert.That(actual, Is.True, $"{"Expected:",9} {expectedVector:F6}\n{"Actual:",9} {actualVector:F6}");
 	}
 	
@@ -1417,8 +1413,8 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(PerpendicularSpecialTestsParameters))]
 	public void PerpendicularSpecialTests(Vector2 vector)
 	{
-		var actualVector = Vector2Utils.Perpendicular(vector);
-		var actual = Vector2Utils.IsNaN(actualVector);
+		var actualVector = _approximation.Vector2.Perpendicular(vector);
+		var actual = _approximation.Vector2.IsNaN(actualVector);
 		Assert.That(actual, Is.True, $"{"Expected:",9} {new Vector2(float.NaN, float.NaN):F6}\n{"Actual:",9} {actualVector:F6}");
 	}
 	
@@ -1436,8 +1432,8 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(PerpendicularDirectionTestsParameters))]
 	public void PerpendicularDirectionTests(Vector2 vector, int direction, Vector2 expectedVector)
 	{
-		var actualVector = Vector2Utils.Perpendicular(vector, direction);
-		var actual = actualVector.EqualTo(expectedVector);
+		var actualVector = _approximation.Vector2.Perpendicular(vector, direction);
+		var actual = _approximation.Vector2.EqualTo(actualVector, expectedVector);
 		Assert.That(actual, Is.True, $"{"Expected:",9} {expectedVector:F6}\n{"Actual:",9} {actualVector:F6}");
 	}
 	
@@ -1456,8 +1452,8 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(PerpendicularDirectionSpecialTestsParameters))]
 	public void PerpendicularDirectionSpecialTests(Vector2 vector)
 	{
-		var actualVector = Vector2Utils.Perpendicular(vector, 1);
-		var actual = Vector2Utils.IsNaN(actualVector);
+		var actualVector = _approximation.Vector2.Perpendicular(vector, 1);
+		var actual = _approximation.Vector2.IsNaN(actualVector);
 		Assert.That(actual, Is.True, $"{"Expected:",9} {new Vector2(float.NaN, float.NaN):F6}\n{"Actual:",9} {actualVector:F6}");
 	}
 	
@@ -1471,8 +1467,8 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(ExtendToTestsParameters))]
 	public void ExtendToTests(Vector2 vector, float value, Vector2 expectedVector)
 	{
-		var actualVector = Vector2Utils.ExtendTo(vector, value);
-		var actual = actualVector.EqualTo(expectedVector);
+		var actualVector = _approximation.Vector2.ExtendTo(vector, value);
+		var actual = _approximation.Vector2.EqualTo(actualVector, expectedVector);
 		Assert.That(actual, Is.True, $"{"Expected:",9} {expectedVector:F6}\n{"Actual:",9} {actualVector:F6}");
 	}
 	
@@ -1496,8 +1492,8 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(ExtendToSpecialTestsParameters))]
 	public void ExtendToSpecialTests(Vector2 vector, float value)
 	{
-		var actualVector = Vector2Utils.ExtendTo(vector, value);
-		var actual = Vector2Utils.IsNaN(actualVector);
+		var actualVector = _approximation.Vector2.ExtendTo(vector, value);
+		var actual = _approximation.Vector2.IsNaN(actualVector);
 		Assert.That(actual, Is.True, $"{"Expected:",9} {new Vector2(float.NaN, float.NaN):F6}\n{"Actual:",9} {actualVector:F6}");
 	}
 	
@@ -1512,8 +1508,8 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(ExtendToVectorTestsParameters))]
 	public void ExtendToVectorTests(Vector2 vector1, Vector2 vector2, float value, Vector2 expectedVector)
 	{
-		var actualVector = Vector2Utils.ExtendTo(vector1, vector2, value);
-		var actual = actualVector.EqualTo(expectedVector);
+		var actualVector = _approximation.Vector2.ExtendTo(vector1, vector2, value);
+		var actual = _approximation.Vector2.EqualTo(actualVector, expectedVector);
 		Assert.That(actual, Is.True, $"{"Expected:",9} {expectedVector:F6}\n{"Actual:",9} {actualVector:F6}");
 	}
 	
@@ -1541,8 +1537,8 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(ExtendToVectorSpecialTestsParameters))]
 	public void ExtendToVectorSpecialTests(Vector2 vector1, Vector2 vector2, float value)
 	{
-		var actualVector = Vector2Utils.ExtendTo(vector1, vector2, value);
-		var actual = Vector2Utils.IsNaN(actualVector);
+		var actualVector = _approximation.Vector2.ExtendTo(vector1, vector2, value);
+		var actual = _approximation.Vector2.IsNaN(actualVector);
 		Assert.That(actual, Is.True, $"{"Expected:",9} {new Vector2(float.NaN, float.NaN):F6}\n{"Actual:",9} {actualVector:F6}");
 	}
 	
@@ -1556,8 +1552,8 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(ExtendByTestsParameters))]
 	public void ExtendByTests(Vector2 vector, float value, Vector2 expectedVector)
 	{
-		var actualVector = Vector2Utils.ExtendBy(vector, value);
-		var actual = actualVector.EqualTo(expectedVector);
+		var actualVector = _approximation.Vector2.ExtendBy(vector, value);
+		var actual = _approximation.Vector2.EqualTo(actualVector, expectedVector);
 		Assert.That(actual, Is.True, $"{"Expected:",9} {expectedVector:F6}\n{"Actual:",9} {actualVector:F6}");
 	}
 	
@@ -1583,8 +1579,8 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(ExtendBySpecialTestsParameters))]
 	public void ExtendBySpecialTests(Vector2 vector, float value)
 	{
-		var actualVector = Vector2Utils.ExtendBy(vector, value);
-		var actual = Vector2Utils.IsNaN(actualVector);
+		var actualVector = _approximation.Vector2.ExtendBy(vector, value);
+		var actual = _approximation.Vector2.IsNaN(actualVector);
 		Assert.That(actual, Is.True, $"{"Expected:",9} {new Vector2(float.NaN, float.NaN):F6}\n{"Actual:",9} {actualVector:F6}");
 	}
 	
@@ -1599,8 +1595,8 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(ExtendByVectorTestsParameters))]
 	public void ExtendByVectorTests(Vector2 vector1, Vector2 vector2, float value, Vector2 expectedVector)
 	{
-		var actualVector = Vector2Utils.ExtendBy(vector1, vector2, value);
-		var actual = actualVector.EqualTo(expectedVector);
+		var actualVector = _approximation.Vector2.ExtendBy(vector1, vector2, value);
+		var actual = _approximation.Vector2.EqualTo(actualVector, expectedVector);
 		Assert.That(actual, Is.True, $"{"Expected:",9} {expectedVector:F6}\n{"Actual:",9} {actualVector:F6}");
 	}
 	
@@ -1630,8 +1626,8 @@ public class Vector2UtilsTests
 	[Test, TestCaseSource(nameof(ExtendByVectorSpecialTestsParameters))]
 	public void ExtendByVectorSpecialTests(Vector2 vector1, Vector2 vector2, float value)
 	{
-		var actualVector = Vector2Utils.ExtendBy(vector1, vector2, value);
-		var actual = Vector2Utils.IsNaN(actualVector);
+		var actualVector = _approximation.Vector2.ExtendBy(vector1, vector2, value);
+		var actual = _approximation.Vector2.IsNaN(actualVector);
 		Assert.That(actual, Is.True, $"{"Expected:",9} {new Vector2(float.NaN, float.NaN):F6}\n{"Actual:",9} {actualVector:F6}");
 	}
 }

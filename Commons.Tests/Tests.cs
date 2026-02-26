@@ -12,7 +12,7 @@ public class Tests
 	[Test]
 	public void PerfTest()
 	{
-		var times = 100000;
+		const int times = 100000;
 		
 		CalcElapsedTime(() =>
 		{

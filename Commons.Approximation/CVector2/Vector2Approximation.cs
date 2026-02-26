@@ -203,10 +203,8 @@ namespace Commons.Approximation.CVector2
 		
 		public Vector2 ExtendTo(Vector2 vector1, Vector2 vector2, float value)
 		{
-			if (!IsFinite(vector1)) return NaN();
-			if (!IsFinite(vector2)) return NaN();
-			if (!float.IsFinite(value)) return NaN();
-			
+			if (!IsFinite(vector1) || !IsFinite(vector2) || !float.IsFinite(value)) return NaN();
+
 			var tempVector = vector2 - vector1;
 			var newVector = ExtendToInternal(tempVector, value);
 			return newVector + vector1;

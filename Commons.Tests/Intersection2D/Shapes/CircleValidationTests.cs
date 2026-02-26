@@ -1,10 +1,12 @@
 ﻿using System.Numerics;
-using Commons.Intersection2D.ShapeCreators;
+using Commons.Intersection2D;
 
 namespace Commons.Tests.Intersection2D.Shapes;
 
 public class CircleValidationTests
 {
+	private readonly Intersection _intersection = new(0.001f);
+	
 	private static IEnumerable<TestCaseData> DoesNotThrowTestsParameters()
 	{
 		var args1 = new object?[] { new Vector2(10.0f, 10.0f), 9.0f };
@@ -19,7 +21,7 @@ public class CircleValidationTests
 	[Test, TestCaseSource(nameof(DoesNotThrowTestsParameters))]
 	public void DoesNotThrowTests(Vector2 circleCenter, float circleRadius)
 	{
-		Assert.DoesNotThrow(() => CircleCreator.Create(circleCenter, circleRadius));
+		Assert.DoesNotThrow(() => _intersection.Circle.Create(circleCenter, circleRadius));
 	}
 	
 	private static IEnumerable<TestCaseData> AssertThrowTestsParameters()
@@ -52,7 +54,7 @@ public class CircleValidationTests
 	[Test, TestCaseSource(nameof(AssertThrowTestsParameters))]
 	public void AssertThrowTests(Vector2 circleCenter, float circleRadius)
 	{
-		var exception = Assert.Throws<ArithmeticException>(() => CircleCreator.Create(circleCenter, circleRadius));
+		var exception = Assert.Throws<ArithmeticException>(() => _intersection.Circle.Create(circleCenter, circleRadius));
 		Assert.That(exception.Source, Is.EqualTo("Commons.Intersection2D"));
 	}
 }

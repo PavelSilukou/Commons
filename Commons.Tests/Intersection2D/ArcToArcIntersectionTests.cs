@@ -1,11 +1,12 @@
 ﻿using System.Numerics;
 using Commons.Intersection2D;
-using Commons.Intersection2D.ShapeCreators;
 
 namespace Commons.Tests.Intersection2D;
 
 public class ArcToArcIntersectionTests
 {
+	private readonly Intersection _intersection = new(0.001f);
+	
 	private static IEnumerable<TestCaseData> IsArcToArcIntersectTestsParameters()
 	{
 		var args1 = new object?[] { new Vector2(10.0f, 10.0f), new Vector2(10.0f, 19.0f), -180.0f, new Vector2(20.0f, 10.0f), new Vector2(20.0f, 19.0f), 180.0f };
@@ -73,10 +74,9 @@ public class ArcToArcIntersectionTests
 		float arc2AngleDeg
 	)
 	{
-		var intersection = new Intersection();
-		var arc1 = ArcCreator.TryCreate(arc1Center, arc1Point, arc1AngleDeg);
-		var arc2 = ArcCreator.TryCreate(arc2Center, arc2Point, arc2AngleDeg);
-		var isIntersect = intersection.IsIntersect(arc1, arc2);
+		var arc1 = _intersection.Arc.TryCreate(arc1Center, arc1Point, arc1AngleDeg);
+		var arc2 = _intersection.Arc.TryCreate(arc2Center, arc2Point, arc2AngleDeg);
+		var isIntersect = _intersection.IsIntersect(arc1, arc2);
 		return isIntersect;
 	}
 	
@@ -158,10 +158,9 @@ public class ArcToArcIntersectionTests
 		Assert.DoesNotThrow(
 			() =>
 			{
-				var intersection = new Intersection();
-				var arc1 = ArcCreator.TryCreate(arc1Center, arc1Point, arc1AngleDeg);
-				var arc2 = ArcCreator.TryCreate(arc2Center, arc2Point, arc2AngleDeg);
-				intersection.IsIntersect(arc1, arc2);
+				var arc1 = _intersection.Arc.TryCreate(arc1Center, arc1Point, arc1AngleDeg);
+				var arc2 = _intersection.Arc.TryCreate(arc2Center, arc2Point, arc2AngleDeg);
+				_intersection.IsIntersect(arc1, arc2);
 			});
 	}
 }

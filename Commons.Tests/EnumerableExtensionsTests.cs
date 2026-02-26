@@ -1,6 +1,7 @@
 ﻿namespace Commons.Tests;
 
 #pragma warning disable CA1861 // Avoid constant arrays as arguments
+#pragma warning disable CA1707 // Identifiers should not contain underscores
 // ReSharper disable PossibleMultipleEnumeration
 public class EnumerableExtensionsTests
 {

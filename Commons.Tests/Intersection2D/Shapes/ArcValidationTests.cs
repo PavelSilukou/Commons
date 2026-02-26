@@ -1,10 +1,12 @@
 ﻿using System.Numerics;
-using Commons.Intersection2D.ShapeCreators;
+using Commons.Intersection2D;
 
 namespace Commons.Tests.Intersection2D.Shapes;
 
 public class ArcValidationTests
 {
+	private readonly Intersection _intersection = new(0.001f);
+	
 	private static IEnumerable<TestCaseData> DoesNotThrowTestsParameters()
 	{
 		var args1 = new object?[] { new Vector2(10.0f, 10.0f), new Vector2(10.0f, 19.0f), 180.0f };
@@ -27,7 +29,7 @@ public class ArcValidationTests
 	[Test, TestCaseSource(nameof(DoesNotThrowTestsParameters))]
 	public void DoesNotThrowTests(Vector2 arcCenter, Vector2 arcPoint, float arcAngleDeg)
 	{
-		Assert.DoesNotThrow(() => ArcCreator.Create(arcCenter, arcPoint, arcAngleDeg));
+		Assert.DoesNotThrow(() => _intersection.Arc.Create(arcCenter, arcPoint, arcAngleDeg));
 	}
 	
 	private static IEnumerable<TestCaseData> AssertThrowTestsParameters()
@@ -78,7 +80,7 @@ public class ArcValidationTests
 	[Test, TestCaseSource(nameof(AssertThrowTestsParameters))]
 	public void AssertThrowTests(Vector2 arcCenter, Vector2 arcPoint, float arcAngleDeg)
 	{
-		var exception = Assert.Throws<ArithmeticException>(() => ArcCreator.Create(arcCenter, arcPoint, arcAngleDeg));
+		var exception = Assert.Throws<ArithmeticException>(() => _intersection.Arc.Create(arcCenter, arcPoint, arcAngleDeg));
 		Assert.That(exception.Source, Is.EqualTo("Commons.Intersection2D"));
 	}
 }

@@ -1,7 +1,10 @@
 ﻿namespace Commons.Tests;
 
+#pragma warning disable CA1707 // Identifiers should not contain underscores
 public class FloatExtensionsTests
 {
+	private readonly Approximation.Approximation _approximation = new(0.001f);
+	
 	private static IEnumerable<TestCaseData> EqualToTestsParameters()
 	{
 		yield return new TestCaseData(10.01f, 10.01f).Returns(true);
@@ -15,7 +18,7 @@ public class FloatExtensionsTests
 	[Test, TestCaseSource(nameof(EqualToTestsParameters))]
 	public bool EqualToTests(float a, float b)
 	{
-		return a.EqualTo(b);
+		return _approximation.Float.EqualTo(a, b);
 	}
 	
 	private static IEnumerable<TestCaseData> EqualToToleranceTestsParameters()
@@ -33,9 +36,8 @@ public class FloatExtensionsTests
 	[Test, TestCaseSource(nameof(EqualToToleranceTestsParameters))]
 	public bool EqualToToleranceTests(float a, float b, float tolerance)
 	{
-		Settings.SetEqualsTolerance(tolerance);
-		var value = a.EqualTo(b);
-		Settings.SetEqualsTolerance(0.001f);
+		var approximation = new Approximation.Approximation(tolerance);
+		var value = approximation.Float.EqualTo(a, b);
 		return value;
 	}
 	
@@ -51,8 +53,9 @@ public class FloatExtensionsTests
 	public void SetEqualsTolerance_Exceptions_ReturnException(float tolerance)
 	{
 		var exception = Assert.Throws<ArithmeticException>(
-			() => Settings.SetEqualsTolerance(tolerance)
+			// ReSharper disable once ObjectCreationAsStatement
+			() => new Approximation.Approximation(tolerance)
 		);
-		Assert.That(exception.Source, Is.EqualTo("Commons"));
+		Assert.That(exception.Source, Is.EqualTo("Commons.Approximation"));
 	}
 }

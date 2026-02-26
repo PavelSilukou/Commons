@@ -1,11 +1,12 @@
 ﻿using System.Numerics;
 using Commons.Intersection2D;
-using Commons.Intersection2D.ShapeCreators;
 
 namespace Commons.Tests.Intersection2D;
 
 public class CircleToCircleIntersectionTests
 {
+	private readonly Intersection _intersection = new(0.001f);
+	
 	private static IEnumerable<TestCaseData> IsCircleToCircleIntersectTestsParameters()
 	{
 		var args1 = new object?[] { new Vector2(10.0f, 10.0f), 9.0f, new Vector2(20.0f, 10.0f), 9.0f };
@@ -45,10 +46,9 @@ public class CircleToCircleIntersectionTests
 		float radius2
 	)
 	{
-		var intersection = new Intersection();
-		var circle1 = CircleCreator.TryCreate(center1, radius1);
-		var circle2 = CircleCreator.TryCreate(center2, radius2);
-		var isIntersect = intersection.IsIntersect(circle1, circle2);
+		var circle1 = _intersection.Circle.TryCreate(center1, radius1);
+		var circle2 = _intersection.Circle.TryCreate(center2, radius2);
+		var isIntersect = _intersection.IsIntersect(circle1, circle2);
 		return isIntersect;
 	}
 	
@@ -104,10 +104,9 @@ public class CircleToCircleIntersectionTests
 		Assert.DoesNotThrow(
 			() =>
 			{
-				var intersection = new Intersection();
-				var circle1 = CircleCreator.TryCreate(center1, radius1);
-				var circle2 = CircleCreator.TryCreate(center2, radius2);
-				intersection.IsIntersect(circle1, circle2);
+				var circle1 = _intersection.Circle.TryCreate(center1, radius1);
+				var circle2 = _intersection.Circle.TryCreate(center2, radius2);
+				_intersection.IsIntersect(circle1, circle2);
 			});
 	}
 }

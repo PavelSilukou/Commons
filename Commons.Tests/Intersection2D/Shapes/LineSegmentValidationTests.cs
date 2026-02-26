@@ -1,10 +1,12 @@
 ﻿using System.Numerics;
-using Commons.Intersection2D.ShapeCreators;
+using Commons.Intersection2D;
 
 namespace Commons.Tests.Intersection2D.Shapes;
 
 public class LineSegmentValidationTests
 {
+	private readonly Intersection _intersection = new(0.001f);
+	
 	private static IEnumerable<TestCaseData> DoesNotThrowTestsParameters()
 	{
 		var args1 = new object?[] { new Vector2(10.0f, 10.0f), new Vector2(20.0f, 20.0f) };
@@ -25,7 +27,7 @@ public class LineSegmentValidationTests
 	[Test, TestCaseSource(nameof(DoesNotThrowTestsParameters))]
 	public void DoesNotThrowTests(Vector2 point1, Vector2 point2)
 	{
-		Assert.DoesNotThrow(() => LineSegmentCreator.Create(point1, point2));
+		Assert.DoesNotThrow(() => _intersection.LineSegment.Create(point1, point2));
 	}
 	
 	private static IEnumerable<TestCaseData> AssertThrowTestsParameters()
@@ -62,7 +64,7 @@ public class LineSegmentValidationTests
 	[Test, TestCaseSource(nameof(AssertThrowTestsParameters))]
 	public void AssertThrowTests(Vector2 point1, Vector2 point2)
 	{
-		var exception = Assert.Throws<ArithmeticException>(() => LineSegmentCreator.Create(point1, point2));
+		var exception = Assert.Throws<ArithmeticException>(() => _intersection.LineSegment.Create(point1, point2));
 		Assert.That(exception.Source, Is.EqualTo("Commons.Intersection2D"));
 	}
 }

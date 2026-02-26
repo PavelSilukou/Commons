@@ -1,11 +1,12 @@
 ﻿using System.Numerics;
 using Commons.Intersection2D;
-using Commons.Intersection2D.ShapeCreators;
 
 namespace Commons.Tests.Intersection2D;
 
 public class LineSegmentToLineSegmentIntersectionReturnTests
 {
+	private readonly Intersection _intersection = new(0.001f);
+	
 	private static IEnumerable<TestCaseData> IsLineSegmentToLineSegmentIntersectTestsParameters()
 	{
 		var args1 = new object?[] { new Vector2(10.0f, 10.0f), new Vector2(20.0f, 20.0f), new Vector2(10.0f, 20.0f), new Vector2(20.0f, 10.0f) };
@@ -72,10 +73,9 @@ public class LineSegmentToLineSegmentIntersectionReturnTests
 		Vector2 point4
 	)
 	{
-		var intersection = new Intersection();
-		var lineSegment1 = LineSegmentCreator.TryCreate(point1, point2);
-		var lineSegment2 = LineSegmentCreator.TryCreate(point3, point4);
-		var isIntersect = intersection.IsIntersect(out var intersectionPoints, lineSegment1, lineSegment2);
+		var lineSegment1 = _intersection.LineSegment.TryCreate(point1, point2);
+		var lineSegment2 = _intersection.LineSegment.TryCreate(point3, point4);
+		var isIntersect = _intersection.IsIntersect(out var intersectionPoints, lineSegment1, lineSegment2);
 		return (isIntersect, intersectionPoints);
 	}
 	
@@ -143,10 +143,9 @@ public class LineSegmentToLineSegmentIntersectionReturnTests
 		Assert.DoesNotThrow(
 			() =>
 			{
-				var intersection = new Intersection();
-				var lineSegment1 = LineSegmentCreator.TryCreate(point1, point2);
-				var lineSegment2 = LineSegmentCreator.TryCreate(point3, point4);
-				intersection.IsIntersect(out _, lineSegment1, lineSegment2);
+				var lineSegment1 = _intersection.LineSegment.TryCreate(point1, point2);
+				var lineSegment2 = _intersection.LineSegment.TryCreate(point3, point4);
+				_intersection.IsIntersect(out _, lineSegment1, lineSegment2);
 			});
 	}
 }

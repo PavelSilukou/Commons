@@ -1,9 +1,11 @@
-﻿using Commons.Intersection2D.ShapeCreators;
+﻿using Commons.Intersection2D;
 
 namespace Commons.Tests.Intersection2D.Shapes;
 
 public class RectangleValidationTests
 {
+	private readonly Intersection _intersection = new(0.001f);
+	
 	private static IEnumerable<TestCaseData> DoesNotThrowTestsParameters()
 	{
 		var rect1 = new[] { 30.0f, 40.0f, 50.0f, 30.0f };
@@ -16,7 +18,7 @@ public class RectangleValidationTests
 	[Test, TestCaseSource(nameof(DoesNotThrowTestsParameters))]
 	public void DoesNotThrowTests(float[] rect)
 	{
-		Assert.DoesNotThrow(() => RectangleCreator.Create(rect[0], rect[1], rect[2], rect[3]));
+		Assert.DoesNotThrow(() => _intersection.Rectangle.Create(rect[0], rect[1], rect[2], rect[3]));
 	}
 	
 	private static IEnumerable<TestCaseData> AssertThrowTestsParameters()
@@ -61,7 +63,7 @@ public class RectangleValidationTests
 	[Test, TestCaseSource(nameof(AssertThrowTestsParameters))]
 	public void AssertThrowTests(float[] rect)
 	{
-		var exception = Assert.Throws<ArithmeticException>(() => RectangleCreator.Create(rect[0], rect[1], rect[2], rect[3]));
+		var exception = Assert.Throws<ArithmeticException>(() => _intersection.Rectangle.Create(rect[0], rect[1], rect[2], rect[3]));
 		Assert.That(exception.Source, Is.EqualTo("Commons.Intersection2D"));
 	}
 }

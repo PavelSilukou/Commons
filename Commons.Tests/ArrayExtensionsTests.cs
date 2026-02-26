@@ -1,6 +1,7 @@
 ﻿namespace Commons.Tests;
 
 #pragma warning disable CA1806 // Do not ignore method results
+#pragma warning disable CA1707 // Identifiers should not contain underscores
 public class ArrayExtensionsTests
 {
 	[Test]

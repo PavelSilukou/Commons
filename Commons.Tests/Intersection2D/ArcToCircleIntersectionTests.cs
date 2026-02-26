@@ -1,11 +1,12 @@
 ﻿using System.Numerics;
 using Commons.Intersection2D;
-using Commons.Intersection2D.ShapeCreators;
 
 namespace Commons.Tests.Intersection2D;
 
 public class ArcToCircleIntersectionTests
 {
+	private readonly Intersection _intersection = new(0.001f);
+	
 	private static IEnumerable<TestCaseData> IsArcToCircleIntersectTestsParameters()
 	{
 		var args1 = new object?[] { new Vector2(10.0f, 10.0f), new Vector2(10.0f, 19.0f), -180.0f, new Vector2(20.0f, 10.0f), 9.0f };
@@ -67,10 +68,9 @@ public class ArcToCircleIntersectionTests
 		float circleRadius
 	)
 	{
-		var intersection = new Intersection();
-		var arc = ArcCreator.TryCreate(arcCenter, arcPoint, arcAngleDeg);
-		var circle = CircleCreator.TryCreate(circleCenter, circleRadius);
-		var isIntersect = intersection.IsIntersect(arc, circle);
+		var arc = _intersection.Arc.TryCreate(arcCenter, arcPoint, arcAngleDeg);
+		var circle = _intersection.Circle.TryCreate(circleCenter, circleRadius);
+		var isIntersect = _intersection.IsIntersect(arc, circle);
 		return isIntersect;
 	}
 	
@@ -139,10 +139,9 @@ public class ArcToCircleIntersectionTests
 		Assert.DoesNotThrow(
 			() =>
 			{
-				var intersection = new Intersection();
-				var arc = ArcCreator.TryCreate(arcCenter, arcPoint, arcAngleDeg);
-				var circle = CircleCreator.TryCreate(circleCenter, circleRadius);
-				intersection.IsIntersect(arc, circle);
+				var arc = _intersection.Arc.TryCreate(arcCenter, arcPoint, arcAngleDeg);
+				var circle = _intersection.Circle.TryCreate(circleCenter, circleRadius);
+				_intersection.IsIntersect(arc, circle);
 			});
 	}
 }

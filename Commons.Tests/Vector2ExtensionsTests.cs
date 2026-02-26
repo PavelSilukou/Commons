@@ -4,6 +4,8 @@ namespace Commons.Tests;
 
 public class Vector2ExtensionsTests
 {
+	private readonly Approximation.Approximation _approximation = new(0.001f);
+	
 	private static IEnumerable<TestCaseData> EqualToTestsParameters()
 	{
 		yield return new TestCaseData(new Vector2(10.01f, 20.01f), new Vector2(10.01f, 20.01f)).Returns(true);
@@ -20,7 +22,7 @@ public class Vector2ExtensionsTests
 	[Test, TestCaseSource(nameof(EqualToTestsParameters))]
 	public bool EqualToTests(Vector2 vector1, Vector2 vector2)
 	{
-		return vector1.EqualTo(vector2);
+		return _approximation.Vector2.EqualTo(vector1, vector2);
 	}
 	
 	private static IEnumerable<TestCaseData> EqualToToleranceTestsParameters()
@@ -41,9 +43,8 @@ public class Vector2ExtensionsTests
 	[Test, TestCaseSource(nameof(EqualToToleranceTestsParameters))]
 	public bool EqualToToleranceTests(Vector2 vector1, Vector2 vector2, float tolerance)
 	{
-		Settings.SetEqualsTolerance(tolerance);
-		var value = vector1.EqualTo(vector2);
-		Settings.SetEqualsTolerance(0.001f);
+		var approximation = new Approximation.Approximation(tolerance);
+		var value = approximation.Vector2.EqualTo(vector1, vector2);
 		return value;
 	}
 }
