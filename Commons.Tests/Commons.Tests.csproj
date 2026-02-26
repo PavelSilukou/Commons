@@ -23,6 +23,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Commons.Intersection2D\Commons.Intersection2D.csproj" />
+      <ProjectReference Include="..\Commons.Approximation\Commons.Approximation.csproj" />
       <ProjectReference Include="..\Commons\Commons.csproj" />
     </ItemGroup>
 
