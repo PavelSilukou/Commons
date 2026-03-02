@@ -7,11 +7,11 @@ namespace Commons.Intersection2D.ShapeCreators
 {
 	public class PolylineCreator
 	{
-		private readonly Approximation.Approximation _approximation;
+		private readonly Equality.Equality _equality;
 		
-		internal PolylineCreator(Approximation.Approximation approximation)
+		internal PolylineCreator(Equality.Equality equality)
 		{
-			_approximation = approximation;
+			_equality = equality;
 		}
 		
 		public CShape Create(Vector2[] points)
@@ -19,7 +19,7 @@ namespace Commons.Intersection2D.ShapeCreators
 			if (points.Length == 0) throw new ArithmeticException($"'{nameof(points)}' is empty.");
 			for(var i = 0; i < points.Length; i++)
 			{
-				if (!_approximation.Vector2.IsFinite(points[i])) 
+				if (!Vector2Utils.IsFinite(points[i])) 
 					throw new ArithmeticException($"'{nameof(points)}' element {i} should be finite.");
 			}
 			
@@ -42,7 +42,7 @@ namespace Commons.Intersection2D.ShapeCreators
 		
 		private bool IsPoint(Vector2[] points)
 		{
-			return points.AllEquals(_approximation.Vector2.GetEqualityComparer());
+			return points.AllEquals(_equality.Vector2.GetComparer());
 		}
 	}
 }

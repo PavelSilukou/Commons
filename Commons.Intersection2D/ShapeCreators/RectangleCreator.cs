@@ -7,11 +7,11 @@ namespace Commons.Intersection2D.ShapeCreators
 {
 	public class RectangleCreator
 	{
-		private readonly Approximation.Approximation _approximation;
+		private readonly Equality.Equality _equality;
 		
-		internal RectangleCreator(Approximation.Approximation approximation)
+		internal RectangleCreator(Equality.Equality equality)
 		{
-			_approximation = approximation;
+			_equality = equality;
 		}
 		
 		public CShape Create(float left, float top, float right, float bottom) 
@@ -25,10 +25,10 @@ namespace Commons.Intersection2D.ShapeCreators
 			if (!float.IsFinite(bottom))
 				throw new ArithmeticException($"'{nameof(bottom)}' should be finite.");
 			
-			if (_approximation.Float.MoreOrEqualTo(left, right)) 
+			if (_equality.Float.MoreOrEqualTo(left, right)) 
 				throw new ArithmeticException($"'{nameof(left)}' should be less than '{nameof(right)}'.");
 			// ReSharper disable once ConvertIfStatementToReturnStatement
-			if (_approximation.Float.MoreOrEqualTo(bottom, top))
+			if (_equality.Float.MoreOrEqualTo(bottom, top))
 				throw new ArithmeticException($"'{nameof(bottom)}' should be less than '{nameof(top)}'.");
 			
 			return new CRectangle(left, top, right, bottom);
@@ -49,7 +49,7 @@ namespace Commons.Intersection2D.ShapeCreators
 		private bool IsPoint(float left, float top, float right, float bottom)
 		{
 			var points = new[] { left, top, right, bottom };
-			return points.AllEquals(_approximation.Float.GetEqualityComparer());
+			return points.AllEquals(_equality.Float.GetComparer());
 		}
 	}
 }

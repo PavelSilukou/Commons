@@ -7,17 +7,10 @@ namespace Commons.Intersection2D.ShapeCreators
 {
 	public class PointCreator
 	{
-		private readonly Approximation.Approximation _approximation;
-		
-		internal PointCreator(Approximation.Approximation approximation)
-		{
-			_approximation = approximation;
-		}
-		
 		public CShape Create(Vector2 point)
 		{
 			// ReSharper disable once ConvertIfStatementToReturnStatement
-			if (!_approximation.Vector2.IsFinite(point)) throw new ArithmeticException("Point should be finite.");
+			if (!Vector2Utils.IsFinite(point)) throw new ArithmeticException("Point should be finite.");
 			
 			return new CPoint(point);
 		}

@@ -1,32 +1,20 @@
 ﻿using System.Numerics;
-using Commons.Approximation.CFloat;
+using Commons.Equality.CFloat;
 using JetBrains.Annotations;
 
-namespace Commons.Approximation.CVector3
+namespace Commons.Equality.CVector3
 {
+	// TODO: rework
 	[PublicAPI]
-	public class Vector3Approximation
+	public class Vector3Equality
 	{
-		private readonly FloatApproximation _floatApproximation;
+		private readonly FloatEquality _floatEquality;
         
-		internal Vector3Approximation(FloatApproximation floatApproximation)
+		internal Vector3Equality(FloatEquality floatEquality)
 		{
-			_floatApproximation = floatApproximation;
+			_floatEquality = floatEquality;
 		}
 		
-		public Vector3 YNormal(Vector3 v1, Vector3 v2, bool clockwise = true)
-		{
-			var temp = v1 - v2;
-			if (clockwise)
-			{
-				temp = new Vector3(-temp.Z, 0.0f, temp.X);
-				return Vector3.Normalize(temp);
-			}
-
-			temp = new Vector3(temp.Z, 0.0f, -temp.X);
-			return Vector3.Normalize(temp);
-		}
-
 		public bool DistanceBetweenVectorsEqual(
 			Vector3 vector1,
 			Vector3 vector2,
@@ -59,7 +47,7 @@ namespace Commons.Approximation.CVector3
 
 			var d = a * e - b * b;
 
-			if (_floatApproximation.EqualTo(d, 0.0f)) return false;
+			if (_floatEquality.EqualTo(d, 0.0f)) return false;
 
 			var r = point1 - point3;
 			var c = Vector3.Dot(vector1, r);

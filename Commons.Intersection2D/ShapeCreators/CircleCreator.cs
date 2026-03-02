@@ -7,25 +7,25 @@ namespace Commons.Intersection2D.ShapeCreators
 {
 	public class CircleCreator
 	{
-		private readonly Approximation.Approximation _approximation;
+		private readonly Equality.Equality _equality;
 		
-		internal CircleCreator(Approximation.Approximation approximation)
+		internal CircleCreator(Equality.Equality equality)
 		{
-			_approximation = approximation;
+			_equality = equality;
 		}
 		
 		public CShape Create(Vector2 center, float radius)
 		{
-			if (!_approximation.Vector2.IsFinite(center)) 
+			if (!Vector2Utils.IsFinite(center)) 
 				throw new ArithmeticException($"'{nameof(center)}' should be finite.");
-			if (!float.IsFinite(radius) || float.IsNegative(radius) || _approximation.Float.EqualTo(radius, 0.0f)) 
+			if (!float.IsFinite(radius) || float.IsNegative(radius) || _equality.Float.EqualTo(radius, 0.0f)) 
 				throw new ArithmeticException($"'{nameof(radius)}' should be finite and more than zero.");
 			return new CCircle(center, radius);
 		}
 		
 		public CShape TryCreate(Vector2 center, float radius)
 		{
-			if (float.IsNegative(radius) || _approximation.Float.EqualTo(radius, 0.0f)) return new CPoint(center);
+			if (float.IsNegative(radius) || _equality.Float.EqualTo(radius, 0.0f)) return new CPoint(center);
 			return new CCircle(center, radius);
 		}
 		

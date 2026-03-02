@@ -7,23 +7,23 @@ namespace Commons.Intersection2D.ShapeCreators
 {
 	public class QuadrilateralCreator
 	{
-		private readonly Approximation.Approximation _approximation;
+		private readonly Equality.Equality _equality;
 		
-		internal QuadrilateralCreator(Approximation.Approximation approximation)
+		internal QuadrilateralCreator(Equality.Equality equality)
 		{
-			_approximation = approximation;
+			_equality = equality;
 		}
 		
 		public CShape Create(Vector2 point1, Vector2 point2, Vector2 point3, Vector2 point4)
 		{
-			if (!_approximation.Vector2.IsFinite(point1)) 
+			if (!Vector2Utils.IsFinite(point1)) 
 				throw new ArithmeticException($"'{nameof(point1)}' should be finite.");
-			if (!_approximation.Vector2.IsFinite(point2)) 
+			if (!Vector2Utils.IsFinite(point2)) 
 				throw new ArithmeticException($"'{nameof(point2)}' should be finite.");
-			if (!_approximation.Vector2.IsFinite(point3)) 
+			if (!Vector2Utils.IsFinite(point3)) 
 				throw new ArithmeticException($"'{nameof(point3)}' should be finite.");
 			// ReSharper disable once ConvertIfStatementToReturnStatement
-			if (!_approximation.Vector2.IsFinite(point4)) 
+			if (!Vector2Utils.IsFinite(point4)) 
 				throw new ArithmeticException($"'{nameof(point4)}' should be finite.");
 			
 			return new CQuadrilateral(point1, point2, point3, point4);
@@ -44,7 +44,7 @@ namespace Commons.Intersection2D.ShapeCreators
 		private bool IsPoint(Vector2 point1, Vector2 point2, Vector2 point3, Vector2 point4)
 		{
 			var points = new[] { point1, point2, point3, point4 };
-			return points.AllEquals(_approximation.Vector2.GetEqualityComparer());
+			return points.AllEquals(_equality.Vector2.GetComparer());
 		}
 	}
 }

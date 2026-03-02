@@ -8,11 +8,11 @@ namespace Commons.Intersection2D.Strategies
 	[IntersectionStrategy]
 	internal class RotatedRectangleToRotatedRectangleIntersectionStrategy: IntersectionStrategy<CRotatedRectangle, CRotatedRectangle>
 	{
-		private readonly Approximation.Approximation _approximation;
+		private readonly Equality.Equality _equality;
 		
-		public RotatedRectangleToRotatedRectangleIntersectionStrategy(Approximation.Approximation approximation)
+		public RotatedRectangleToRotatedRectangleIntersectionStrategy(Equality.Equality equality)
 		{
-			_approximation = approximation;
+			_equality = equality;
 		}
 		
 		protected override bool IsIntersect(CRotatedRectangle rect1, CRotatedRectangle rect2)
@@ -25,7 +25,7 @@ namespace Commons.Intersection2D.Strategies
 				var intersection = false;
 				for (var j = 0; j < 4; j++)
 				{
-					var isProject = _approximation.Vector2.PointProjectionOnLineSegment(
+					var isProject = _equality.Vector2.PointProjectionOnLineSegment(
 						out _,
 						rect2Points[j],
 						rect1Points[i],
@@ -42,7 +42,7 @@ namespace Commons.Intersection2D.Strategies
 				var intersection = false;
 				for (var j = 0; j < 4; j++)
 				{
-					var isProject = _approximation.Vector2.PointProjectionOnLineSegment(
+					var isProject = _equality.Vector2.PointProjectionOnLineSegment(
 						out _,
 						rect1Points[j],
 						rect2Points[i],

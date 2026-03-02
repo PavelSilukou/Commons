@@ -8,25 +8,25 @@ namespace Commons.Intersection2D.Strategies
 	[IntersectionStrategy]
 	internal class CircleToCircleIntersectionStrategy: IntersectionStrategy<CCircle, CCircle>
 	{
-		private readonly Approximation.Approximation _approximation;
+		private readonly Equality.Equality _equality;
 		
-		public CircleToCircleIntersectionStrategy(Approximation.Approximation approximation)
+		public CircleToCircleIntersectionStrategy(Equality.Equality equality)
 		{
-			_approximation = approximation;
+			_equality = equality;
 		}
 		
 		protected override bool IsIntersect(CCircle circle1, CCircle circle2)
 		{
 			var distance = Vector2.Distance(circle1.Center, circle2.Center);
-			if (_approximation.Float.EqualTo(distance, 0.0f) 
-			    && _approximation.Float.EqualTo(circle1.Radius, circle2.Radius)
+			if (_equality.Float.EqualTo(distance, 0.0f) 
+			    && _equality.Float.EqualTo(circle1.Radius, circle2.Radius)
 			)
 			{
 				return true;
 			}
 			
-			return _approximation.Float.LessOrEqualTo(distance, circle1.Radius + circle2.Radius)
-			       && _approximation.Float.MoreOrEqualTo(distance, MathF.Abs(circle1.Radius - circle2.Radius));
+			return _equality.Float.LessOrEqualTo(distance, circle1.Radius + circle2.Radius)
+			       && _equality.Float.MoreOrEqualTo(distance, MathF.Abs(circle1.Radius - circle2.Radius));
 		}
 
 		protected override bool IsIntersect(out Vector2[] intersectionPoints, CCircle circle1, CCircle circle2)

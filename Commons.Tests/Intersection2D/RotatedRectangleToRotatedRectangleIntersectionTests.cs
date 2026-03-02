@@ -5,14 +5,14 @@ namespace Commons.Tests.Intersection2D;
 
 public class RotatedRectangleToRotatedRectangleIntersectionTests
 {
-	private Approximation.Approximation _approximation;
+	private Equality.Equality _equality;
 	private Intersection _intersection;
 	
 	[SetUp]
 	public void Setup()
 	{
-		_approximation = new Approximation.Approximation(0.001f);
-		_intersection = new Intersection(_approximation);
+		_equality = new Equality.Equality(0.001f);
+		_intersection = new Intersection(_equality);
 	}
 	
 	private static IEnumerable<TestCaseData> IsRotatedRectangleToRotatedRectangleIntersectTestsParameters()
@@ -162,7 +162,7 @@ public class RotatedRectangleToRotatedRectangleIntersectionTests
 	[Test, TestCaseSource(nameof(IsRotatedRectangleToRotatedRectangleIntersectTestsParameters))]
 	public bool IsRotatedRectangleToRotatedRectangleIntersect2Tests(Vector2[] rects)
 	{
-		var newRects = rects.Select(rect => _approximation.Vector2.RotateDeg(rect, 42.5f)).ToArray();
+		var newRects = rects.Select(rect => Vector2Utils.RotateDeg(rect, 42.5f)).ToArray();
 		var rotatedRectangle1 = _intersection.RotatedRectangle.TryCreate(newRects[0], newRects[1], newRects[2], newRects[3]);
 		var rotatedRectangle2 = _intersection.RotatedRectangle.TryCreate(newRects[4], newRects[5], newRects[6], newRects[7]);
 		var isIntersect = _intersection.IsIntersect(rotatedRectangle1, rotatedRectangle2);
@@ -334,7 +334,7 @@ public class RotatedRectangleToRotatedRectangleIntersectionTests
 	[Test, TestCaseSource(nameof(IsRotatedRectangleToRotatedRectangleIntersect2TestsParameters))]
 	public bool IsRotatedRectangleToRotatedRectangleIntersectDoesNotValidate3Tests(Vector2[] rects)
 	{
-		var newRects = rects.Select(rect => _approximation.Vector2.RotateDeg(rect, 42.5f)).ToArray();
+		var newRects = rects.Select(rect => Vector2Utils.RotateDeg(rect, 42.5f)).ToArray();
 		var isIntersect = false;
 		Assert.DoesNotThrow(
 			() =>
@@ -596,7 +596,7 @@ public class RotatedRectangleToRotatedRectangleIntersectionTests
 	[Test, TestCaseSource(nameof(IsRotatedRectangleToRotatedRectangleIntersectSpecialTestsParameters))]
 	public void IsRotatedRectangleToRotatedRectangleIntersectSpecialTests(Vector2[] rects)
 	{
-		var newRects = rects.Select(rect => _approximation.Vector2.RotateDeg(rect, 42.5f)).ToArray();
+		var newRects = rects.Select(rect => Vector2Utils.RotateDeg(rect, 42.5f)).ToArray();
 		Assert.DoesNotThrow(
 			() =>
 			{

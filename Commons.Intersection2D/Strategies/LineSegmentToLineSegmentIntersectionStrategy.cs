@@ -8,11 +8,11 @@ namespace Commons.Intersection2D.Strategies
 	[IntersectionStrategy]
 	internal class LineSegmentToLineSegmentIntersectionStrategy: IntersectionStrategy<CLineSegment, CLineSegment>
 	{
-		private readonly Approximation.Approximation _approximation;
+		private readonly Equality.Equality _equality;
 		
-		public LineSegmentToLineSegmentIntersectionStrategy(Approximation.Approximation approximation)
+		public LineSegmentToLineSegmentIntersectionStrategy(Equality.Equality equality)
 		{
-			_approximation = approximation;
+			_equality = equality;
 		}
 		
 		protected override bool IsIntersect(CLineSegment lineSegment1, CLineSegment lineSegment2)
@@ -34,7 +34,7 @@ namespace Commons.Intersection2D.Strategies
 			var s = (-s1Y * (lineSegment1.Point1.X - lineSegment2.Point1.X) + s1X * (lineSegment1.Point1.Y - lineSegment2.Point1.Y)) / denominator;
 			var t = (s2X * (lineSegment1.Point1.Y - lineSegment2.Point1.Y) - s2Y * (lineSegment1.Point1.X - lineSegment2.Point1.X)) / denominator;
 
-			if (_approximation.Float.EqualTo(denominator, 0.0f) && float.IsNaN(s) && float.IsNaN(t)) // parallel and lie on the same line
+			if (_equality.Float.EqualTo(denominator, 0.0f) && float.IsNaN(s) && float.IsNaN(t)) // parallel and lie on the same line
 			{
 				if (AreCollinearLineSegmentsTouch(out var touchPoint, lineSegment1.Point1, lineSegment1.Point2, lineSegment2.Point1, lineSegment2.Point2))
 				{
@@ -48,12 +48,12 @@ namespace Commons.Intersection2D.Strategies
 				// ReSharper disable once InvertIf
 				if (AreCollinearLineSegmentsOverlay(lineSegment1.Point1, lineSegment1.Point2, lineSegment2.Point1, lineSegment2.Point2))
 				{
-					intersectionPoints = new []{ _approximation.Vector2.NaN() };
-					if (_approximation.Float.EqualTo(Vector2.Distance(lineSegment1.Point1, lineSegment1.Point2), 0.0f))
+					intersectionPoints = new []{ Vector2Utils.NaN() };
+					if (_equality.Float.EqualTo(Vector2.Distance(lineSegment1.Point1, lineSegment1.Point2), 0.0f))
 					{
 						intersectionPoints[0] = lineSegment1.Point1;
 					}
-					if (_approximation.Float.EqualTo(Vector2.Distance(lineSegment2.Point1, lineSegment2.Point2), 0.0f))
+					if (_equality.Float.EqualTo(Vector2.Distance(lineSegment2.Point1, lineSegment2.Point2), 0.0f))
 					{
 						intersectionPoints[0] = lineSegment2.Point1;
 					}
@@ -111,11 +111,11 @@ namespace Commons.Intersection2D.Strategies
 
 		private bool AreCollinearLineSegmentsTouch(Vector2 a, Vector2 b, Vector2 c, Vector2 d)
 		{
-			if (!_approximation.Vector2.EqualTo(a - b, Vector2.Zero)) return false;
+			if (!_equality.Vector2.EqualTo(a - b, Vector2.Zero)) return false;
 			
 			var t1 = a - c;
 			var t2 = b - d;
-			return _approximation.Float.EqualTo(_approximation.Vector2.AngleRad(t1, t2), MathF.PI);
+			return _equality.Float.EqualTo(Vector2Utils.AngleRad(t1, t2), MathF.PI);
 		}
 		
 		// TODO: rework
@@ -141,7 +141,7 @@ namespace Commons.Intersection2D.Strategies
 			if (dotProduct < 0.0f) return false;
 
 			var squaredLength = Vector2.DistanceSquared(lineSegmentPoint1, lineSegmentPoint2);
-			return _approximation.Float.LessOrEqualTo(dotProduct, squaredLength);
+			return _equality.Float.LessOrEqualTo(dotProduct, squaredLength);
 		}
 	}
 }

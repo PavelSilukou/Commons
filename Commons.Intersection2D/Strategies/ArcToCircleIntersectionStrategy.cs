@@ -9,12 +9,12 @@ namespace Commons.Intersection2D.Strategies
 	[IntersectionStrategy]
 	internal class ArcToCircleIntersectionStrategy: IntersectionStrategy<CArc, CCircle>
 	{
-		private readonly Approximation.Approximation _approximation;
+		private readonly Equality.Equality _equality;
 		private readonly IIntersectionStrategy _circleToCircleIntersectionStrategy;
 		
-		public ArcToCircleIntersectionStrategy(Approximation.Approximation approximation, CircleToCircleIntersectionStrategy circleToCircleIntersectionStrategy)
+		public ArcToCircleIntersectionStrategy(Equality.Equality equality, CircleToCircleIntersectionStrategy circleToCircleIntersectionStrategy)
 		{
-			_approximation = approximation;
+			_equality = equality;
 			_circleToCircleIntersectionStrategy = circleToCircleIntersectionStrategy;
 		}
 
@@ -36,7 +36,7 @@ namespace Commons.Intersection2D.Strategies
 			if (!circlesIntersection) return false;
 
 			var point1 = circlesIntersectionPoints[0];
-			if (_approximation.Vector2.IsNaN(point1))
+			if (Vector2Utils.IsNaN(point1))
 			{
 				intersectionPoints = new []{ point1 };
 				return true;
@@ -70,8 +70,8 @@ namespace Commons.Intersection2D.Strategies
 		)
 		{
 			var anglePoint1 =
-				_approximation.Vector2.SignedAngleDeg360Clamp(arc.Point - arc.Center, point - arc.Center, arc.AngleSign);
-			return _approximation.Float.LessOrEqualTo(MathF.Abs(anglePoint1), MathF.Abs(arc.Angle));
+				_equality.Vector2.SignedAngleDeg360Clamp(arc.Point - arc.Center, point - arc.Center, arc.AngleSign);
+			return _equality.Float.LessOrEqualTo(MathF.Abs(anglePoint1), MathF.Abs(arc.Angle));
 		}
 	}
 }

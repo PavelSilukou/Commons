@@ -12,9 +12,9 @@ namespace Commons.Intersection2D.Strategies.Internal
 	{
 		private readonly Dictionary<IntersectionCShapeTypesPair, IIntersectionStrategy> _strategies;
 		
-		internal IntersectionStrategies(Approximation.Approximation approximation)
+		internal IntersectionStrategies(Equality.Equality equality)
 		{
-			_strategies = InitStrategies(approximation);
+			_strategies = InitStrategies(equality);
 		}
 		
 		internal IIntersectionStrategy GetStrategy(CShape shape1, CShape shape2)
@@ -85,10 +85,10 @@ namespace Commons.Intersection2D.Strategies.Internal
 			return strategy;
 		}
 
-		private static IEnumerable<IIntersectionStrategy> FindAllStrategies(Approximation.Approximation approximation)
+		private static IEnumerable<IIntersectionStrategy> FindAllStrategies(Equality.Equality equality)
 		{
 			var services = new ServiceCollection();
-			services.AddSingleton(approximation);
+			services.AddSingleton(equality);
 			
 			var assembly = Assembly.GetExecutingAssembly();
 			var types = assembly
@@ -110,9 +110,9 @@ namespace Commons.Intersection2D.Strategies.Internal
 			return serviceProvider.GetServices<IIntersectionStrategy>();
 		}
 		
-		private static Dictionary<IntersectionCShapeTypesPair, IIntersectionStrategy> InitStrategies(Approximation.Approximation approximation)
+		private static Dictionary<IntersectionCShapeTypesPair, IIntersectionStrategy> InitStrategies(Equality.Equality equality)
 		{
-			var strategies = FindAllStrategies(approximation);
+			var strategies = FindAllStrategies(equality);
 			var strategiesDict = new Dictionary<IntersectionCShapeTypesPair, IIntersectionStrategy>();
 			foreach (var strategy in strategies)
 			{

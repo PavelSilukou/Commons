@@ -6,7 +6,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commons.Tests", "Commons.Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commons.Intersection2D", "Commons.Intersection2D\Commons.Intersection2D.csproj", "{25516C8A-253B-4EAC-9D78-6B975B8ACAD6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commons.Approximation", "Commons.Approximation\Commons.Approximation.csproj", "{C23FD0A7-B369-49D0-B1DA-0C441AEB6E86}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commons.Equality", "Commons.Equality\Commons.Equality.csproj", "{E27E9142-6156-4BD4-8DFE-45738EC90E5D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,9 +26,9 @@ Global
 		{25516C8A-253B-4EAC-9D78-6B975B8ACAD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{25516C8A-253B-4EAC-9D78-6B975B8ACAD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{25516C8A-253B-4EAC-9D78-6B975B8ACAD6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C23FD0A7-B369-49D0-B1DA-0C441AEB6E86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C23FD0A7-B369-49D0-B1DA-0C441AEB6E86}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C23FD0A7-B369-49D0-B1DA-0C441AEB6E86}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C23FD0A7-B369-49D0-B1DA-0C441AEB6E86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E27E9142-6156-4BD4-8DFE-45738EC90E5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E27E9142-6156-4BD4-8DFE-45738EC90E5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E27E9142-6156-4BD4-8DFE-45738EC90E5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E27E9142-6156-4BD4-8DFE-45738EC90E5D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -3,7 +3,7 @@
 #pragma warning disable CA1707 // Identifiers should not contain underscores
 public class FloatExtensionsTests
 {
-	private readonly Approximation.Approximation _approximation = new(0.001f);
+	private readonly Equality.Equality _equality = new(0.001f);
 	
 	private static IEnumerable<TestCaseData> EqualToTestsParameters()
 	{
@@ -18,7 +18,7 @@ public class FloatExtensionsTests
 	[Test, TestCaseSource(nameof(EqualToTestsParameters))]
 	public bool EqualToTests(float a, float b)
 	{
-		return _approximation.Float.EqualTo(a, b);
+		return _equality.Float.EqualTo(a, b);
 	}
 	
 	private static IEnumerable<TestCaseData> EqualToToleranceTestsParameters()
@@ -36,8 +36,8 @@ public class FloatExtensionsTests
 	[Test, TestCaseSource(nameof(EqualToToleranceTestsParameters))]
 	public bool EqualToToleranceTests(float a, float b, float tolerance)
 	{
-		var approximation = new Approximation.Approximation(tolerance);
-		var value = approximation.Float.EqualTo(a, b);
+		var equality = new Equality.Equality(tolerance);
+		var value = equality.Float.EqualTo(a, b);
 		return value;
 	}
 	
@@ -54,8 +54,8 @@ public class FloatExtensionsTests
 	{
 		var exception = Assert.Throws<ArithmeticException>(
 			// ReSharper disable once ObjectCreationAsStatement
-			() => new Approximation.Approximation(tolerance)
+			() => new Equality.Equality(tolerance)
 		);
-		Assert.That(exception.Source, Is.EqualTo("Commons.Approximation"));
+		Assert.That(exception.Source, Is.EqualTo("Commons.Equality"));
 	}
 }

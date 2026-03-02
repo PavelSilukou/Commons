@@ -17,17 +17,17 @@ namespace Commons.Intersection2D
 
 		private readonly IntersectionStrategies _strategies;
 
-		public Intersection(float tolerance) : this(new Approximation.Approximation(tolerance)) { }
+		public Intersection(float tolerance) : this(new Equality.Equality(tolerance)) { }
 		
-		public Intersection(Approximation.Approximation approximation)
+		public Intersection(Equality.Equality equality)
 		{
-			Arc = new ArcCreator(approximation);
-			Circle = new CircleCreator(approximation);
-			LineSegment = new LineSegmentCreator(approximation);
-			Line = new LineCreator(approximation);
-			Rectangle = new RectangleCreator(approximation);
-			RotatedRectangle = new RotatedRectangleCreator(approximation);
-			_strategies = new IntersectionStrategies(approximation);
+			Arc = new ArcCreator(equality);
+			Circle = new CircleCreator(equality);
+			LineSegment = new LineSegmentCreator(equality);
+			Line = new LineCreator(equality);
+			Rectangle = new RectangleCreator(equality);
+			RotatedRectangle = new RotatedRectangleCreator(equality);
+			_strategies = new IntersectionStrategies(equality);
 		}
 		
 		public bool IsIntersect(CShape shape1, CShape shape2)

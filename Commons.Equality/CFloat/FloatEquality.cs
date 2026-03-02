@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Commons.Approximation.CFloat
+namespace Commons.Equality.CFloat
 {
-    public class FloatApproximation
+    public class FloatEquality
     {
         private readonly float _tolerance;
         
-        internal FloatApproximation(float tolerance)
+        internal FloatEquality(float tolerance)
         {
             _tolerance = tolerance;
         }
         
-        public IEqualityComparer<float> GetEqualityComparer()
+        public IEqualityComparer<float> GetComparer()
         {
             return new FloatEqualityComparer(this);
         }

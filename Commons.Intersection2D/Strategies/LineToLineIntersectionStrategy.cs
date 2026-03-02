@@ -8,11 +8,11 @@ namespace Commons.Intersection2D.Strategies
 	[IntersectionStrategy]
 	internal class LineToLineIntersectionStrategy: IntersectionStrategy<CLine, CLine>
 	{
-		private readonly Approximation.Approximation _approximation;
+		private readonly Equality.Equality _equality;
 		
-		public LineToLineIntersectionStrategy(Approximation.Approximation approximation)
+		public LineToLineIntersectionStrategy(Equality.Equality equality)
 		{
-			_approximation = approximation;
+			_equality = equality;
 		}
 		
 		protected override bool IsIntersect(CLine line1, CLine line2)
@@ -33,15 +33,15 @@ namespace Commons.Intersection2D.Strategies
 			        - (line1.Point1.Y - line1.Point2.Y)
 			        * (line2.Point1.X - line2.Point2.X);
 
-			if (_approximation.Float.EqualTo(d, 0.0f)) // are parallel
+			if (_equality.Float.EqualTo(d, 0.0f)) // are parallel
 			{
-				if (!_approximation.Float.EqualTo(nx, 0.0f) || !_approximation.Float.EqualTo(ny, 0.0f)) // not the same
+				if (!_equality.Float.EqualTo(nx, 0.0f) || !_equality.Float.EqualTo(ny, 0.0f)) // not the same
 				{
 					intersectionPoints = Array.Empty<Vector2>();
 					return false; 
 				}
 
-				intersectionPoints = new[] { _approximation.Vector2.NaN() };
+				intersectionPoints = new[] { Vector2Utils.NaN() };
 				return true;
 			}
 

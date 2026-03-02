@@ -5,14 +5,14 @@ namespace Commons.Tests.Intersection2D.Shapes;
 
 public class RotatedRectangleValidationTests
 {
-	private Approximation.Approximation _approximation;
+	private Equality.Equality _equality;
 	private Intersection _intersection;
 	
 	[SetUp]
 	public void Setup()
 	{
-		_approximation = new Approximation.Approximation(0.001f);
-		_intersection = new Intersection(_approximation);
+		_equality = new Equality.Equality(0.001f);
+		_intersection = new Intersection(_equality);
 	}
 	
 	private static IEnumerable<TestCaseData> DoesNotThrowTestsParameters()
@@ -37,7 +37,7 @@ public class RotatedRectangleValidationTests
 	[Test, TestCaseSource(nameof(DoesNotThrowTestsParameters))]
 	public void DoesNotThrowRotatedTests(Vector2[] rect)
 	{
-		var newRect = rect.Select(r => _approximation.Vector2.RotateDeg(r, 42.5f)).ToArray();
+		var newRect = rect.Select(r => Vector2Utils.RotateDeg(r, 42.5f)).ToArray();
 		Assert.DoesNotThrow(() => _intersection.RotatedRectangle.Create(newRect[0], newRect[1], newRect[2], newRect[3]));
 	}
 	
@@ -197,7 +197,7 @@ public class RotatedRectangleValidationTests
 	[Test, TestCaseSource(nameof(AssertThrowTestsParameters))]
 	public void AssertThrowRotatedTests(Vector2[] rect)
 	{
-		var newRect = rect.Select(r => _approximation.Vector2.RotateDeg(r, 42.5f)).ToArray();
+		var newRect = rect.Select(r => Vector2Utils.RotateDeg(r, 42.5f)).ToArray();
 		var exception = Assert.Throws<ArithmeticException>(() => _intersection.RotatedRectangle.Create(newRect[0], newRect[1], newRect[2], newRect[3]));
 		Assert.That(exception.Source, Is.EqualTo("Commons.Intersection2D"));
 	}
