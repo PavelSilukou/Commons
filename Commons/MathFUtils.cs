@@ -91,93 +91,81 @@ namespace Commons
 			return radians * (180.0f / MathF.PI);
 		}
 
-		public static IEnumerable<float> Split(float value, float splitValue)
+		public static IEnumerable<float> Split(float numerator, float denominator)
 		{
-			var groupsCount = (int)(value / splitValue);
-			if (groupsCount * splitValue < value)
-			{
-				groupsCount++;
-			}
+			var quotient = MathUtils.Ceiling(numerator / denominator);
 
-			for (var i = 0; i < groupsCount; i++)
+			for (var i = 0; i < quotient; i++)
 			{
-				var resultValue = Math.Min(splitValue, value);
+				var resultValue = Math.Min(denominator, numerator);
 				yield return resultValue;
-				value -= resultValue;
+				numerator -= resultValue;
 			}
 		}
-		
-		public static IEnumerable<float> SplitClosestMin(float value, float splitValue)
-		{
-			var groupsCount = (int)(value / splitValue);
-			if (groupsCount * splitValue < value)
-			{
-				groupsCount++;
-			}
 
-			var resultValue = value / groupsCount;
-			for (var i = 0; i < groupsCount; i++)
-			{
-				yield return resultValue;
-			}
+		public static float GetClosestDenominator(float numerator, float initialDenominator)
+		{
+			var minDenominator = GetClosestMinDenominator(numerator, initialDenominator);
+			var maxDenominator = GetClosestMaxDenominator(numerator, initialDenominator);
+
+			return Math.Abs(minDenominator - initialDenominator) <= Math.Abs(maxDenominator - initialDenominator) 
+				? minDenominator 
+				: maxDenominator;
 		}
 		
-		public static IEnumerable<float> SplitClosestMin(float value, float splitValue, float tolerance)
+		public static float GetClosestDenominator(float numerator, float initialDenominator, float tolerance)
 		{
-			var minValue = splitValue - tolerance;
-			var groupsCount = (int)(value / minValue);
-			if (groupsCount * (tolerance * 2) > value % minValue)
-			{
-				var resultValue = value / groupsCount;
-				for (var i = 0; i < groupsCount; i++)
-				{
-					yield return resultValue;
-				}
-			}
-			else
-			{
-				for (var i = 0; i < groupsCount; i++)
-				{
-					yield return minValue;
-				}
+			var minDenominator = GetClosestMinDenominator(numerator, initialDenominator);
+			var maxDenominator = GetClosestMaxDenominator(numerator, initialDenominator);
+			
+			var minValue = initialDenominator - tolerance;
+			var maxValue = initialDenominator + tolerance;
 
-				yield return value - minValue * groupsCount;
+			if (minDenominator >= minValue && maxDenominator <= maxValue)
+			{
+				return Math.Abs(minDenominator - initialDenominator) <= Math.Abs(maxDenominator - initialDenominator) 
+					? minDenominator 
+					: maxDenominator;
 			}
+
+			if (minDenominator >= minValue)
+			{
+				return minDenominator;
+			}
+
+			// ReSharper disable once ConvertIfStatementToReturnStatement
+			if (maxDenominator <= maxValue)
+			{
+				return maxDenominator;
+			}
+
+			return minValue;
 		}
 		
-		public static IEnumerable<float> SplitClosestMax(float value, float splitValue)
+		public static float GetClosestMinDenominator(float numerator, float initialDenominator)
 		{
-			var groupsCount = (int)(value / splitValue);
-
-			var resultValue = value / groupsCount;
-			for (var i = 0; i < groupsCount; i++)
-			{
-				yield return resultValue;
-			}
+			var quotient = MathUtils.Ceiling(numerator / initialDenominator);
+			return numerator / quotient;
 		}
 		
-		public static IEnumerable<float> SplitClosestMax(float value, float splitValue, float tolerance)
+		public static float GetClosestMinDenominator(float numerator, float initialDenominator, float tolerance)
 		{
-			var maxValue = splitValue + tolerance;
-			var groupsCount = (int)(value / maxValue);
-			if (value / (groupsCount + 1) > splitValue - tolerance)
-			{
-				groupsCount++;
-				var resultValue = value / groupsCount;
-				for (var i = 0; i < groupsCount; i++)
-				{
-					yield return resultValue;
-				}
-			}
-			else
-			{
-				for (var i = 0; i < groupsCount; i++)
-				{
-					yield return maxValue;
-				}
-
-				yield return value - maxValue * groupsCount;
-			}
+			var minDenominator = GetClosestMinDenominator(numerator, initialDenominator);
+			var minValue = initialDenominator - tolerance;
+			return minDenominator >= minValue ? minDenominator : minValue;
+		}
+		
+		public static float GetClosestMaxDenominator(float numerator, float initialDenominator)
+		{
+			var quotient = MathUtils.Floor(numerator / initialDenominator);
+			return numerator / quotient;
+		}
+		
+		public static float GetClosestMaxDenominator(float numerator, float initialDenominator, float tolerance)
+		{
+			var maxDenominator = GetClosestMaxDenominator(numerator, initialDenominator);
+			var maxValue = initialDenominator + tolerance;
+			return maxDenominator <= maxValue ? maxDenominator : initialDenominator;
 		}
 
 		public static int Sign(float value)

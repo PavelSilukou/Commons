@@ -9,6 +9,7 @@ namespace Commons
     // TODO: rename T to TSource
     // TODO: add checking if enumerable is collection/array/list
     // TODO: fix PossibleMultipleEnumeration
+    // TODO: check all docs
     /// <summary>
     /// Provides extension methods for <see cref="IEnumerable{T}"/> operations.
     /// </summary>
@@ -345,9 +346,9 @@ namespace Commons
             if (source == null) throw new ArgumentNullException(nameof(source));
             if (predicate == null) throw new ArgumentNullException(nameof(predicate));
 
-            return source.Select((item, index) => new { Item = item, Index = index })
-                .First(el => predicate(el.Item))
-                .Index;
+            return source.Select((item, index) => (item, index))
+                .First(x => predicate(x.item))
+                .index;
         }
         
         /// <summary>
@@ -363,9 +364,9 @@ namespace Commons
             if (source == null) throw new ArgumentNullException(nameof(source));
             if (predicate == null) throw new ArgumentNullException(nameof(predicate));
 
-            return source.Select((item, index) => new { Item = item, Index = index })
-                .Where(el => predicate(el.Item))
-                .Select(el => el.Index);
+            return source.Select((item, index) => (item, index))
+                .Where(x => predicate(x.item))
+                .Select(x => x.index);
         }
 
         /// <summary>
@@ -400,8 +401,8 @@ namespace Commons
 
             return IndicesOfInternal(source, values);
         }
-        
-        private static IEnumerable<int> IndicesOfInternal<T>(this IEnumerable<T> source, T value)
+
+        private static IEnumerable<int> IndicesOfInternal<T>(IEnumerable<T> source, T value)
         {
             var index = 0;
             foreach (var item in source)
@@ -410,8 +411,8 @@ namespace Commons
                 index++;
             }
         }
-        
-        private static IEnumerable<int> IndicesOfInternal<T>(this IEnumerable<T> source, List<T> values)
+
+        private static IEnumerable<int> IndicesOfInternal<T>(IEnumerable<T> source, List<T> values)
         {
             var index = 0;
             foreach (var item in source)
@@ -438,10 +439,7 @@ namespace Commons
             if (source2 == null) throw new ArgumentNullException(nameof(source2));
 
             if (source1.Count() != source2.Count()) return false;
-            var firstNotSecond = source1.Except(source2);
-            if (!firstNotSecond.IsEmpty()) return false;
-            var secondNotFirst = source2.Except(source1);
-            return secondNotFirst.IsEmpty();
+            return !source1.Except(source2).Any() && !source2.Except(source1).Any();
         }
         // ReSharper restore PossibleMultipleEnumeration
         
@@ -508,12 +506,11 @@ namespace Commons
         public static IEnumerable<T> AggregateIntermediate<T>(this IEnumerable<T> source, Func<T, T, T> func, T? seed = default)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
+            if (seed == null) throw new ArgumentNullException(nameof(seed));
 
             foreach (var item in source)
             {
-#pragma warning disable CS8604 // Possible null reference argument.
                 seed = func(seed, item);
-#pragma warning restore CS8604 // Possible null reference argument.
                 yield return seed;
             }
         }
@@ -527,6 +524,9 @@ namespace Commons
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is <c>null</c>.</exception>
         public static ReadOnlyCollection<T> ToReadOnlyArray<T>(this IEnumerable<T> source)
         {
+            // ReSharper disable once ConvertIfStatementToReturnStatement
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
             return Array.AsReadOnly(source.ToArray());
         }
     }

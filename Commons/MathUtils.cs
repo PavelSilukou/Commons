@@ -103,5 +103,15 @@ namespace Commons
 		{
 			return Math.Sign(x) == -1 ? -1 : 1;
 		}
+
+		public static int Ceiling(float x)
+		{
+			return (int)Math.Ceiling(x);
+		}
+		
+		public static int Floor(float x)
+		{
+			return (int)Math.Floor(x);
+		}
 	}
 }
