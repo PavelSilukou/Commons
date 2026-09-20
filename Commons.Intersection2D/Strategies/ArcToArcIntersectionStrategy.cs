@@ -6,7 +6,6 @@ using Commons.Intersection2D.Strategies.Internal;
 
 namespace Commons.Intersection2D.Strategies
 {
-	// TODO: try to rename IntersectionStrategy to smth
 	[IntersectionStrategy]
 	internal class ArcToArcIntersectionStrategy: IntersectionStrategy<CArc, CArc>
 	{

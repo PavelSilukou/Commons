@@ -170,8 +170,6 @@ namespace Commons
 
 		public static int Sign(float value)
 		{
-			// TODO: think about infinity
-			if (!float.IsFinite(value)) throw new ArithmeticException($"'{nameof(value)}' should be finite.");
 			return MathF.Sign(value) == -1 ? -1 : 1;
 		}
 	}

@@ -31,5 +31,7 @@ namespace Commons.Equality.CFloat
         {
             return a > b || EqualTo(a, b);
         }
+        
+        // TODO: add SequenceEqual
     }
 }
