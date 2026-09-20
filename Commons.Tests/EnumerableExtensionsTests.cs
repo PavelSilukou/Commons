@@ -1,11 +1,13 @@
-﻿namespace Commons.Tests;
+﻿using System.Numerics;
+
+namespace Commons.Tests;
 
 #pragma warning disable CA1861 // Avoid constant arrays as arguments
 #pragma warning disable CA1707 // Identifiers should not contain underscores
 public class EnumerableExtensionsTests
 {
 	[Test]
-	public void ClearNull_NotEmptyEnumerable_ReturnWithoutNulls()
+	public void ClearNull_NotEmptyEnumerableClass_ReturnWithoutNulls()
 	{
 		var obj1 = new SimpleObject(1);
 		var obj2 = new SimpleObject(2);
@@ -17,10 +19,31 @@ public class EnumerableExtensionsTests
 	}
 	
 	[Test]
-	public void ClearNull_EmptyEnumerable_ReturnEmpty()
+	public void ClearNull_EmptyEnumerableClass_ReturnEmpty()
 	{
 		var enumerable = Array.Empty<SimpleObject>();
 		var expected = Array.Empty<SimpleObject>();
+		var actual = enumerable.ClearNull();
+		CollectionAssert.AreEqual(expected, actual);
+	}
+	
+	[Test]
+	public void ClearNull_NotEmptyEnumerableStruct_ReturnWithoutNulls()
+	{
+		var obj1 = new Vector2(1.0f, 1.0f);
+		var obj2 = new Vector2(2.0f, 2.0f);
+		var obj3 = new Vector2(3.0f, 3.0f);
+		var enumerable = new Vector2?[] { obj1, null, obj2, null, obj3 };
+		var expected = new[] { obj1, obj2, obj3 };
+		var actual = enumerable.ClearNull();
+		CollectionAssert.AreEqual(expected, actual);
+	}
+	
+	[Test]
+	public void ClearNull_EmptyEnumerableStruct_ReturnEmpty()
+	{
+		var enumerable = Array.Empty<Vector2?>();
+		var expected = Array.Empty<Vector2>();
 		var actual = enumerable.ClearNull();
 		CollectionAssert.AreEqual(expected, actual);
 	}

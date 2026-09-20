@@ -8,12 +8,24 @@ namespace Commons
 {
     public static class EnumerableExtensions
     {
-        public static IEnumerable<TSource> ClearNull<TSource>(this IEnumerable<TSource> source)
+        public static IEnumerable<TSource> ClearNull<TSource>(this IEnumerable<TSource?> source) where TSource: class
         {
             // ReSharper disable once ConvertIfStatementToReturnStatement
             if (source == null) throw new ArgumentNullException(nameof(source));
 
-            return source.Where(elem => !Equals(elem, null));
+            return source
+                .Where(x => x != null)
+                .Select(x => x!);
+        }
+        
+        public static IEnumerable<TSource> ClearNull<TSource>(this IEnumerable<TSource?> source) where TSource: struct
+        {
+            // ReSharper disable once ConvertIfStatementToReturnStatement
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
+            return source
+                .Where(x => x.HasValue)
+                .Select(x => x!.Value);
         }
         
         public static IEnumerable<TSource> OfTypeName<TSource>(this IEnumerable<TSource> source, string typeName)
@@ -37,7 +49,6 @@ namespace Commons
         public static IEnumerable<(TSource Item, int Index)> Index<TSource>(this IEnumerable<TSource> source, TSource value)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
-            if (value == null) throw new ArgumentNullException(nameof(value));
 
             return source.Select((item, index) => (item, index))
                 .Where(x => Equals(x.item, value));

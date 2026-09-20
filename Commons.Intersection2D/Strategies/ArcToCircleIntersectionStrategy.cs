@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Numerics;
 using Commons.Intersection2D.CShapes;
 using Commons.Intersection2D.Strategies.Internal;
@@ -42,11 +42,11 @@ namespace Commons.Intersection2D.Strategies
 				return true;
 			}
 
-			intersectionPoints = new Vector2[2];
+			var intersectionPointsList = new List<Vector2>();
 			var isIntersect = false;
 			if (IsPointsOnArc(point1, arc))
 			{
-				intersectionPoints[0] = point1;
+				intersectionPointsList.Add(point1);
 				isIntersect = true;
 			}
 
@@ -55,12 +55,12 @@ namespace Commons.Intersection2D.Strategies
 				var point2 = circlesIntersectionPoints[1];
 				if (IsPointsOnArc(point2, arc))
 				{
-					intersectionPoints[1] = point2;
+					intersectionPointsList.Add(point2);
 					isIntersect = true;
 				}
 			}
 
-			intersectionPoints = intersectionPoints.ClearNull().ToArray();
+			intersectionPoints = intersectionPointsList.ToArray();
 			return isIntersect;
 		}
 		

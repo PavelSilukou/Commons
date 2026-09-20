@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using Commons.Intersection2D.CShapes;
@@ -61,14 +62,14 @@ namespace Commons.Intersection2D.Strategies
 
 				if (!areArcsTouch) return false;
 
-				intersectionPoints = new[] { touchPoint1, touchPoint2 }.ClearNull().Cast<Vector2>().ToArray();
+				intersectionPoints = new[] { touchPoint1, touchPoint2 }.ClearNull().ToArray();
 				return true;
 			}
 			
-			intersectionPoints = new Vector2[2];
+			var intersectionPointsList = new List<Vector2>();
 			if (IsPointsOnArc(point1, arc1) && IsPointsOnArc(point1, arc2))
 			{
-				intersectionPoints[0] = point1;
+				intersectionPointsList.Add(point1);
 				isIntersect = true;
 			}
 
@@ -77,12 +78,12 @@ namespace Commons.Intersection2D.Strategies
 				var point2 = circlesIntersectionPoints[1];
 				if (IsPointsOnArc(point2, arc1) && IsPointsOnArc(point2, arc2))
 				{
-					intersectionPoints[1] = point2;
+					intersectionPointsList.Add(point2);
 					isIntersect = true;
 				}
 			}
 			
-			intersectionPoints = intersectionPoints.ClearNull().ToArray();
+			intersectionPoints = intersectionPointsList.ToArray();
 			return isIntersect;
 		}
 		
