@@ -4,11 +4,11 @@ namespace Commons
 {
 	public static class ConvertExtensions
 	{
-		public static T GetValue<T>(this object value)
+		public static TSource GetValue<TSource>(this object value)
 		{
 			if (value == null) throw new ArgumentNullException(nameof(value));
 			
-			return (T)Convert.ChangeType(value, typeof(T));
+			return (TSource)Convert.ChangeType(value, typeof(TSource));
 		}
 	}
 }

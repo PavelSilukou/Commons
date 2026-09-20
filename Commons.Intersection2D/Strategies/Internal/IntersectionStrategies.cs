@@ -139,8 +139,8 @@ namespace Commons.Intersection2D.Strategies.Internal
 
 		private static IEnumerable<IntersectionCShapeTypesPair> GetAllIntersectionShapeTypePairs(Type shape1Type, Type shape2Type)
 		{
-			var shape1Types = GetShapeTypes(shape1Type);
-			var shape2Types = GetShapeTypes(shape2Type);
+			var shape1Types = GetShapeTypes(shape1Type).ToArray();
+			var shape2Types = GetShapeTypes(shape2Type).ToArray();
 			return shape1Types.GetAllPairs(shape2Types).Select(tuple => new IntersectionCShapeTypesPair(tuple.Element1, tuple.Element2));
 		}
 

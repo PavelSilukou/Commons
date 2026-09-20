@@ -6,7 +6,7 @@ namespace Commons
 {
 	public static class DictionaryExtensions
 	{
-		public static void AddToListValue<T, TU>(this IDictionary<T, List<TU>> dict, T key, TU value)
+		public static void AddToListValue<TKey, TValue>(this IDictionary<TKey, List<TValue>> dict, TKey key, TValue value)
 		{
 			if (dict == null) throw new ArgumentNullException(nameof(dict));
 			
@@ -16,11 +16,11 @@ namespace Commons
 			}
 			else
 			{
-				dict.Add(key, new List<TU> { value });
+				dict.Add(key, new List<TValue> { value });
 			}
 		}
 		
-		public static T FindKeyByValue<T, TU>(this IDictionary<T, TU> dict, TU value)
+		public static TKey FindKeyByValue<TKey, TValue>(this IDictionary<TKey, TValue> dict, TValue value)
 		{
 			// ReSharper disable once ConvertIfStatementToReturnStatement
 			if (dict == null) throw new ArgumentNullException(nameof(dict));

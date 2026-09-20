@@ -27,5 +27,10 @@ namespace Commons
 			var scaled = sample * (max - min) + min;
 			return (float)scaled;
 		}
+
+		public static bool NextBool(this Random random)
+		{
+			return random.Next(2) == 0;
+		}
 	}
 }

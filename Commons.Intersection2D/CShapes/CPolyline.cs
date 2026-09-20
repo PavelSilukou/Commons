@@ -17,7 +17,8 @@ namespace Commons.Intersection2D.CShapes
 			Segments = Points
 				.GetPairs()
 				.Select(pair => new CLineSegment(pair.Element1, pair.Element2))
-				.ToReadOnlyArray();
+				.ToArray()
+				.AsReadOnly();
 		}
 	}
 }

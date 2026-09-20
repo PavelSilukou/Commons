@@ -167,45 +167,5 @@ namespace Commons
 			var normalizedVector = Vector2.Normalize(vector);
 			return normalizedVector * value;
 		}
-		
-		[Obsolete("Use Equality package.", true)]
-		public static void SignedAngleRadClamp()
-		{
-		}
-		
-		[Obsolete("Use Equality package.", true)]
-		public static void SignedAngleDegClamp()
-		{
-		}
-		
-		[Obsolete("Use Equality package.", true)]
-		public static void SignedAngleRad360Clamp()
-		{
-		}
-		
-		[Obsolete("Use Equality package.", true)]
-		public static void SignedAngleDeg360Clamp()
-		{
-		}
-		
-		[Obsolete("Use Equality package.", true)]
-		public static void AngleRad360Clamp()
-		{
-		}
-		
-		[Obsolete("Use Equality package.", true)]
-		public static void AngleDeg360Clamp()
-		{
-		}
-		
-		[Obsolete("Use Equality package.", true)]
-		public static void IsParallel()
-		{
-		}
-
-		[Obsolete("Use Equality package.", true)]
-		public static void PointProjectionOnLineSegment()
-		{
-		}
     }
 }
